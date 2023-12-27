@@ -4,12 +4,18 @@
             "cwd": "/Users/spyrosstrakosia/Documents/Uni/Semester 3/Αντικειμενοστραφής Προγραμματισμός/OOP-Assign-REMASTERED/build",
             "binaryPath": "/Users/spyrosstrakosia/Documents/Uni/Semester 3/Αντικειμενοστραφής Προγραμματισμός/OOP-Assign-REMASTERED/build/build.out",
             "binaryArgs": []
+        },
+        {
+            "cwd": "/home/spyros/OOP-Assign-REMASTERED/build",
+            "binaryPath": "/home/spyros/OOP-Assign-REMASTERED/build/build.out",
+            "binaryArgs": []
         }
     ],
     "files.associations": {
         "iostream": "cpp",
         "iosfwd": "cpp",
         "string": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "map": "cpp"
     }
 }
