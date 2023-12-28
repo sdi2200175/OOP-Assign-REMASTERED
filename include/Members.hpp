@@ -25,7 +25,7 @@ class Person {
         /* - Constructors and Destructors - */
         Person(unsigned short DepartmentCode);
         Person(string Name, string Surname, string FathersName, string DateOfBirth, string DateOfRegistration, unsigned short DepartmentCode);
-        ~Person();
+        virtual ~Person();
 
         /* - Getters - */
         inline string getName() const { return Name; }
@@ -62,7 +62,7 @@ class Student : public Person {
         /* - Constructors and Destructors - */
         Student(unsigned short DepartmentCode);
         Student(string Name, string Surname, string FathersName, string DateOfBirth, string DateOfRegistration, unsigned short DepartmentCode);
-        ~Student();
+        virtual ~Student();
 
         /* - Getters - */
         inline virtual string getFormattedID() const { return FormattedUniversityID; }
@@ -81,7 +81,7 @@ class Professor : public Person {
         /* - Constructors and Destructors - */
         Professor(unsigned short DepartmentCode);
         Professor(string Name, string Surname, string FathersName, string DateOfBirth, string DateOfRegistration, unsigned short DepartmentCode);
-        ~Professor();
+        virtual ~Professor();
 
         /* - Getters - */
         inline virtual string getFormattedID() const { return FormattedUniversityID; }

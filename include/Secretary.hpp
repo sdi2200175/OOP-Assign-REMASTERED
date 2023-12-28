@@ -30,6 +30,7 @@ class Secretary {
         multimap<string, Professor*> ProfessorFullNameDatabase;
 
         map<unsigned int, Course*> CourseIDDatabase;
+        map<string, Course*> CourseNameDatabase;
 
     public:
 
@@ -38,7 +39,7 @@ class Secretary {
         Secretary();
 //         Secretary(Secretary &sec);
 //         Secretary(string DepartmentName, unsigned short DepartmentCode);
-//         ~Secretary();
+        ~Secretary();
 
         /* - Getters - */
         inline string getDepartmentName() const { return DepartmentName; }

@@ -8,6 +8,18 @@ Secretary::Secretary() {
     cout << "+- Created Secretary for Department of " << DepartmentName << " with Department Code: " << DepartmentCode << " -+" << endl;
 }
 
+Secretary::~Secretary() {
+
+    for (map<unsigned long, Student*>::iterator itr = StudentIDDatabase.begin(); itr != StudentIDDatabase.end(); itr++)
+        delete itr->second;
+
+    for (map<unsigned long, Professor*>::iterator itr = ProfessorIDDatabase.begin(); itr != ProfessorIDDatabase.end(); itr++) 
+        delete itr->second;
+
+    for (map<unsigned int, Course*>::iterator itr = CourseIDDatabase.begin(); itr != CourseIDDatabase.end(); itr++)
+        delete itr->second;
+}
+
 void Secretary::parseStudents(const string FileName) {
 
     string Buffer;
@@ -132,7 +144,7 @@ void Secretary::parseCourses(const string FileName) {
         if (Buffer[0] == '}') {
             Course *course = new Course(Name, Mandatory, ECTs, WeeklyHours, DepartmentCode);
             CourseIDDatabase.insert(make_pair(course->getCourseID(), course));
-            // CourseNameDatabase.insert(make_pair(course->getName(), course));
+            CourseNameDatabase.insert(make_pair(course->getName(), course));
             Name.clear();
             MandatoryString.clear();
             ECTsString.clear();
@@ -152,8 +164,9 @@ void Secretary::parseCourses(const string FileName) {
                 Name.insert(Name.end(), *itr);
 
         } else if(!VariableNameBuffer.compare("Mandatory")){
-            for (itr++; *itr != ' '; itr++)
+            for (itr += 2; *itr != ' '; itr++)
                 MandatoryString.insert(MandatoryString.end(), *itr);
+
             if (!MandatoryString.compare("Yes"))
                 Mandatory = true;
             else if (!MandatoryString.compare("No"))
@@ -170,7 +183,6 @@ void Secretary::parseCourses(const string FileName) {
             WeeklyHours = (unsigned short)stoi(WeeklyHoursString);
         
         }
-            
     }
 
     File.close();
