@@ -121,20 +121,22 @@ void Secretary::parseCourses(const string FileName) {
     string Buffer;
     ifstream File(FileName);
 
-    string Name, Surname, FathersName, DateOfBirth, DateOfRegistration;
+    string Name, MandatoryString, ECTsString, WeeklyHoursString;
+    bool Mandatory;
+    unsigned short ECTs;
+    unsigned short WeeklyHours;
 
     while(getline(File, Buffer)) {
         
         if (Buffer[0] == '{') continue;
         if (Buffer[0] == '}') {
-            Professor *professor = new Professor(Name, Surname, FathersName, DateOfBirth, DateOfRegistration, DepartmentCode);
-            ProfessorIDDatabase.insert(make_pair(professor->getID(), professor));
-            ProfessorFullNameDatabase.insert(make_pair(professor->getFullName(), professor));
+            Course *course = new Course(Name, Mandatory, ECTs, WeeklyHours, DepartmentCode);
+            CourseIDDatabase.insert(make_pair(course->getCourseID(), course));
+            // CourseNameDatabase.insert(make_pair(course->getName(), course));
             Name.clear();
-            Surname.clear();
-            FathersName.clear();
-            DateOfBirth.clear();
-            DateOfRegistration.clear();
+            MandatoryString.clear();
+            ECTsString.clear();
+            WeeklyHoursString.clear();
             continue;
         }
 
@@ -149,22 +151,26 @@ void Secretary::parseCourses(const string FileName) {
             for (itr += 2; *itr != '"'; itr++)
                 Name.insert(Name.end(), *itr);
 
-        } else if(!VariableNameBuffer.compare("Surname")){
-            for (itr += 2; *itr != '"'; itr++)
-                Surname.insert(Surname.end(), *itr);
+        } else if(!VariableNameBuffer.compare("Mandatory")){
+            for (itr++; *itr != ' '; itr++)
+                MandatoryString.insert(MandatoryString.end(), *itr);
+            if (!MandatoryString.compare("Yes"))
+                Mandatory = true;
+            else if (!MandatoryString.compare("No"))
+                Mandatory = false;
 
-        } else if(!VariableNameBuffer.compare("FathersName")){
-            for (itr += 2; *itr != '"'; itr++)
-                FathersName.insert(FathersName.end(), *itr);
+        } else if(!VariableNameBuffer.compare("ECTs")){
+            for (itr++; *itr != ' '; itr++)
+                ECTsString.insert(ECTsString.end(), *itr);
+            ECTs = (unsigned short)stoi(ECTsString);
 
-        } else if(!VariableNameBuffer.compare("DateOfBirth")){
-            for (itr += 2; *itr != '"'; itr++)
-                DateOfBirth.insert(DateOfBirth.end(), *itr);
-
-        } else if(!VariableNameBuffer.compare("DateOfRegistration")){
-            for (itr += 2; *itr != '"'; itr++)
-                DateOfRegistration.insert(DateOfRegistration.end(), *itr);
+        } else if(!VariableNameBuffer.compare("WeeklyHours")){
+            for (itr++; *itr != ' '; itr++)
+                WeeklyHoursString.insert(WeeklyHoursString.end(), *itr);
+            WeeklyHours = (unsigned short)stoi(WeeklyHoursString);
+        
         }
+            
     }
 
     File.close();

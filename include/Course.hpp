@@ -28,7 +28,7 @@ class Course {
 
     public:
 
-        /* - Constuctors and Destructors - */
+        /* - Constructors and Destructors - */
         Course(unsigned short DepartmentCode);
         Course(string Name, bool Mandatory, unsigned short ECTs, unsigned short WeeklyHours, unsigned short DepartmentCode);
         ~Course();
