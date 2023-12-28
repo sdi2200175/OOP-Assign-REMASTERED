@@ -1,7 +1,14 @@
 {
-    FirstName: "Anastasia",
-    LastName: "Lygizou",
-    FathersName: "pewpew",
+    Name: "Anastasia"
+    Surname: "Lygizou"
+    FathersName: "-"
     DateOfBirth: "12/12/1940"
-    ID: "1115-2009-00090"
+    DateOfRegistration: "13/07/2000"
+},
+{
+    Name: "Spyridon"
+    Surname: "Xergias"
+    FathersName: "-"
+    DateOfBirth: "30/02/1930"
+    DateOfRegistration: "14/07/2000"
 }

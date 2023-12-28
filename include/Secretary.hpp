@@ -23,8 +23,11 @@ class Secretary {
         string DepartmentName;
         unsigned short DepartmentCode;
 
-        map<unsigned long, Person*> MemberIDDatabase;
-        multimap<string, Person*> MemberFullNameDatabase;
+        map<unsigned long, Student*> StudentIDDatabase;
+        multimap<string, Student*> StudentFullNameDatabase;
+
+        map<unsigned long, Professor*> ProfessorIDDatabase;
+        multimap<string, Professor*> ProfessorFullNameDatabase;
 
         map<unsigned int, Course*> CourseIDDatabase;
 
@@ -40,7 +43,8 @@ class Secretary {
         /* - Getters - */
         inline string getDepartmentName() const { return DepartmentName; }
         inline unsigned short getDepartmentCode() const { return DepartmentCode; }
-        inline unsigned int getMemberAmount() const { return MemberIDDatabase.size(); }
+        inline unsigned int getStudentAmount() const { return StudentIDDatabase.size(); }
+        inline unsigned int getProfessorAmount() const { return ProfessorIDDatabase.size(); }
         inline unsigned int getCourseAmount() const { return CourseIDDatabase.size(); }
 
         /* - Search Functions - */
@@ -48,6 +52,10 @@ class Secretary {
 //         Person* memberSearch(unsigned long ID) const;
 
 //         Course* courseSearch(unsigned int ID) const;
+
+        void parseStudents(const string FileName);
+        void parseProfessors(const string FileName);
+        void parseCourses(const string FileName);
 
         /* - Operator Overloads - */
 //         Secretary operator=(Secretary &sec);
