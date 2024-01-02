@@ -20,7 +20,31 @@ Secretary::~Secretary() {
         delete itr->second;
 }
 
-void Secretary::parseStudents(const string FileName) {
+Student *Secretary::studentSearch(string FullName) const {
+
+    multimap<string, Student*>::const_iterator per = StudentFullNameDatabase.find(FullName);
+    if (per != StudentFullNameDatabase.end())
+        return per->second;
+
+    return nullptr;
+}
+
+Student *Secretary::studentSearch(unsigned long ID) const {
+
+    map<unsigned long, Student*>::const_iterator per = StudentIDDatabase.find(ID);
+    if (per != StudentIDDatabase.end())
+        return per->second;
+
+    return nullptr;
+}
+
+Course *Secretary::courseSearch(unsigned int ID) const
+{
+    return nullptr;
+}
+
+void Secretary::parseStudents(const string FileName)
+{
 
     string Buffer;
     ifstream File(FileName);
@@ -133,22 +157,22 @@ void Secretary::parseCourses(const string FileName) {
     string Buffer;
     ifstream File(FileName);
 
-    string Name, MandatoryString, ECTsString, WeeklyHoursString;
+    string Name, MandatoryString, ECTsString, WeeklyHoursString, SemesterString;
     bool Mandatory;
-    unsigned short ECTs;
-    unsigned short WeeklyHours;
+    unsigned short ECTs, WeeklyHours, Semester;
 
     while(getline(File, Buffer)) {
         
         if (Buffer[0] == '{') continue;
         if (Buffer[0] == '}') {
-            Course *course = new Course(Name, Mandatory, ECTs, WeeklyHours, DepartmentCode);
+            Course *course = new Course(Name, Mandatory, ECTs, WeeklyHours, Semester, DepartmentCode);
             CourseIDDatabase.insert(make_pair(course->getCourseID(), course));
             CourseNameDatabase.insert(make_pair(course->getName(), course));
             Name.clear();
             MandatoryString.clear();
             ECTsString.clear();
             WeeklyHoursString.clear();
+            SemesterString.clear();
             continue;
         }
 
@@ -164,7 +188,7 @@ void Secretary::parseCourses(const string FileName) {
                 Name.insert(Name.end(), *itr);
 
         } else if(!VariableNameBuffer.compare("Mandatory")){
-            for (itr += 2; *itr != ' '; itr++)
+            for (itr += 2; *itr != '"'; itr++)
                 MandatoryString.insert(MandatoryString.end(), *itr);
 
             if (!MandatoryString.compare("Yes"))
@@ -172,16 +196,20 @@ void Secretary::parseCourses(const string FileName) {
             else if (!MandatoryString.compare("No"))
                 Mandatory = false;
 
-        } else if(!VariableNameBuffer.compare("ECTs")){
-            for (itr++; *itr != ' '; itr++)
+        } else if (!VariableNameBuffer.compare("ECTs")) {
+            for (itr++; *itr != EOF; itr++)
                 ECTsString.insert(ECTsString.end(), *itr);
             ECTs = (unsigned short)stoi(ECTsString);
 
-        } else if(!VariableNameBuffer.compare("WeeklyHours")){
-            for (itr++; *itr != ' '; itr++)
+        } else if (!VariableNameBuffer.compare("WeeklyHours")) {
+            for (itr++; *itr != EOF; itr++)
                 WeeklyHoursString.insert(WeeklyHoursString.end(), *itr);
             WeeklyHours = (unsigned short)stoi(WeeklyHoursString);
         
+        } else if (!VariableNameBuffer.compare("Semester")) {
+            for (itr++; *itr != EOF; itr++)
+                SemesterString.insert(SemesterString.end(), *itr);
+            Semester = (unsigned short)stoi(SemesterString);
         }
     }
 

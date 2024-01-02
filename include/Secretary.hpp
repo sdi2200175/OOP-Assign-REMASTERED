@@ -49,10 +49,10 @@ class Secretary {
         inline unsigned int getCourseAmount() const { return CourseIDDatabase.size(); }
 
         /* - Search Functions - */
-//         Person* memberSearch(string FullName) const;
-//         Person* memberSearch(unsigned long ID) const;
+        Student* studentSearch(string FullName) const;
+        Student* studentSearch(unsigned long ID) const;
 
-//         Course* courseSearch(unsigned int ID) const;
+        Course* courseSearch(unsigned int ID) const;
 
         void parseStudents(const string FileName);
         void parseProfessors(const string FileName);

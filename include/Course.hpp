@@ -22,6 +22,7 @@ class Course {
         bool Mandatory;
         unsigned short ECTs;
         unsigned short WeeklyHours;
+        unsigned short Semester;
 
         const unsigned int CourseID;
         const string FormattedCourseID;
@@ -30,7 +31,7 @@ class Course {
 
         /* - Constructors and Destructors - */
         Course(unsigned short DepartmentCode);
-        Course(string Name, bool Mandatory, unsigned short ECTs, unsigned short WeeklyHours, unsigned short DepartmentCode);
+        Course(string Name, bool Mandatory, unsigned short ECTs, unsigned short WeeklyHours, unsigned short Semester, unsigned short DepartmentCode);
         ~Course();
 
         /* - Getters - */

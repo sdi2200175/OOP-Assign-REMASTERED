@@ -10,8 +10,8 @@ Course::Course(unsigned short DepartmentCode) :
     cout << "+- Created Course with Course ID: " << getFormattedID() << " -+" << endl;
 }
 
-Course::Course(string Name, bool Mandatory, unsigned short ECTs, unsigned short WeeklyHours, unsigned short DepartmentCode) :
-    Name(Name), Mandatory(Mandatory), ECTs(ECTs), WeeklyHours(WeeklyHours), CourseID(++CreatedCourses),
+Course::Course(string Name, bool Mandatory, unsigned short ECTs, unsigned short WeeklyHours, unsigned short Semester, unsigned short DepartmentCode) :
+    Name(Name), Mandatory(Mandatory), ECTs(ECTs), WeeklyHours(WeeklyHours), Semester(Semester), CourseID(++CreatedCourses),
     FormattedCourseID("C-" + to_string(DepartmentCode) + "-" + string(5 - (to_string(CourseID)).length(), '0') + to_string(CourseID)) {
 
     cout << "+- Created Course with Course ID: " << getFormattedID() << " -+" << endl;
@@ -48,6 +48,10 @@ istream &operator>>(istream &str, Course &cour) {
     cout << "| Insert Weekly Hours: ";
     getline(str, buffer);
     cour.WeeklyHours = (unsigned short)stoi(buffer);
+
+    cout << "| Insert Semester: ";
+    getline(str, buffer);
+    cour.Semester = (unsigned short)stoi(buffer);
 
     return str;
 }

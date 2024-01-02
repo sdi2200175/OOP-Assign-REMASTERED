@@ -3,10 +3,12 @@
     Mandatory: "Yes" 
     ECTs: 4    
     WeeklyHours: 4
+    Semester: 3
 },
 {
     Name: "Signals and Systems Lab"
     Mandatory: "No"
     ECTs: 2
     WeeklyHours: 1
+    Semester: 3
 }
