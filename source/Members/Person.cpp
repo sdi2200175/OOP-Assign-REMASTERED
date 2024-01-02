@@ -15,6 +15,7 @@ Person::Person(string Name, string Surname, string FathersName, string DateOfBir
 Person::~Person() {}
 
 ostream &operator<<(ostream &str, Person &per) {
+    str << "+- Start of Person Description -+" << endl;
     str << "| Full Name: " << per.getFullName() << endl;
     str << "| Date Of Birth: " << per.getDateOfBirth() << endl;
     str << "| Date of Registration: " << per.getDateOfRegistration() << endl;

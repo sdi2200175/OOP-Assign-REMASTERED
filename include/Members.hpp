@@ -31,7 +31,7 @@ class Person {
         inline string getName() const { return Name; }
         inline string getSurname() const { return Surname; }
         inline string getFathersName() const { return FathersName; }
-        inline string getFullName() const { return Name + FathersName + Surname; }
+        inline string getFullName() const { return Name + " " + FathersName + " " + Surname; }
         inline string getDateOfBirth() const { return DateOfBirth; }
         inline string getDateOfRegistration() const { return DateOfRegistration; }
         inline unsigned long getID() const { return UniversityID; }

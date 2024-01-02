@@ -2,7 +2,7 @@
     Name: "Object Oriented Programming"
     Mandatory: "Yes" 
     ECTs: 4    
-    WeeklyHours: 4
+    WeeklyHours: 10
     Semester: 3
 },
 {

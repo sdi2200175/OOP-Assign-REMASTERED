@@ -21,8 +21,7 @@ Secretary::~Secretary() {
 }
 
 Student *Secretary::studentSearch(string FullName) const {
-
-    multimap<string, Student*>::const_iterator per = StudentFullNameDatabase.find(FullName);
+    multimap<string, Student *>::const_iterator per = StudentFullNameDatabase.find(FullName);
     if (per != StudentFullNameDatabase.end())
         return per->second;
 
@@ -30,16 +29,34 @@ Student *Secretary::studentSearch(string FullName) const {
 }
 
 Student *Secretary::studentSearch(unsigned long ID) const {
-
-    map<unsigned long, Student*>::const_iterator per = StudentIDDatabase.find(ID);
+    map<unsigned long, Student *>::const_iterator per = StudentIDDatabase.find(ID);
     if (per != StudentIDDatabase.end())
         return per->second;
 
     return nullptr;
 }
 
-Course *Secretary::courseSearch(unsigned int ID) const
-{
+Professor *Secretary::professorSearch(string FullName) const {
+    multimap<string, Professor *>::const_iterator per = ProfessorFullNameDatabase.find(FullName);
+    if (per != ProfessorFullNameDatabase.end())
+        return per->second;
+        
+    return nullptr;
+}
+
+Course *Secretary::courseSearch(string CourseName) const {
+    multimap<string, Course *>::const_iterator cour = CourseNameDatabase.find(CourseName);
+    if (cour != CourseNameDatabase.end())
+        return cour->second;
+
+    return nullptr;
+}
+
+Course *Secretary::courseSearch(unsigned int ID) const {
+    map<unsigned int, Course *>::const_iterator cour = CourseIDDatabase.find(ID);
+    if (cour != CourseIDDatabase.end())
+        return cour->second;
+
     return nullptr;
 }
 
@@ -56,6 +73,7 @@ void Secretary::parseStudents(const string FileName)
         if (Buffer[0] == '{') continue;
         if (Buffer[0] == '}') {
             Student *student = new Student(Name, Surname, FathersName, DateOfBirth, DateOfRegistration, DepartmentCode);
+            cout << "Full Name: " << student->getFullName() << endl;
             StudentIDDatabase.insert(make_pair(student->getID(), student));
             StudentFullNameDatabase.insert(make_pair(student->getFullName(), student));
             Name.clear();
@@ -66,7 +84,7 @@ void Secretary::parseStudents(const string FileName)
             continue;
         }
 
-        Buffer.erase(remove(Buffer.begin(), Buffer.end(), ' '), Buffer.end());  // We erase all spaces.
+        Buffer.erase(remove(Buffer.begin(), find(Buffer.begin(), Buffer.end(), '"'), ' '), find(Buffer.begin(), Buffer.end(), '"'));  // We erase all spaces before the " character.
 
         string VariableNameBuffer;
         string::iterator itr;
@@ -120,7 +138,7 @@ void Secretary::parseProfessors(const string FileName) {
             continue;
         }
 
-        Buffer.erase(remove(Buffer.begin(), Buffer.end(), ' '), Buffer.end());  // We erase all spaces.
+        Buffer.erase(remove(Buffer.begin(), find(Buffer.begin(), Buffer.end(), '"'), ' '), find(Buffer.begin(), Buffer.end(), '"'));  // We erase all spaces before the " character.
 
         string VariableNameBuffer;
         string::iterator itr;
@@ -176,7 +194,7 @@ void Secretary::parseCourses(const string FileName) {
             continue;
         }
 
-        Buffer.erase(remove(Buffer.begin(), Buffer.end(), ' '), Buffer.end());  // We erase all spaces.
+        Buffer.erase(remove(Buffer.begin(), find(Buffer.begin(), Buffer.end(), '"'), ' '), find(Buffer.begin(), Buffer.end(), '"'));  // We erase all spaces before the " character.
 
         string VariableNameBuffer;
         string::iterator itr;
@@ -197,17 +215,17 @@ void Secretary::parseCourses(const string FileName) {
                 Mandatory = false;
 
         } else if (!VariableNameBuffer.compare("ECTs")) {
-            for (itr++; *itr != EOF; itr++)
+            for (itr++; *itr != ' '; itr++)
                 ECTsString.insert(ECTsString.end(), *itr);
             ECTs = (unsigned short)stoi(ECTsString);
 
         } else if (!VariableNameBuffer.compare("WeeklyHours")) {
-            for (itr++; *itr != EOF; itr++)
+            for (itr++; *itr != ' '; itr++)
                 WeeklyHoursString.insert(WeeklyHoursString.end(), *itr);
             WeeklyHours = (unsigned short)stoi(WeeklyHoursString);
         
         } else if (!VariableNameBuffer.compare("Semester")) {
-            for (itr++; *itr != EOF; itr++)
+            for (itr++; *itr != ' '; itr++)
                 SemesterString.insert(SemesterString.end(), *itr);
             Semester = (unsigned short)stoi(SemesterString);
         }

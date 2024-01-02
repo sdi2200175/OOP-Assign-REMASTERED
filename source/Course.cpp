@@ -20,6 +20,7 @@ Course::Course(string Name, bool Mandatory, unsigned short ECTs, unsigned short 
 Course::~Course() {}
 
 ostream &operator<<(ostream &str, Course &cour) {
+    str << "+- Start of Course Description -+" << endl;
     str << "| Course Name: " << cour.Name << endl;
     str << "| This Course is " << (cour.Mandatory ? "mandatory." : "not mandatory.") << endl;
     str << "| Course ECTs: " << cour.ECTs << endl;
