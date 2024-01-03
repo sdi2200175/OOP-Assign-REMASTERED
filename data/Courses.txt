@@ -2,13 +2,13 @@
     Name: "Object Oriented Programming"
     Mandatory: "Yes" 
     ECTs: 4    
-    WeeklyHours: 10
+    Weekly Hours: 10
     Semester: 3
 },
 {
     Name: "Signals and Systems Lab"
     Mandatory: "No"
     ECTs: 2
-    WeeklyHours: 1
+    Weekly Hours: 1
     Semester: 3
 }

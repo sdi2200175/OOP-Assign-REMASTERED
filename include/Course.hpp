@@ -39,6 +39,7 @@ class Course {
         inline bool isMandatory() const { return Mandatory; }
         inline unsigned short getECTs() const { return ECTs; }
         inline unsigned short getWeeklyHours() const { return WeeklyHours; }
+        inline unsigned short getSemester() const { return Semester; }
         inline unsigned int getCourseID() const { return CourseID; }
         inline string getFormattedID() const { return FormattedCourseID; }
 

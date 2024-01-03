@@ -14,6 +14,7 @@ int main() {
     sec.parseCourses(CourseDataFile);
 
     cout << *(sec.studentSearch("Eva Nik Rag"));
+    cout << *(sec.professorSearch("Anastasia - Lygizou"));
     cout << *(sec.courseSearch("Object Oriented Programming"));
 
     cout << sec;

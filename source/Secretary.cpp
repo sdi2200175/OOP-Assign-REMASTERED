@@ -44,6 +44,14 @@ Professor *Secretary::professorSearch(string FullName) const {
     return nullptr;
 }
 
+Professor *Secretary::professorSearch(unsigned long ID) const {
+    map<unsigned long, Professor *>::const_iterator per = ProfessorIDDatabase.find(ID);
+    if (per != ProfessorIDDatabase.end())
+        return per->second;
+
+    return nullptr;
+}
+
 Course *Secretary::courseSearch(string CourseName) const {
     multimap<string, Course *>::const_iterator cour = CourseNameDatabase.find(CourseName);
     if (cour != CourseNameDatabase.end())

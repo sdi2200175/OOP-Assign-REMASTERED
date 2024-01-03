@@ -25,6 +25,7 @@ ostream &operator<<(ostream &str, Course &cour) {
     str << "| This Course is " << (cour.Mandatory ? "mandatory." : "not mandatory.") << endl;
     str << "| Course ECTs: " << cour.ECTs << endl;
     str << "| Course Weekly Hours: " << cour.WeeklyHours << endl;
+    str << "| Course Semester: " << cour.getSemester() << endl;
     str << "+- End of Description -+" << endl;
     return str;
 }

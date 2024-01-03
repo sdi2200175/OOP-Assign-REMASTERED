@@ -1,0 +1,5 @@
+{
+    Semester Amount: 8
+    Maximum Semester Amount: 12
+    Required ECTs: 242
+}

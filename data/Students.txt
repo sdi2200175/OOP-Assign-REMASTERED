@@ -1,14 +1,16 @@
 {
     Name: "Eva"
     Surname: "Rag"
-    FathersName: "Nik"
-    DateOfBirth: "12/02/2004"
-    DateOfRegistration: "24/09/2022"
+    Fathers Name: "Nik"
+    Date Of Birth: "12/02/2004"
+    Date Of Registration: "24/09/2022"
+    Currently Registered Courses: []
+    Grades: []
 },
 {
     Name: "Spyros"
     Surname: "Strakosia"
-    FathersName: "Adrian"
-    DateOfBirth: "08/12/2004"
-    DateOfRegistration: "23/09/2022"
+    Fathers Name: "Adrian"
+    Date Of Birth: "08/12/2004"
+    Date Of Registration: "23/09/2022"
 }

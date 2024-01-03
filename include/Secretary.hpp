@@ -51,14 +51,13 @@ class Secretary {
         /* - Search Functions - */
         Student* studentSearch(string FullName) const;
         Student* studentSearch(unsigned long ID) const;
-
         Professor* professorSearch(string FullName) const;
         Professor* professorSearch(unsigned long ID) const;
 
         Course* courseSearch(string CourseName) const;
         Course* courseSearch(unsigned int ID) const;
     
-
+        /* - File Parsing Functions - */
         void parseStudents(const string FileName);
         void parseProfessors(const string FileName);
         void parseCourses(const string FileName);

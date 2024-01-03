@@ -55,6 +55,7 @@ class Person {
 class Student : public Person {
 
     private:
+        // TODO - unsigned short Semester;
         const string FormattedUniversityID;
 
     public:
