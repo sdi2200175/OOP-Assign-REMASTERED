@@ -34,33 +34,33 @@ EXEC_FILE_EXTENSION = exe
 # - File Paths - #
 
 INCLUDE = include
-SOURCE = src
+SOURCE = source
 BUILD_DIR = build
 
 # - Object Files and Final Executable Name - #
 
-OBJECTS = $(SOURCE)/main.o
+OBJECTS = $(SOURCE)/main.o $(SOURCE)/person.o
 BINARY = $(BUILD_DIR)/$(EXEC_NAME)-$(EXEC_VER).$(EXEC_FILE_EXTENSION)
 
 # - Makefile Rules - #
 
 all: $(OBJECTS)
-  @$(CC) $(LFLAGS) -I$(INCLUDE) $(OBJECTS) -o $(BINARY)
-  @echo "[MAKE]:  Compilation completed Successfully. Final Executable is placed in $(BINARY)"
-  @echo "[CLEAN]: Cleaning Object Files..."
-  @rm -f $(OBJECTS)
-  @echo "[CLEAN]: Done"
+	@$(CC) $(LFLAGS) -I$(INCLUDE) $(OBJECTS) -o $(BINARY)
+	@echo "[MAKE]:  Compilation completed Successfully. Final Executable is placed in $(BINARY)"
+	@echo "[CLEAN]: Cleaning Object Files..."
+	@rm -f $(OBJECTS)
+	@echo "[CLEAN]: Done"
 
 %.o: %.cpp
-  @echo "[MAKE]:  Compiling $^..."
-  @$(CC) $(CFLAGS) -c $^ -o $@
-  @echo "[MAKE]:  Compiled $^ successfully. Output file: $@"
+	@echo "[MAKE]:  Compiling $^..."
+	@$(CC) $(CFLAGS) -I$(INCLUDE) -c $^ -o $@
+	@echo "[MAKE]:  Compiled $^ successfully. Output file: $@"
 
 run: all
-  @echo "[RUN]:   Running $(BINARY)..."
-  ./$(BINARY)
+	@echo "[RUN]:   Running $(BINARY)..."
+	@./$(BINARY)
 
 clean: 
-  @echo "[CLEAN]: Cleaning Residual Files..."
-  @rm -f $(OBJECTS) $(BINARY)
-  @echo "[CLEAN]: Done"
+	@echo "[CLEAN]: Cleaning Residual Files..."
+	@rm -f $(OBJECTS) $(BINARY)
+	@echo "[CLEAN]: Done"
