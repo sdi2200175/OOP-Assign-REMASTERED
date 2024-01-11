@@ -39,7 +39,7 @@ BUILD_DIR = build
 
 # - Object Files and Final Executable Name - #
 
-OBJECTS = $(SOURCE)/main.o $(SOURCE)/person.o
+OBJECTS = $(SOURCE)/main.o $(SOURCE)/person.o $(SOURCE)/interface.o
 BINARY = $(BUILD_DIR)/$(EXEC_NAME)-$(EXEC_VER).$(EXEC_FILE_EXTENSION)
 
 # - Makefile Rules - #
@@ -56,7 +56,7 @@ all: $(OBJECTS)
 	@$(CC) $(CFLAGS) -I$(INCLUDE) -c $^ -o $@
 	@echo "[MAKE]:  Compiled $^ successfully. Output file: $@"
 
-run: all
+run:
 	@echo "[RUN]:   Running $(BINARY)..."
 	@./$(BINARY)
 

@@ -42,7 +42,6 @@ class Person {
     virtual ~Person();
 
     /* - Virtual Method - */
-
     virtual PersonType getType() = 0;
 
     /* - Operator Overloads - */

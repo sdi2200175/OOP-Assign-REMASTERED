@@ -1,10 +1,13 @@
 #include <iostream>
 
-#include "person.hpp"
+#include "interface.hpp"
 
 using namespace std;
 
 int main() {
+
+  Interface interface;
+  interface.begin();
 
   return 0;
 }
