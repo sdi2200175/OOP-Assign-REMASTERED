@@ -39,7 +39,7 @@ BUILD_DIR = build
 
 # - Object Files and Final Executable Name - #
 
-OBJECTS = $(SOURCE)/main.o $(SOURCE)/interface.o $(SOURCE)/secretary.o
+OBJECTS = $(SOURCE)/main.o $(SOURCE)/interface.o $(SOURCE)/secretary.o $(SOURCE)/person.o $(SOURCE)/student.o $(SOURCE)/professor.o
 BINARY = $(BUILD_DIR)/$(EXEC_NAME)-$(EXEC_VER).$(EXEC_FILE_EXTENSION)
 
 # - Makefile Rules - #

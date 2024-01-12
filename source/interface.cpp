@@ -34,7 +34,7 @@ void Interface::main() {
   cout << "|" << endl << "+----------- Main User Menu -----------+" << endl;
   cout << "| Choose one of the following Options:" << endl;
   cout << "1. Add/Modify/Delete Student(s)" << endl;
-  cout << "2. Add/Modify/Delete Proffessor(s)" << endl;
+  cout << "2. Add/Modify/Delete Professor(s)" << endl;
   cout << "3. Add/Modify/Delete Course(s)" << endl;
   cout << "4. Print Department Information and/or Statistics" << endl;
   cout << "5. Save to Files and Exit" << endl;
