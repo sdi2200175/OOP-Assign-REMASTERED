@@ -25,5 +25,10 @@ class Interface {
      */
     void begin();
 
+    /**
+     * @brief 
+     * 
+     */
+    void main();
 
 };

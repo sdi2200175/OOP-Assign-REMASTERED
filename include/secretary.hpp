@@ -27,6 +27,10 @@ class Secretary {
 
     /* - Constructors and Destructors - */
     Secretary();
-    Secretary(string DepartmentName, unsigned int DepartmentCode, unsigned int ECTRequirements, unsigned short MaximumAttendance);
+    // Secretary(string DepartmentName, unsigned int DepartmentCode, unsigned int ECTRequirements, unsigned short MaximumAttendance);
+
+    /* - Operator Overloads - */
+    friend ostream &operator<< (ostream &str, Secretary &sec);
+    friend istream &operator>> (istream &str, Secretary &sec);
 
 };
