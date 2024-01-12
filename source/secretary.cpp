@@ -43,7 +43,7 @@ istream &operator>> (istream &str, Secretary &sec) {
       break;
 
     } catch(char InvalidChar) {
-      cout << "! ERROR: Invalid Character '" << InvalidChar << "' inserted." << endl << "- Please insert a valid Department Code:";
+      cout << "! ERROR: Invalid Character '" << InvalidChar << "' inserted." << endl << "- Please insert a valid Department Code: ";
     }
   }
 
@@ -59,7 +59,7 @@ istream &operator>> (istream &str, Secretary &sec) {
       break;
 
     } catch(char InvalidChar) {
-      cout << "! ERROR: Invalid Character '" << InvalidChar << "' inserted." << endl << "- Please insert a valid Amount of ECTs Required:";
+      cout << "! ERROR: Invalid Character '" << InvalidChar << "' inserted." << endl << "- Please insert a valid Amount of ECTs Required: ";
     }
   }
 
@@ -75,7 +75,7 @@ istream &operator>> (istream &str, Secretary &sec) {
       break;
       
     } catch(char InvalidChar) {
-      cout << "! ERROR: Invalid Character '" << InvalidChar << "' inserted." << endl << "- Please insert a valid Amount of Years for Maximum Attendance:";
+      cout << "! ERROR: Invalid Character '" << InvalidChar << "' inserted." << endl << "- Please insert a valid Amount of Years for Maximum Attendance: ";
     }
   }
   
