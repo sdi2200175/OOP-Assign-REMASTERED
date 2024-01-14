@@ -28,7 +28,8 @@ class Student : public Person {
 
         /* - Constructors and Destructors - */
         Student(unsigned short DepartmentCode);
-        virtual ~Student();
+        Student(string Name, unsigned int ECTs, string DateOfBirth, string DateOfRegistration, unsigned short DepartmentCode);
+        ~Student();
 
         /* - Getters - */
         inline const unsigned int &getECTs() const { return ECTs; }
@@ -41,7 +42,7 @@ class Student : public Person {
         inline void setDateOfRegistration(string DateofRegistration) { this->DateOfRegistration = DateOfRegistration; }
 
         /* - Pure Virtual Function - */
-        inline virtual string getFormattedID() const { return FormattedUniID; }
+        inline virtual const string &getFormattedID() const { return FormattedUniID; }
 
         /* - Operator Overloads - */
         friend ostream &operator<< (ostream &str, Student &student);

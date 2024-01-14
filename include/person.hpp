@@ -25,21 +25,18 @@ class Person {
 
     /* - Constructors and Destructor - */
     Person();
+    Person(string Name);
     virtual ~Person();
 
     /* - Getters - */
     inline const string &getName() const { return Name; }
-    inline const unsigned int &getUniID() const { return UniID; }
+    inline unsigned int getUniID() const { return UniID; }
 
     /* - Setters - */
     inline void setName(string Name) { this->Name = Name; }
 
     /* - Pure Virtual Function - */
-    virtual string getFormattedID() = 0;
-
-    /* - Operator Overloads - */
-    friend ostream &operator<< (ostream &str, Person &per);
-    friend istream &operator>> (istream &str, Person &per);
+    virtual const string &getFormattedID() const = 0;
 
     /* - Static Universal Counter - */
     static unsigned int Amount;

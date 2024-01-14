@@ -17,6 +17,28 @@ Secretary::Secretary() {
   cout << "+-- Constructed Department Secretary --+" << endl;
 }
 
+void Secretary::addStudent() {
+  cout << "| Adding New Student to Secretary Database: " << endl;
+  Student *student = new Student(this->DepartmentCode);
+  StudentIDDatabase.insert(make_pair(student->getUniID(), student));
+  StudentNameDatabase.insert(make_pair(student->getName(), student));
+  cout << "| Added New Student to Secretary Database." << endl;
+}
+
+void Secretary::modifyStudent() {
+  cout << "| Please enter the Name or University ID of the Student you want to modify below: ";
+
+  string Buffer;
+  getline(cin, Buffer);
+  
+}
+
+void Secretary::deleteStudent() {
+  cout << "| Please enter the Name or University ID of the Student you want to delete below: ";
+  string Buffer;
+  getline(cin, Buffer);
+}
+
 ostream &operator<< (ostream &str, Secretary &sec) {
   str << "|" << endl << "+-- Department Secretary Description --+" << endl;
   str << "| Department Name: " << sec.DepartmentName << endl;

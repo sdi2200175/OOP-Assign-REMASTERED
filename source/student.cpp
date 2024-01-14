@@ -12,35 +12,52 @@
 #include "student.hpp"
 
 Student::Student(unsigned short DepartmentCode) : 
-    Person(),
-    FormattedUniID("S-" + to_string(DepartmentCode) + "-" + string(10 - (to_string(getUniID())).length(), '0') + to_string(getUniID())) {
-    
-    // cout << "|" << endl << "+----------- Student Details -----------+" << endl;
-    cin >> *this;
-    // cout << "+--------- Constructed Student ---------+" << endl;
+	Person(),
+	FormattedUniID("S-" + to_string(DepartmentCode) + "-" + string(6 - (to_string(getUniID())).length(), '0') + to_string(getUniID())) {
+	
+    cout << "|" << endl << "+-------- Constructing Student --------+" << endl;
+	cin >> *this;
+	cout << "+- Constructed Student with ID: " << getFormattedID() << " -+" << endl;
+}
 
-    cout << "+- Constructed Student with University ID: " << getFormattedID() << " -+" << endl;
+Student::Student(string Name, unsigned int ECTs, string DateOfBirth, string DateOfRegistration, unsigned short DepartmentCode) : 
+	Person(Name), ECTs(ECTs), DateOfBirth(DateOfBirth), DateOfRegistration(DateOfRegistration),
+	FormattedUniID("S-" + to_string(DepartmentCode) + "-" + string(6 - (to_string(getUniID())).length(), '0') + to_string(getUniID())) {
+
+	cout << "|" << endl << "+-------- Constructing Student --------+" << endl;
+	cout << "+- Constructed Student with ID: " << getFormattedID() << " -+" << endl;
 }
 
 Student::~Student() {}
 
 ostream &operator<< (ostream &str, Student &student) {
-    str << "| Full Name: " << student.getName() << endl;
-    str << "| ECTs: " << student.ECTs << endl;
-    str << "| Date of Birth: " << student.DateOfBirth << endl;
-    str << "| Date of Registration: " << student.DateOfRegistration << endl;
-    str << "| University ID: " << student.FormattedUniID << endl;
-    return str;
+	str << "|" << endl << "+--------- Student Properties ---------+" << endl;
+	str << "| Full Name: " << student.getName() << endl;
+	str << "| ECTs: " << student.ECTs << endl;
+	str << "| Date of Birth: " << student.DateOfBirth << endl;
+	str << "| Date of Registration: " << student.DateOfRegistration << endl;
+	str << "| University ID: " << student.FormattedUniID << endl;
+	str << "+------- End of Student Details -------+" << endl << "|" << endl;
+	return str;
 }
 
 istream &operator>> (istream &str, Student &student) {
-    string Buffer;
-    cout << "- Enter ECTs: " << endl;
-    getline(str, Buffer);
-    student.ECTs = (unsigned int)stoi(Buffer);
-    cout << "- Enter Date of Birth: " << endl;
-    getline(str, student.DateOfBirth);
-    cout << "- Enter Date of Registration: " << endl;
-    getline(str, student.DateOfRegistration);
-    return str;
+	string FullName, Buffer;
+	cout << "- Enter First Name: " << endl;
+	getline(str, FullName);
+	cout << "- Enter Father's Name: " << endl;
+	getline(str, Buffer);
+	FullName = FullName + " " + Buffer;
+	cout << "- Enter Last Name: " << endl;
+	getline(str, Buffer);
+	FullName = FullName + " " + Buffer;
+	student.setName(FullName);
+	cout << "- Enter ECTs: " << endl;
+	getline(str, Buffer);
+	student.ECTs = (unsigned int)stoi(Buffer);
+	cout << "- Enter Date of Birth: " << endl;
+	getline(str, student.DateOfBirth);
+	cout << "- Enter Date of Registration: " << endl;
+	getline(str, student.DateOfRegistration);
+	return str;
 }

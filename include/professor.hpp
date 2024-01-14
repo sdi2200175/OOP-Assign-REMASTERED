@@ -28,7 +28,7 @@ class Professor : public Person {
         virtual ~Professor();
 
         /* - Pure Virtual Function - */
-        inline virtual string getFormattedID() const { return FormattedUniID; }
+        inline virtual const string &getFormattedID() const { return FormattedUniID; }
 
         /* - Operator Overloads - */
         friend ostream &operator<< (ostream &str, Professor &professor);

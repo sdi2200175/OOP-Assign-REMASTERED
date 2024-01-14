@@ -1,5 +1,5 @@
 /**
- * @file interface.hpp
+ * @file course.hpp
  * @author Spyros Strakosia, Evaggelia Ragkousi
  * @brief 
  * @version 
@@ -15,14 +15,11 @@
 
 using namespace std;
 
-class Interface {
-
-  private:
-    unsigned short ValidateMenuInput(unsigned short NumberOfChoices);
-    void StudentManagement();
-
-  public:
-    void begin();
-    void main();
+class Course {
+        
+    private:
+        string Name;
+        bool Mandatory;
+        unsigned short ECTs;
 
 };
