@@ -18,11 +18,9 @@ Secretary::Secretary() {
 }
 
 void Secretary::addStudent() {
-  cout << "| Adding New Student to Secretary Database: " << endl;
   Student *student = new Student(this->DepartmentCode);
   StudentIDDatabase.insert(make_pair(student->getUniID(), student));
   StudentNameDatabase.insert(make_pair(student->getName(), student));
-  cout << "| Added New Student to Secretary Database." << endl;
 }
 
 void Secretary::modifyStudent() {
@@ -45,16 +43,17 @@ ostream &operator<< (ostream &str, Secretary &sec) {
   str << "| Department Code: " << sec.DepartmentCode << endl;
   str << "| ECT Diploma Requirement: " << sec.ECTRequirement << " ECTs" << endl;
   str << "| Years of Maximum Attendance: " << sec.MaximumAttendance << endl;
-  str << "+--------- End of Description ---------+" << endl << "|" << endl;
+  str << "| Attending Students: " << sec.StudentIDDatabase.size() << endl;
+  str << "+--------- End of Description ---------+" << endl;
   return str;
 }
 
 istream &operator>> (istream &str, Secretary &sec) {
-  cout << "- Enter Department Name: ";
+  cout << "> Enter Department Name: ";
   getline(str, sec.DepartmentName);
 
-  cout << "- Enter Department Code: ";
   while (true) {
+    cout << "> Enter Department Code: ";
     try {
       string Buffer;
       getline(str, Buffer);
@@ -65,12 +64,13 @@ istream &operator>> (istream &str, Secretary &sec) {
       break;
 
     } catch(char InvalidChar) {
-      cout << "! ERROR: Invalid Character '" << InvalidChar << "' inserted." << endl << "- Please insert a valid Department Code: ";
+      cout << "! ERROR: Invalid Character '" << InvalidChar << "' inserted." << endl;
+      continue;
     }
   }
 
-  cout << "- Enter Amount of ECTs Required for Department Diploma: ";
   while (true) {
+    cout << "> Enter Amount of ECTs Required for Department Diploma: ";
     try {
       string Buffer;
       getline(str, Buffer);
@@ -81,12 +81,13 @@ istream &operator>> (istream &str, Secretary &sec) {
       break;
 
     } catch(char InvalidChar) {
-      cout << "! ERROR: Invalid Character '" << InvalidChar << "' inserted." << endl << "- Please insert a valid Amount of ECTs Required: ";
+      cout << "! ERROR: Invalid Character '" << InvalidChar << "' inserted." << endl;
+      continue;
     }
   }
 
-  cout << "- Enter Maximum Years of Attendance: ";
   while (true) {
+    cout << "> Enter Maximum Years of Attendance: ";
     try {
       string Buffer;
       getline(str, Buffer);
@@ -97,7 +98,8 @@ istream &operator>> (istream &str, Secretary &sec) {
       break;
       
     } catch(char InvalidChar) {
-      cout << "! ERROR: Invalid Character '" << InvalidChar << "' inserted." << endl << "- Please insert a valid Amount of Years for Maximum Attendance: ";
+      cout << "! ERROR: Invalid Character '" << InvalidChar << "' inserted." << endl;
+      continue;
     }
   }
   

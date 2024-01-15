@@ -12,7 +12,7 @@
 #include "interface.hpp"
 #include "secretary.hpp"
 
-void Interface::begin() {
+Interface::Interface() {
 
   cout << endl << "        Welcome to the University Management System ver. 0.0.1" << endl;
   cout << "+--------------------------------------------------------------------+" << endl;
@@ -23,13 +23,14 @@ void Interface::begin() {
 
   cout << "|" << endl << "| Input Department Secretary Attributes below." << endl;
 
-  Secretary sec;
+  secretary = new Secretary;
 
   cout << "|" << endl << "? Attempting to load Department Students, Professors and Courses from files..." << endl;
   cout << "! ERROR: Files Not Found. Secretary will be left empty." << endl;
 }
 
-void Interface::main() {
+void Interface::main()
+{
 
   while(true) {
 
@@ -40,14 +41,13 @@ void Interface::main() {
     cout << "3. Add/Modify/Delete Course(s)" << endl;
     cout << "4. Print Department Information and/or Statistics" << endl;
     cout << "5. Save to Files and Exit" << endl;
-    cout << "| Enter the Number corresponding to the desired Action: ";
     
     unsigned short Choice = this->ValidateMenuInput(5);
     if (!Choice) continue;
     
     switch(Choice) {
       case 1: {
-
+        this->StudentManagement();
         break;
       }
 
@@ -80,12 +80,34 @@ void Interface::StudentManagement() {
     unsigned short Choice = this->ValidateMenuInput(3);
     if (!Choice) continue;
 
+    switch(Choice) {
+      case 1: {
+        cout << "|" << endl << "+--- Adding New Student to Secretary --+" << endl;
+        this->secretary->addStudent();
+        cout << "+----- Added Student to Secretary -----+" << endl;
+        break;
+      }
+
+      case 2: {
+        cout << "|" << endl << "> Enter the Full Name or the University ID of the Student you want to modify: ";
+        string Buffer;
+        getline(cin, Buffer);
+        if (Buffer[0] == 'S' && Buffer[1] == '-') {
+          
+        }
+
+        break;
+      }
+
+      default:
+        return;
+    }
   }
 }
 
 unsigned short Interface::ValidateMenuInput(unsigned short NumberOfChoices) {
 
-  cout << "| Enter the Number corresponding to the desired Action: ";
+  cout << "> Enter the Number corresponding to the desired Action: ";
   string Buffer;
   try {
     getline(cin, Buffer);
@@ -97,7 +119,7 @@ unsigned short Interface::ValidateMenuInput(unsigned short NumberOfChoices) {
 
   } catch(char InvalidChar) {
     cout << "|" << endl << "! ERROR: Invalid Choice!" <<  endl;
-  } catch(unsigned long Length) {
+  } catch(int Length) {
     cout << "|" << endl << "! ERROR: Number inserted is outside the selection range!" << endl;
   }
 

@@ -12,17 +12,21 @@
 #pragma once
 
 #include <iostream>
+#include "secretary.hpp"
 
 using namespace std;
 
 class Interface {
 
   private:
+    Secretary *secretary;
     unsigned short ValidateMenuInput(unsigned short NumberOfChoices);
     void StudentManagement();
 
   public:
-    void begin();
+
+    Interface();
+
     void main();
 
 };

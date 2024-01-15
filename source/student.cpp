@@ -14,10 +14,10 @@
 Student::Student(unsigned short DepartmentCode) : 
 	Person(),
 	FormattedUniID("S-" + to_string(DepartmentCode) + "-" + string(6 - (to_string(getUniID())).length(), '0') + to_string(getUniID())) {
-	
-    cout << "|" << endl << "+-------- Constructing Student --------+" << endl;
+
+  cout << "| Constructing a new Student..." << endl;
 	cin >> *this;
-	cout << "+- Constructed Student with ID: " << getFormattedID() << " -+" << endl;
+  cout << "| Constructed a new Student with ID: " << this->FormattedUniID << endl;
 }
 
 Student::Student(string Name, unsigned int ECTs, string DateOfBirth, string DateOfRegistration, unsigned short DepartmentCode) : 
@@ -43,21 +43,21 @@ ostream &operator<< (ostream &str, Student &student) {
 
 istream &operator>> (istream &str, Student &student) {
 	string FullName, Buffer;
-	cout << "- Enter First Name: " << endl;
+	cout << "> Enter First Name: ";
 	getline(str, FullName);
-	cout << "- Enter Father's Name: " << endl;
+	cout << "> Enter Father's Name: ";
 	getline(str, Buffer);
 	FullName = FullName + " " + Buffer;
-	cout << "- Enter Last Name: " << endl;
+	cout << "> Enter Last Name: ";
 	getline(str, Buffer);
 	FullName = FullName + " " + Buffer;
 	student.setName(FullName);
-	cout << "- Enter ECTs: " << endl;
+	cout << "> Enter ECTs: ";
 	getline(str, Buffer);
 	student.ECTs = (unsigned int)stoi(Buffer);
-	cout << "- Enter Date of Birth: " << endl;
+	cout << "> Enter Date of Birth: ";
 	getline(str, student.DateOfBirth);
-	cout << "- Enter Date of Registration: " << endl;
+	cout << "> Enter Date of Registration: ";
 	getline(str, student.DateOfRegistration);
 	return str;
 }

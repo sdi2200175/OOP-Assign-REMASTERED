@@ -47,20 +47,17 @@ BINARY = $(BUILD_DIR)/$(EXEC_NAME)-$(EXEC_VER).$(EXEC_FILE_EXTENSION)
 all: $(OBJECTS)
 	@$(CC) $(LFLAGS) -I$(INCLUDE) $(OBJECTS) -o $(BINARY)
 	@echo "[MAKE]:  Compilation completed Successfully. Final Executable is placed in $(BINARY)"
-	@echo "[CLEAN]: Cleaning Object Files..."
-	@rm -f $(OBJECTS)
-	@echo "[CLEAN]: Done"
 
 %.o: %.cpp
 	@echo "[MAKE]:  Compiling $^..."
 	@$(CC) $(CFLAGS) -I$(INCLUDE) -c $^ -o $@
 	@echo "[MAKE]:  Compiled $^ successfully. Output file: $@"
 
-run:
+run: all
 	@echo "[RUN]:   Running $(BINARY)..."
 	@./$(BINARY)
 
 clean: 
 	@echo "[CLEAN]: Cleaning Residual Files..."
-	@rm -f $(OBJECTS) $(BINARY)
+	@rm -f $(OBJECTS)
 	@echo "[CLEAN]: Done"
