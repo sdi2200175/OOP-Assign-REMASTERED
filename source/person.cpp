@@ -15,4 +15,4 @@ unsigned int Person::Amount = 0;
 
 Person::Person() : UniID(++Amount) {}
 Person::Person(string Name) : Name(Name), UniID(++Amount) {}
-Person::~Person() {}
+Person::~Person() { Amount--; }
