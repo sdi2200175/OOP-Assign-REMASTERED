@@ -27,15 +27,13 @@ void Secretary::addStudentToDatabase(Student *student) {
   this->StudentNameDatabase.insert(make_pair(student->getName(), student));
 }
 
+void Secretary::deleteStudent(Student *student) {
+  this->removeStudentFromDatabase(student);
+}
+
 void Secretary::removeStudentFromDatabase(Student *student) {
   this->StudentIDDatabase.erase(student->getUniID());
   this->StudentNameDatabase.erase(student->getName());
-}
-
-void Secretary::deleteStudent() {
-  cout << "| Please enter the Name or University ID of the Student you want to delete below: ";
-  string Buffer;
-  getline(cin, Buffer);
 }
 
 Student *Secretary::retrieveStudent(unsigned int UniID) {

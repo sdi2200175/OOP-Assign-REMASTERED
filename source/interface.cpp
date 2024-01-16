@@ -96,6 +96,7 @@ void Interface::StudentManagement() {
         cout << "+----- Added Student to Secretary -----+" << endl;
         break;
       }
+
       case 2: {
         string Buffer;
         Student *student = nullptr;
@@ -130,9 +131,50 @@ void Interface::StudentManagement() {
           break;
         }
         this->StudentModification(student);
+        cout << "+---- Modified Student in Secretary ---+" << endl;
         SHOULD_EXIT();
         break;
       }
+
+      case 3: {
+        string Buffer;
+        Student *student = nullptr;
+        while(true) {
+          cout << "> Enter the Full Name or the University ID of the Student you want to delete: ";
+          getline(cin, Buffer);
+          if (Buffer[0] == 'S' && Buffer[1] == '-') {
+            unsigned int UniID;
+            try {
+              UniID = stoi(Buffer.substr(7));
+              student = this->secretary->retrieveStudent(UniID);
+              cout << "| Found Student named '" << student->getName() << "'." << endl;
+            } catch(out_of_range &e) {
+              cout << "! ERROR: Invalid University ID!" << endl;
+              continue;
+            } catch(invalid_argument &e) {
+              cout << "! ERROR: Invalid University ID!" << endl;
+              continue;
+            } catch(unsigned int InvalidID) {
+              cout << "! ERROR: Student with University ID " << Buffer << " doesn't exist!" << endl;
+              continue;
+            }
+          } else {
+            try {
+              student = this->secretary->retrieveStudent(Buffer);
+              cout << "| Found Student with University ID: " << student->getFormattedID() << "." << endl;
+            } catch(const string &Name) {
+              cout << "! ERROR: Student named '" << Buffer << "' doesn't exist!" << endl;
+              continue;
+            } 
+          }
+          break;
+        }
+        this->secretary->deleteStudent(student);
+        cout << "+--- Deleted Student from Secretary ---+" << endl;
+        SHOULD_EXIT();
+        break;
+      }
+
       default:
         break;
     }
@@ -246,6 +288,44 @@ void Interface::StudentModification(Student *student) {
       }
 
       student->setDateOfBirth(Buffer);
+      break;
+    }
+
+    case 4: {
+      while(true) {
+        cout << "> Enter Student's new Date Of Registration: ";
+        getline(cin, Buffer);
+        try {
+          if (Buffer.length() != 10)
+            throw invalid_argument("! ERROR: Invalid Date.");
+
+          string::iterator itr = Buffer.begin();
+          for (int i = 0; i < 2; i++)
+            if (*itr >= '0' && *itr <= '9') itr++;
+            else throw invalid_argument("! ERROR: Invalid Date.");
+
+          if (*itr == '/' || *itr == '-') itr++;
+          else throw invalid_argument("! ERROR: Invalid Date.");
+
+          for (int i = 0; i < 2; i++)
+            if (*itr >= '0' && *itr <= '9') itr++;
+            else throw invalid_argument("! ERROR: Invalid Date.");
+
+          if (*itr == '/' || *itr == '-') itr++;
+          else throw invalid_argument("! ERROR: Invalid Date.");
+
+          for (int i = 0; i < 4; i++)
+            if (*itr >= '0' && *itr <= '9') itr++;
+            else throw invalid_argument("! ERROR: Invalid Date.");
+        } catch (invalid_argument &e) {
+          cout << e.what() << endl;
+          continue;
+        }
+
+        break;
+      }
+
+      student->setDateOfRegistration(Buffer);
       break;
     }
 

@@ -43,8 +43,8 @@ class Secretary {
     /* - Student Management - */
     void addStudent();
     void addStudentToDatabase(Student *student);
+    void deleteStudent(Student *student);
     void removeStudentFromDatabase(Student *student);
-    void deleteStudent();
   
     Student *retrieveStudent(unsigned int UniID);
     Student *retrieveStudent(const string &Name);
