@@ -42,8 +42,8 @@ class Secretary {
 
     /* - Student Management - */
     void addStudent();
-    void modifyStudent();
-    void deleteStudent();
+    void modifyStudent(string Buffer);
+    void deleteStudent(string Buffer);
   
     Student &retrieveStudent(unsigned int UniID);
     Student &retrieveStudent(const string &Name);
