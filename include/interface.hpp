@@ -41,6 +41,7 @@ class Interface {
   public:
 
     Interface();
+    ~Interface();
 
     void main();
 

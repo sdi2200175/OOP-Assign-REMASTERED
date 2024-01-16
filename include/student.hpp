@@ -39,7 +39,7 @@ class Student : public Person {
         /* - Setters - */
         inline void setECTs(unsigned int ECTs) { this->ECTs = ECTs; }
         inline void setDateOfBirth(string DateOfBirth) { this->DateOfBirth = DateOfBirth; }
-        inline void setDateOfRegistration(string DateofRegistration) { this->DateOfRegistration = DateOfRegistration; }
+        inline void setDateOfRegistration(string DateOfRegistration) { this->DateOfRegistration = DateOfRegistration; }
 
         /* - Pure Virtual Function - */
         inline virtual const string &getFormattedID() const { return FormattedUniID; }

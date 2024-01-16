@@ -31,6 +31,10 @@ Interface::Interface() {
   cout << "! ERROR: Files Not Found. Secretary will be left empty." << endl;
 }
 
+Interface::~Interface() {
+  delete this->secretary;
+}
+
 void Interface::main() {
 
   while(true) {
@@ -175,8 +179,73 @@ void Interface::StudentModification(Student *student) {
         break;
       }
 
-      student->setName(NewName); 
+      this->secretary->removeStudentFromDatabase(student);
+      student->setName(NewName);
+      this->secretary->addStudentToDatabase(student);
+      break;
+    }
+
+    case 2: {
+      unsigned short NewECTs;
+      while (true) {
+        cout << "> Enter the Student's new ECT Amount: ";
+        getline(cin, Buffer);
+        try {
+          int Temp = stoi(Buffer);
+          if (Temp > numeric_limits<unsigned short>::max() || Temp < 0) 
+            throw out_of_range("! ERROR: Number inserted is outside the allowed range.");
+
+          NewECTs = Temp;
+        } catch (invalid_argument &e) {
+          cout << "! ERROR: Not a Number." << endl;
+          continue;
+        } catch (out_of_range &e) {
+          cout << e.what() << endl;
+          continue;
+        }
+
+        break;
+      }
+
+      student->setECTs(NewECTs);
+      break;
+    }
+
+    case 3: {
+      while(true) {
+        cout << "> Enter Student's new Date Of Birth: ";
+        getline(cin, Buffer);
+        try {
+          if (Buffer.length() != 10)
+            throw invalid_argument("! ERROR: Invalid Date.");
+
+          string::iterator itr = Buffer.begin();
+          for (int i = 0; i < 2; i++)
+            if (*itr >= '0' && *itr <= '9') itr++;
+            else throw invalid_argument("! ERROR: Invalid Date.");
+          
+          if (*itr == '/' || *itr == '-') itr++;
+          else throw invalid_argument("! ERROR: Invalid Date.");
+
+          for (int i = 0; i < 2; i++)
+            if (*itr >= '0' && *itr <= '9') itr++;
+            else throw invalid_argument("! ERROR: Invalid Date.");
+
+          if (*itr == '/' || *itr == '-') itr++;
+          else throw invalid_argument("! ERROR: Invalid Date.");
+
+          for (int i = 0; i < 4; i++)
+            if (*itr >= '0' && *itr <= '9') itr++;
+            else throw invalid_argument("! ERROR: Invalid Date.");
+        } catch (invalid_argument &e) {
+          cout << e.what() << endl;
+          continue;
+        }
+
+        break;
+      }
       
+      student->setDateOfBirth(Buffer);
       break;
     }
 
@@ -201,7 +270,7 @@ unsigned short Interface::ValidateMenuInput(unsigned short NumberOfChoices) {
   string Buffer;
   try {
     getline(cin, Buffer);
-    if (!Buffer.compare("q!")) {
+    if (!Buffer.compare("!q")) {
       ShouldExit = true;
       return 1;
     }

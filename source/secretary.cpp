@@ -19,8 +19,17 @@ Secretary::Secretary() {
 
 void Secretary::addStudent() {
   Student *student = new Student(this->DepartmentCode);
-  StudentIDDatabase.insert(make_pair(student->getUniID(), student));
-  StudentNameDatabase.insert(make_pair(student->getName(), student));
+  this->addStudentToDatabase(student);
+}
+
+void Secretary::addStudentToDatabase(Student *student) {
+  this->StudentIDDatabase.insert(make_pair(student->getUniID(), student));
+  this->StudentNameDatabase.insert(make_pair(student->getName(), student));
+}
+
+void Secretary::removeStudentFromDatabase(Student *student) {
+  this->StudentIDDatabase.erase(student->getUniID());
+  this->StudentNameDatabase.erase(student->getName());
 }
 
 void Secretary::deleteStudent() {
