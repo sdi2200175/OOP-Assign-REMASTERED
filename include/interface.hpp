@@ -12,6 +12,7 @@
 #pragma once
 
 #include <iostream>
+#include <limits>
 #include "secretary.hpp"
 
 using namespace std;
