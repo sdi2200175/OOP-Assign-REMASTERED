@@ -23,21 +23,18 @@ void Secretary::addStudent() {
   StudentNameDatabase.insert(make_pair(student->getName(), student));
 }
 
-void Secretary::modifyStudent(string Buffer) {
-  if (Buffer[0] == 'S' && Buffer[1] == '-') {
-          
-  }
-  else {
+void Secretary::modifyStudent() {
+  cout << "| Please enter the Name or University ID of the Student you want to modify below: ";
 
-  }
+  string Buffer;
+  getline(cin, Buffer);
+  
 }
 
-void Secretary::deleteStudent(string Buffer) {
-  // bool deleted = true;
-  if (Buffer[0] == 'S' && Buffer[1] == '-')
-    StudentIDDatabase.erase(stoi(Buffer.substr(7, 12)));
-  else
-    StudentNameDatabase.erase(Buffer);
+void Secretary::deleteStudent() {
+  cout << "| Please enter the Name or University ID of the Student you want to delete below: ";
+  string Buffer;
+  getline(cin, Buffer);
 }
 
 ostream &operator<< (ostream &str, Secretary &sec) {

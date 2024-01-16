@@ -92,17 +92,10 @@ void Interface::StudentManagement() {
         cout << "|" << endl << "> Enter the Full Name or the University ID of the Student you want to modify: ";
         string Buffer;
         getline(cin, Buffer);
-        this->secretary->modifyStudent(Buffer);
-        cout << "+----- Modified Student of Secretary -----+" << endl;
-        break;
-      }
+        if (Buffer[0] == 'S' && Buffer[1] == '-') {
+          
+        }
 
-      case 3: {
-        cout << "|" << endl << "> Enter the Full Name or the University ID of the Student you want to delete: ";
-        string Buffer;
-        getline(cin, Buffer);
-        this->secretary->deleteStudent(Buffer);
-        cout << "+----- Deleted Student of Secretary -----+" << endl;
         break;
       }
 
