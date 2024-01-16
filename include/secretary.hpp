@@ -42,11 +42,12 @@ class Secretary {
 
     /* - Student Management - */
     void addStudent();
-    void modifyStudent();
+    void addStudentToDatabase(Student *student);
+    void removeStudentFromDatabase(Student *student);
     void deleteStudent();
   
-    Student &retrieveStudent(unsigned int UniID);
-    Student &retrieveStudent(const string &Name);
+    Student *retrieveStudent(unsigned int UniID);
+    Student *retrieveStudent(const string &Name);
 
     /* - Operator Overloads - */
     friend ostream &operator<< (ostream &str, Secretary &sec);

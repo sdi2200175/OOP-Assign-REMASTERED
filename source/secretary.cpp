@@ -19,22 +19,39 @@ Secretary::Secretary() {
 
 void Secretary::addStudent() {
   Student *student = new Student(this->DepartmentCode);
-  StudentIDDatabase.insert(make_pair(student->getUniID(), student));
-  StudentNameDatabase.insert(make_pair(student->getName(), student));
+  this->addStudentToDatabase(student);
 }
 
-void Secretary::modifyStudent() {
-  cout << "| Please enter the Name or University ID of the Student you want to modify below: ";
+void Secretary::addStudentToDatabase(Student *student) {
+  this->StudentIDDatabase.insert(make_pair(student->getUniID(), student));
+  this->StudentNameDatabase.insert(make_pair(student->getName(), student));
+}
 
-  string Buffer;
-  getline(cin, Buffer);
-  
+void Secretary::removeStudentFromDatabase(Student *student) {
+  this->StudentIDDatabase.erase(student->getUniID());
+  this->StudentNameDatabase.erase(student->getName());
 }
 
 void Secretary::deleteStudent() {
   cout << "| Please enter the Name or University ID of the Student you want to delete below: ";
   string Buffer;
   getline(cin, Buffer);
+}
+
+Student *Secretary::retrieveStudent(unsigned int UniID) {
+  map<unsigned int, Student*>::iterator student = this->StudentIDDatabase.find(UniID);
+  if (student == this->StudentIDDatabase.end())
+    throw UniID;
+  else
+    return student->second;
+}
+
+Student *Secretary::retrieveStudent(const string &Name) {
+  map<string, Student*>::iterator student = this->StudentNameDatabase.find(Name);
+  if (student == this->StudentNameDatabase.end())
+    throw Name;
+  else
+    return student->second;
 }
 
 ostream &operator<< (ostream &str, Secretary &sec) {
