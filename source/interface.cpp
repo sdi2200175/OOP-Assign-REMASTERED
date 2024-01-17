@@ -581,7 +581,7 @@ unsigned short Interface::ValidateMenuInput(unsigned short NumberOfChoices) {
 }
 
 /**
-  * @brief Validates the input when the user is asked for a date. Example of valid date input: DD/MM/YYYY. If it detecs the wrong user input it throws an
+  * @brief Validates the input when the user is asked for a date. Example of valid date input: DD/MM/YYYY. If it detects the wrong user input it throws an
   * invalid argument exception.
   */
 string Interface::ValidateDateInput() {
