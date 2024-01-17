@@ -36,7 +36,34 @@ class Interface {
      * @return Either the choice the user made as a numerical value or 0 if the user's input was invalid;
      */
     unsigned short ValidateMenuInput(unsigned short NumberOfChoices);
+
+    /**
+     * @brief Validates the input when the user is asked for a date. Example of valid date input: DD/MM/YYYY. If it detecs the wrong user input it throws an
+     * invalid argument exception.
+     * 
+     * @return The date as read from the user.
+     */
+    string ValidateDateInput();
+
+    /**
+     * @brief Validates the input when the user is asked for a name. If it detects an unacceptable user input it throws an invalid_argument exception.
+     * 
+     * @return The string with the new name.
+     * @exception Throws an invalid_argument exception when an invalid name has been inserted.
+     */
+    string ValidateNameInput();
+
+    /**
+     * @brief Manages the Add, Modify and Delete Operations for the Student Objects in Secretary and handles the Display of them.
+     * 
+     */
     void StudentManagement();
+
+    /**
+     * @brief Handles the Display and Modification of a Student Object. Is Called by StudentManagement().
+     * 
+     * @param student Takes a Student Pointer as a parameter and performs all modifications on that Object.
+     */
     void StudentModification(Student *student);
 
   public:

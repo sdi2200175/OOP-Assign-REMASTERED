@@ -58,6 +58,7 @@
     "sstream": "cpp",
     "unordered_map": "cpp",
     "algorithm": "cpp",
-    "random": "cpp"
+    "random": "cpp",
+    "numbers": "cpp"
   }
 }

@@ -12,9 +12,19 @@
 #include "secretary.hpp"
 
 Secretary::Secretary() {
-  cout << "|" << endl << "+---- Department Secretary Details ----+" << endl;
   cin >> *this;
-  cout << "+-- Constructed Department Secretary --+" << endl;
+}
+
+Secretary::Secretary(string DepartmentName, unsigned int DepartmentCode, unsigned int ECTRequirement, unsigned short MaximumAttendance) : 
+  DepartmentName(DepartmentName), DepartmentCode(DepartmentCode), ECTRequirement(ECTRequirement), MaximumAttendance(MaximumAttendance) {}
+
+Secretary::~Secretary() {
+
+  for (map<unsigned int, Student*>::iterator itr = this->StudentIDDatabase.begin(); 
+      itr != this->StudentIDDatabase.end(); itr++) {
+
+      delete itr->second;
+  }
 }
 
 void Secretary::addStudent() {
@@ -29,6 +39,7 @@ void Secretary::addStudentToDatabase(Student *student) {
 
 void Secretary::deleteStudent(Student *student) {
   this->removeStudentFromDatabase(student);
+  delete student;
 }
 
 void Secretary::removeStudentFromDatabase(Student *student) {
@@ -36,18 +47,33 @@ void Secretary::removeStudentFromDatabase(Student *student) {
   this->StudentNameDatabase.erase(student->getName());
 }
 
+/**
+ * @brief Searches for a Student in the Secretary.
+ * 
+ * @param UniID Search Term.
+ * @return A pointer the the Student that was found.
+ * @exception Throws an invalid_argument exception if the Student was not found in the secretary.
+ */
 Student *Secretary::retrieveStudent(unsigned int UniID) {
   map<unsigned int, Student*>::iterator student = this->StudentIDDatabase.find(UniID);
   if (student == this->StudentIDDatabase.end())
-    throw UniID;
+    throw invalid_argument("! ERROR: Student with University ID: S-" + to_string(this->DepartmentCode) + "-" + 
+                            string(6 - (to_string(UniID)).length(), '0') + to_string(UniID) + " wasn't found.");
   else
     return student->second;
 }
 
+/**
+ * @brief Searches for a Student in the Secretary.
+ * 
+ * @param Name Search Term.
+ * @return A pointer to the Student that was found.
+ * @exception Throws and invalid_argument exception if the Student was not found in the Secretary.
+ */
 Student *Secretary::retrieveStudent(const string &Name) {
   map<string, Student*>::iterator student = this->StudentNameDatabase.find(Name);
   if (student == this->StudentNameDatabase.end())
-    throw Name;
+    throw invalid_argument("! ERROR: Student named '" + Name + " wasn't found.");
   else
     return student->second;
 }

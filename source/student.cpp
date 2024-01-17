@@ -15,9 +15,8 @@ Student::Student(unsigned short DepartmentCode) :
 	Person(),
 	FormattedUniID("S-" + to_string(DepartmentCode) + "-" + string(6 - (to_string(getUniID())).length(), '0') + to_string(getUniID())) {
 
-  cout << "| Constructing a new Student..." << endl;
 	cin >> *this;
-  cout << "| Constructed a new Student with ID: " << this->FormattedUniID << endl;
+  cout << "| Student ID: " << this->FormattedUniID << endl;
 }
 
 Student::Student(string Name, unsigned int ECTs, string DateOfBirth, string DateOfRegistration, unsigned short DepartmentCode) : 
