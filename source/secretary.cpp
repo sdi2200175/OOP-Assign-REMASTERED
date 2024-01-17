@@ -27,6 +27,8 @@ Secretary::~Secretary() {
   }
 }
 
+/* - Student Management - */
+
 void Secretary::addStudent() {
   Student *student = new Student(this->DepartmentCode);
   this->addStudentToDatabase(student);
@@ -78,6 +80,59 @@ Student *Secretary::retrieveStudent(const string &Name) {
     return student->second;
 }
 
+/* - Professor Management - */
+
+void Secretary::addProfessor() {
+  Professor *professor = new Professor(this->DepartmentCode);
+  this->addProfessorToDatabase(professor);
+}
+
+void Secretary::addProfessorToDatabase(Professor *professor) {
+  this->ProfessorIDDatabase.insert(make_pair(professor->getUniID(), professor));
+  this->ProfessorNameDatabase.insert(make_pair(professor->getName(), professor));
+}
+
+void Secretary::deleteProfessor(Professor *professor) {
+  this->removeProfessorFromDatabase(professor);
+  delete professor;
+}
+
+void Secretary::removeProfessorFromDatabase(Professor *professor) {
+  this->ProfessorIDDatabase.erase(professor->getUniID());
+  this->ProfessorNameDatabase.erase(professor->getName());
+}
+
+/**
+ * @brief Searches for a Professor in the Secretary.
+ * 
+ * @param UniID Search Term.
+ * @return A pointer the the Professor that was found.
+ * @exception Throws an invalid_argument exception if the Professor was not found in the secretary.
+ */
+Professor *Secretary::retrieveProfessor(unsigned int UniID) {
+  map<unsigned int, Professor*>::iterator professor = this->ProfessorIDDatabase.find(UniID);
+  if (professor == this->ProfessorIDDatabase.end())
+    throw invalid_argument("! ERROR: Professor with University ID: P-" + to_string(this->DepartmentCode) + "-" + 
+                            string(6 - (to_string(UniID)).length(), '0') + to_string(UniID) + " wasn't found.");
+  else
+    return professor->second;
+}
+
+/**
+ * @brief Searches for a Professor in the Secretary.
+ * 
+ * @param Name Search Term.
+ * @return A pointer to the Professor that was found.
+ * @exception Throws and invalid_argument exception if the Professor was not found in the Secretary.
+ */
+Professor *Secretary::retrieveProfessor(const string &Name) {
+  map<string, Professor*>::iterator professor = this->ProfessorNameDatabase.find(Name);
+  if (professor == this->ProfessorNameDatabase.end())
+    throw invalid_argument("! ERROR: Professor named '" + Name + " wasn't found.");
+  else
+    return professor->second;
+}
+
 ostream &operator<< (ostream &str, Secretary &sec) {
   str << "|" << endl << "+-- Department Secretary Description --+" << endl;
   str << "| Department Name: " << sec.DepartmentName << endl;
@@ -85,6 +140,7 @@ ostream &operator<< (ostream &str, Secretary &sec) {
   str << "| ECT Diploma Requirement: " << sec.ECTRequirement << " ECTs" << endl;
   str << "| Years of Maximum Attendance: " << sec.MaximumAttendance << endl;
   str << "| Attending Students: " << sec.StudentIDDatabase.size() << endl;
+  str << "| Attending Professors: " << sec.ProfessorIDDatabase.size() << endl;
   str << "+--------- End of Description ---------+" << endl;
   return str;
 }

@@ -25,12 +25,14 @@ class Professor : public Person {
 
         /* - Constructors and Destructors - */
         Professor(unsigned short DepartmentCode);
-        virtual ~Professor();
+        Professor(string Name, unsigned short DepartmentCode);
+        ~Professor();
 
         /* - Pure Virtual Function - */
         inline virtual const string &getFormattedID() const { return FormattedUniID; }
 
         /* - Operator Overloads - */
         friend ostream &operator<< (ostream &str, Professor &professor);
+        friend istream &operator>> (istream &str, Professor &professor);
 
 };

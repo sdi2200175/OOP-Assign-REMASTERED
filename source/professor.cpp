@@ -12,16 +12,41 @@
 #include "professor.hpp"
 
 Professor::Professor(unsigned short DepartmentCode) : 
-    Person(),
-    FormattedUniID("P-" + to_string(DepartmentCode) + "-" + string(10 - (to_string(getUniID())).length(), '0') + to_string(getUniID())) {
-    
-    cout << "+- Constructed Professor with University ID: " << getFormattedID() << " -+" << endl;
+	Person(),
+	FormattedUniID("P-" + to_string(DepartmentCode) + "-" + string(6 - (to_string(getUniID())).length(), '0') + to_string(getUniID())) {
+
+	cin >> *this;
+  cout << "| Professor ID: " << this->FormattedUniID << endl;
+}
+
+Professor::Professor(string Name, unsigned short DepartmentCode) : 
+	Person(Name), 
+	FormattedUniID("P-" + to_string(DepartmentCode) + "-" + string(6 - (to_string(getUniID())).length(), '0') + to_string(getUniID())) {
+
+	cout << "|" << endl << "+------- Constructing Professor -------+" << endl;
+	cout << "+- Constructed Professor with ID: " << getFormattedID() << " -+" << endl;
 }
 
 Professor::~Professor() {}
 
 ostream &operator<< (ostream &str, Professor &professor) {
-    str << "| Full Name: " << professor.getName() << endl;
-    str << "| University ID: " << professor.FormattedUniID << endl;
-    return str;
+	str << "|" << endl << "+-------- Professor Properties --------+" << endl;
+	str << "| Full Name: " << professor.getName() << endl;
+	str << "| University ID: " << professor.FormattedUniID << endl;
+	str << "+------ End of Professor Details ------+" << endl << "|" << endl;
+	return str;
+}
+
+istream &operator>> (istream &str, Professor &professor) {
+	string FullName, Buffer;
+	cout << "> Enter First Name: ";
+	getline(str, FullName);
+	cout << "> Enter Father's Name: ";
+	getline(str, Buffer);
+	FullName = FullName + " " + Buffer;
+	cout << "> Enter Last Name: ";
+	getline(str, Buffer);
+	FullName = FullName + " " + Buffer;
+	professor.setName(FullName);
+	return str;
 }

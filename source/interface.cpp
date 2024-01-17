@@ -120,8 +120,11 @@ void Interface::main() {
         break;
       }
 
-      case 2:
+      case 2: {
+        this->ProfessorManagement();
+        SHOULD_EXIT();
         break;
+      }
 
       case 3:
         break;
@@ -154,7 +157,7 @@ void Interface::StudentManagement() {
 
     unsigned short Choice;
     try {
-      Choice = this->ValidateMenuInput(5);
+      Choice = this->ValidateMenuInput(4);
     } catch (out_of_range &e) {
       cout << "! ERROR: Not a Number." << endl;
       continue;
@@ -212,7 +215,6 @@ void Interface::StudentManagement() {
           break;
         }
         this->StudentModification(student);
-        cout << "+---- Modified Student in Secretary ---+" << endl;
         SHOULD_EXIT();
         break;
       }
@@ -313,6 +315,7 @@ void Interface::StudentModification(Student *student) {
       this->secretary->removeStudentFromDatabase(student);
       student->setName(Buffer);
       this->secretary->addStudentToDatabase(student);
+      cout << "+---- Modified Student in Secretary ---+" << endl;
       break;
     }
 
@@ -334,6 +337,7 @@ void Interface::StudentModification(Student *student) {
       }
 
       student->setECTs(NewECTs);
+      cout << "+---- Modified Student in Secretary ---+" << endl;
       break;
     }
 
@@ -347,6 +351,7 @@ void Interface::StudentModification(Student *student) {
       }
 
       student->setDateOfBirth(Buffer);
+      cout << "+---- Modified Student in Secretary ---+" << endl;
       break;
     }
 
@@ -360,6 +365,190 @@ void Interface::StudentModification(Student *student) {
       }
 
       student->setDateOfRegistration(Buffer);
+      cout << "+---- Modified Student in Secretary ---+" << endl;
+      break;
+    }
+
+    default:
+      return;
+    }
+  }
+}
+
+/**
+ * @brief Manages the Add, Modify and Delete Operations for the Professor Objects in Secretary and handles the Display of them.
+ * 
+ */
+void Interface::ProfessorManagement() {
+
+  while(true) {
+
+    cout << "|" << endl << "+----- Professor Management Menu ------+" << endl;
+    cout << "| Choose one of the following options: " << endl;
+    cout << "1. Add a Professor to the Secretary" << endl;
+    cout << "2. Modify an existing Professor of the Secretary" << endl;
+    cout << "3. Delete an existing Professor from the Secretary" << endl;
+    cout << "4. Go Back" << endl;
+    cout << "> Enter the Number corresponding to the desired Action: ";
+
+    unsigned short Choice;
+    try {
+      Choice = this->ValidateMenuInput(4);
+    } catch (out_of_range &e) {
+      cout << "! ERROR: Not a Number." << endl;
+      continue;
+    } catch (invalid_argument &e) {
+      cout << e.what() << endl;
+      continue;
+    }
+
+    SHOULD_EXIT();
+
+    switch(Choice) {
+      case 1: {
+        cout << "+------- Constructing Professor -------+" << endl;
+        this->secretary->addProfessor();
+        cout << "+------- Constructed Professor --------+" << endl;
+        break;
+      }
+
+      case 2: {
+        string Buffer;
+        Professor *professor = nullptr;
+        while(true) {
+          cout << "> Enter the Full Name or the University ID of the Professor you want to modify: ";
+          getline(cin, Buffer);
+          if (Buffer[0] == 'P' && Buffer[1] == '-') {
+            unsigned int UniID;
+            try {
+              UniID = stoi(Buffer.substr(7));
+            } catch(out_of_range &e) {
+              cout << "! ERROR: Invalid University ID!" << endl;
+              continue;
+            } catch(invalid_argument &e) {
+              cout << "! ERROR: Invalid University ID!" << endl;
+              continue;
+            }
+
+            try {
+              professor = this->secretary->retrieveProfessor(UniID);
+            } catch (invalid_argument &e) {
+              cout << e.what() << endl;
+            }
+
+            cout << "| Found Professor named '" << professor->getName() << "'." << endl;
+
+          } else {
+            try {
+              professor = this->secretary->retrieveProfessor(Buffer);
+            } catch(invalid_argument &e) {
+              cout << e.what() << endl;
+              continue;
+            } 
+            
+            cout << "| Found Professor with University ID: " << professor->getFormattedID() << "." << endl;
+          }
+          break;
+        }
+        this->ProfessorModification(professor);
+        SHOULD_EXIT();
+        break;
+      }
+
+      case 3: {
+        string Buffer;
+        Professor *professor = nullptr;
+
+        cout << "> Enter the Full Name or the University ID of the Professor you want to delete: ";
+        getline(cin, Buffer);
+
+        if (Buffer[0] == 'P' && Buffer[1] == '-') {
+
+          unsigned int UniID;
+          try {
+            UniID = stoi(Buffer.substr(7));
+            professor = this->secretary->retrieveProfessor(UniID);
+            cout << "| Found Professor named '" << professor->getName() << "'." << endl;
+          } catch(out_of_range &e) {
+            cout << "! ERROR: Invalid University ID!" << endl;
+            break;
+          } catch(invalid_argument &e) {
+            cout << "! ERROR: Invalid University ID!" << endl;
+            break;
+          } catch(unsigned int InvalidID) {
+            cout << "! ERROR: Professor with University ID " << Buffer << " doesn't exist!" << endl;
+            break;
+          }
+
+        } else {
+          try {
+            professor = this->secretary->retrieveProfessor(Buffer);
+            cout << "| Found Professor with University ID: " << professor->getFormattedID() << "." << endl;
+          } catch(const string &Name) {
+            cout << "! ERROR: Professor named '" << Buffer << "' doesn't exist!" << endl;
+            break;
+          } 
+        }
+
+        this->secretary->deleteProfessor(professor);
+        cout << "+-- Deleted Professor from Secretary --+" << endl;
+        return;
+      }
+
+      default:
+        return;
+    }
+  }
+}
+
+/**
+ * @brief Handles the Display and Modification of a Professor Object. Is Called by ProfessorManagement().
+ * 
+ * @param student Takes a Professor Pointer as a parameter and performs all modifications on that Object.
+ */
+void Interface::ProfessorModification(Professor *professor) {
+
+  while (true) {
+    cout << "|" << endl << "+- Modifying Professor with ID " << professor->getFormattedID() << " -+" << endl;
+    cout << "| Choose one of the following options: " << endl;
+    cout << "1. Change Professor's Name" << endl;
+    cout << "2. Go Back" << endl;
+    cout << "> Enter the Number corresponding to the desired Action: ";
+
+    unsigned short Choice;
+    try {
+      Choice = this->ValidateMenuInput(2);
+
+    // stoi() exception handling
+    } catch (out_of_range &e) {
+      cout << "! ERROR: Not a Number." << endl;
+      continue;
+
+    // handles the case of the user inserting a number that's above the possible options of the menu.
+    } catch (invalid_argument &e) {
+      cout << e.what() << endl;
+      continue;
+    }
+
+    // checks whether the user has input '!q' and returns the function if that's the case.
+    SHOULD_EXIT();
+
+    string Buffer;
+    switch (Choice) {
+    case 1: {
+      try {
+        cout << "> Enter Professor's new Full Name: ";
+        Buffer = this->ValidateNameInput();
+
+      // handles the case where the user has input an invalid name.
+      } catch (invalid_argument &e) {
+        cout << e.what() << endl;
+      }
+
+      this->secretary->removeProfessorFromDatabase(professor);
+      professor->setName(Buffer);
+      this->secretary->addProfessorToDatabase(professor);
+      cout << "+--- Modified Professor in Secretary --+" << endl;
       break;
     }
 

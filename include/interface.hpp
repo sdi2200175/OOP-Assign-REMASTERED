@@ -38,7 +38,7 @@ class Interface {
     unsigned short ValidateMenuInput(unsigned short NumberOfChoices);
 
     /**
-     * @brief Validates the input when the user is asked for a date. Example of valid date input: DD/MM/YYYY. If it detecs the wrong user input it throws an
+     * @brief Validates the input when the user is asked for a date. Example of valid date input: DD/MM/YYYY. If it detects the wrong user input it throws an
      * invalid argument exception.
      * 
      * @return The date as read from the user.
@@ -65,6 +65,19 @@ class Interface {
      * @param student Takes a Student Pointer as a parameter and performs all modifications on that Object.
      */
     void StudentModification(Student *student);
+
+    /**
+     * @brief Manages the Add, Modify and Delete Operations for the Professor Objects in Secretary and handles the Display of them.
+     * 
+     */
+    void ProfessorManagement();
+
+    /**
+     * @brief Handles the Display and Modification of a Professor Object. Is Called by ProfessorManagement().
+     * 
+     * @param professor Takes a Professor Pointer as a parameter and performs all modifications on that Object.
+     */
+    void ProfessorModification(Professor *professor);
 
   public:
 
