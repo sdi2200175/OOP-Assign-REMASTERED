@@ -41,6 +41,18 @@ void Course::removeProfessorFromAssignedProfessorsDatabase(Professor *professor)
   this->AssignedProfessorsNameDatabase.erase(professor->getName());
 }
 
+/* - Student Registration - */
+
+void Course::addStudentToRegisteredStudentsDatabase(Student *student) {
+  this->RegisteredStudentsIDDatabase.insert(make_pair(student->getUniID(), student));
+  this->RegisteredStudentsNameDatabase.insert(make_pair(student->getName(), student));
+}
+
+void Course::removeStudentFromRegisteredStudentsDatabase(Student *student) {
+  this->RegisteredStudentsIDDatabase.erase(student->getUniID());
+  this->RegisteredStudentsNameDatabase.erase(student->getName());
+}
+
 ostream &operator<< (ostream &str, Course &course) {
 	str << "|" << endl << "+---------- Course Properties ---------+" << endl;
 	str << "| Name: " << course.Name << endl;

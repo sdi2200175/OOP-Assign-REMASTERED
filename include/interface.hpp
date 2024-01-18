@@ -41,7 +41,7 @@ class Interface {
     void StudentManagement();
 
     /**
-     * @brief Handles the Display and Modification of a Student Object. Is Called by StudentManagement().
+     * @brief Handles the Display and Modification of a Student Object. Is called by StudentManagement().
      * 
      * @param student Takes a Student Pointer as a parameter and performs all modifications on that Object.
      */
@@ -54,7 +54,7 @@ class Interface {
     void ProfessorManagement();
 
     /**
-     * @brief Handles the Display and Modification of a Professor Object. Is Called by ProfessorManagement().
+     * @brief Handles the Display and Modification of a Professor Object. Is called by ProfessorManagement().
      * 
      * @param professor Takes a Professor Pointer as a parameter and performs all modifications on that Object.
      */
@@ -67,7 +67,7 @@ class Interface {
     void CourseManagement();
 
     /**
-     * @brief Handles the Display and Modification of a Course Object. Is Called by CourseManagement().
+     * @brief Handles the Display and Modification of a Course Object. Is called by CourseManagement().
      * 
      * @param course Takes a Course Pointer as a parameter and performs all modifications on that Object.
      */
@@ -77,14 +77,21 @@ class Interface {
      * @brief Searches for a Course Object.
      * 
      */
-    void ProfessorAssignment();
+    void CourseSearch(unsigned short Choice);
 
     /**
-     * @brief Assigns Professor Objects to a Course Object in Secretary. Is Called by ProfessorAssignment().
+     * @brief Assigns Professor Objects to a Course Object in Secretary. Is called by CourseSearch().
      * 
      * @param course Takes a Course Pointer as a parameter and performs all modifications on that Object.
      */
-    bool ProfessorAssigner(Course *course);
+    bool ProfessorAssignment(Course *course);
+
+    /**
+     * @brief Assigns Student Objects to a Course Object in Secretary. Is called by CourseSearch().
+     * 
+     * @param course Takes a Course Pointer as a parameter and performs all modifications on that Object.
+     */
+    bool StudentRegistration(Course *course);
 
     /**
      * @brief Validates the input when the user is asked to choose among a number of operations. If the function detects an input of "!q" it changes the Should exit

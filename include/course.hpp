@@ -31,8 +31,8 @@ class Course {
         map<unsigned int, Professor*> AssignedProfessorsIDDatabase;
         map<string, Professor*> AssignedProfessorsNameDatabase;
     
-        map<unsigned int, Student*> AttendingStudentsIDDatabase;
-        map<string, Student*> AttendingStudentsNameDatabase;
+        map<unsigned int, Student*> RegisteredStudentsIDDatabase;
+        map<string, Student*> RegisteredStudentsNameDatabase;
 
     public:
 
@@ -57,6 +57,10 @@ class Course {
         /* - Professor Assignment - */
         void addProfessorToAssignedProfessorsDatabase(Professor *professor);
         void removeProfessorFromAssignedProfessorsDatabase(Professor *professor);
+
+        /* - Student Registration - */
+        void addStudentToRegisteredStudentsDatabase(Student *student);
+        void removeStudentFromRegisteredStudentsDatabase(Student *student);
 
         /* - Operator Overloads - */
         friend ostream &operator<< (ostream &str, Course &course);
