@@ -93,8 +93,8 @@ void Interface::main() {
     cout << "1. Add/Modify/Delete Professor(s)" << endl;
     cout << "2. Add/Modify/Delete Student(s)" << endl;
     cout << "3. Add/Modify/Delete Course(s)" << endl;
-    cout << "4. Modify assigned Professor(s) to a Course" << endl;
-    cout << "5. Modify registered Student(s) to a Course" << endl;
+    cout << "4. Modify a Course's assigned Professor(s)" << endl;
+    cout << "5. Modify a Course's registered Student(s)" << endl;
     // cout << "Print Department Information and/or Statistics" << endl;
     // cout << "Save to Files and Exit" << endl;
     cout << "> Enter the Number corresponding to the desired Action: ";

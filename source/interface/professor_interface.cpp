@@ -50,7 +50,7 @@ void Interface::ProfessorManagement() {
       case 1: {
         cout << "+------- Constructing Professor -------+" << endl;
         this->secretary->addProfessor();
-        cout << "+------- Constructed Professor --------+" << endl;
+        cout << "+---- Added Professor to Secretary ----+" << endl;
         break;
       }
 

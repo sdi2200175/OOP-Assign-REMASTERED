@@ -50,7 +50,7 @@ void Interface::StudentManagement() {
       case 1: {
         cout << "|" << endl << "+-------- Constructing Student --------+" << endl;
         this->secretary->addStudent();
-        cout << "+-------- Constructed Student ---------+" << endl;
+        cout << "+----- Added Student to Secretary -----+" << endl;
         break;
       }
 
