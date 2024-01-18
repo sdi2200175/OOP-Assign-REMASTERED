@@ -74,6 +74,19 @@ class Interface {
     bool CourseModification(Course *course);
 
     /**
+     * @brief Searches for a Course Object.
+     * 
+     */
+    void ProfessorAssignment();
+
+    /**
+     * @brief Assigns Professor Objects to a Course Object in Secretary. Is Called by ProfessorAssignment().
+     * 
+     * @param course Takes a Course Pointer as a parameter and performs all modifications on that Object.
+     */
+    bool ProfessorAssigner(Course *course);
+
+    /**
      * @brief Validates the input when the user is asked to choose among a number of operations. If the function detects an input of "!q" it changes the Should exit
      * value and returns 1.
      * 

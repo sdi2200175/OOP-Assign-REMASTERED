@@ -54,6 +54,7 @@ void Interface::ProfessorManagement() {
         break;
       }
 
+      // Modify a Professor in the Secretary
       case 2: {
         string Buffer;
         Professor *professor = nullptr;
@@ -87,6 +88,7 @@ void Interface::ProfessorManagement() {
         break;
       }
 
+      // Delete a Professor from the Secretary
       case 3: {
         string Buffer;
         Professor *professor = nullptr;

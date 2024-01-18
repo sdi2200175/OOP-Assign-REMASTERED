@@ -54,6 +54,7 @@ void Interface::StudentManagement() {
         break;
       }
 
+      // Modify a Student in the Secretary
       case 2: {
         string Buffer;
         Student *student = nullptr;
@@ -87,6 +88,7 @@ void Interface::StudentManagement() {
         break;
       }
 
+      // Delete a Student from the Secretary
       case 3: {
         string Buffer;
         Student *student = nullptr;

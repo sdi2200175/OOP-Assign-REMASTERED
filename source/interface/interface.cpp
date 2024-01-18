@@ -93,7 +93,7 @@ void Interface::main() {
     cout << "1. Add/Modify/Delete Professor(s)" << endl;
     cout << "2. Add/Modify/Delete Student(s)" << endl;
     cout << "3. Add/Modify/Delete Course(s)" << endl;
-    cout << "4. Assign Professors to Course(s)" << endl;
+    cout << "4. Assign Professor(s) to a Course" << endl;
     // cout << "Print Department Information and/or Statistics" << endl;
     // cout << "Save to Files and Exit" << endl;
     cout << "> Enter the Number corresponding to the desired Action: ";
@@ -135,8 +135,11 @@ void Interface::main() {
         break;
       }
 
-      case 4:
+      case 4: {
+        this->ProfessorAssignment();
+        SHOULD_EXIT();        
         break; 
+      }
       
       default:
         return;
