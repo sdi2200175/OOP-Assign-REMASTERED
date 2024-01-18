@@ -53,7 +53,7 @@ void Secretary::removeStudentFromDatabase(Student *student) {
  * @brief Searches for a Student in the Secretary.
  * 
  * @param UniID Search Term.
- * @return A pointer the the Student that was found.
+ * @return A pointer to the Student that was found.
  * @exception Throws an invalid_argument exception if the Student was not found in the secretary.
  */
 Student *Secretary::retrieveStudent(unsigned int UniID) {
@@ -106,7 +106,7 @@ void Secretary::removeProfessorFromDatabase(Professor *professor) {
  * @brief Searches for a Professor in the Secretary.
  * 
  * @param UniID Search Term.
- * @return A pointer the the Professor that was found.
+ * @return A pointer to the Professor that was found.
  * @exception Throws an invalid_argument exception if the Professor was not found in the secretary.
  */
 Professor *Secretary::retrieveProfessor(unsigned int UniID) {
@@ -131,6 +131,59 @@ Professor *Secretary::retrieveProfessor(const string &Name) {
     throw invalid_argument("! ERROR: Professor named '" + Name + " wasn't found.");
   else
     return professor->second;
+}
+
+/* - Course Management - */
+
+void Secretary::addCourse() {
+  Course *course = new Course(this->DepartmentCode);
+  this->addCourseToDatabase(course);
+}
+
+void Secretary::addCourseToDatabase(Course *course) {
+  this->CourseIDDatabase.insert(make_pair(course->getCourseID(), course));
+  this->CourseNameDatabase.insert(make_pair(course->getName(), course));
+}
+
+void Secretary::deleteCourse(Course *course) {
+  this->removeCourseFromDatabase(course);
+  delete course;
+}
+
+void Secretary::removeCourseFromDatabase(Course *course) {
+  this->CourseIDDatabase.erase(course->getCourseID());
+  this->CourseNameDatabase.erase(course->getName());
+}
+
+/**
+ * @brief Searches for a Course in the Secretary.
+ * 
+ * @param CourseID Search Term.
+ * @return A pointer to the Course that was found.
+ * @exception Throws an invalid_argument exception if the Course was not found in the secretary.
+ */
+Course *Secretary::retrieveCourse(unsigned int CourseID) {
+  map<unsigned int, Course*>::iterator course = this->CourseIDDatabase.find(CourseID);
+  if (course == this->CourseIDDatabase.end())
+    throw invalid_argument("! ERROR: Course with University ID: C-" + to_string(this->DepartmentCode) + "-" + 
+                            string(6 - (to_string(CourseID)).length(), '0') + to_string(CourseID) + " wasn't found.");
+  else
+    return course->second;
+}
+
+/**
+ * @brief Searches for a Course in the Secretary.
+ * 
+ * @param Name Search Term.
+ * @return A pointer to the Course that was found.
+ * @exception Throws and invalid_argument exception if the Course was not found in the Secretary.
+ */
+Course *Secretary::retrieveCourse(const string &Name) {
+  map<string, Course*>::iterator course = this->CourseNameDatabase.find(Name);
+  if (course == this->CourseNameDatabase.end())
+    throw invalid_argument("! ERROR: Course named '" + Name + " wasn't found.");
+  else
+    return course->second;
 }
 
 ostream &operator<< (ostream &str, Secretary &sec) {

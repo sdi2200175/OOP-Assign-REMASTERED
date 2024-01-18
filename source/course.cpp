@@ -44,7 +44,7 @@ istream &operator>> (istream &str, Course &course) {
 	string Buffer;
 	cout << "> Enter Name: ";
 	getline(str, course.Name);
-    cout << "> Is the course Mandatory? (Y/N)";
+    cout << "> Is the course Mandatory? (Y/N) ";
     getline(str, Buffer);
     if (Buffer.compare("Y") || Buffer.compare("y")) { course.Mandatory = true; }
     else { course.Mandatory = false; }

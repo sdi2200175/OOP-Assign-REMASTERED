@@ -90,8 +90,8 @@ void Interface::main() {
 
     cout << "|" << endl << "+----------- Main User Menu -----------+" << endl;
     cout << "| Choose one of the following Options:" << endl;
-    cout << "1. Add/Modify/Delete Student(s)" << endl;
-    cout << "2. Add/Modify/Delete Professor(s)" << endl;
+    cout << "1. Add/Modify/Delete Professor(s)" << endl;
+    cout << "2. Add/Modify/Delete Student(s)" << endl;
     cout << "3. Add/Modify/Delete Course(s)" << endl;
     cout << "4. Print Department Information and/or Statistics" << endl;
     cout << "5. Save to Files and Exit" << endl;
@@ -117,13 +117,13 @@ void Interface::main() {
     
     switch(Choice) {
       case 1: {
-        this->StudentManagement();
+        this->ProfessorManagement();
         SHOULD_EXIT();
         break;
       }
 
       case 2: {
-        this->ProfessorManagement();
+        this->StudentManagement();
         SHOULD_EXIT();
         break;
       }
@@ -138,6 +138,7 @@ void Interface::main() {
         break; 
       
       default:
+        break;
     }
   }
 }

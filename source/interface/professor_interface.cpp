@@ -1,5 +1,5 @@
 /**
- * @file student_interface.cpp
+ * @file professor_interface.cpp
  * @author Spyros Strakosia, Evaggelia Ragkousi
  * @brief 
  * @version 0.1
