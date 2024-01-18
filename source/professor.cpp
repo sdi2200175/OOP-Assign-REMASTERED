@@ -13,7 +13,7 @@
 
 Professor::Professor(unsigned short DepartmentCode) : 
 	Person(),
-	FormattedUniID("P-" + to_string(DepartmentCode) + "-" + string(6 - (to_string(getUniID())).length(), '0') + to_string(getUniID())) {
+	FormattedUniID("P-" + string(4 - (to_string(DepartmentCode)).length(), '0') + to_string(DepartmentCode) + "-" + string(6 - (to_string(getUniID())).length(), '0') + to_string(getUniID())) {
 
 	cin >> *this;
   cout << "| Professor ID: " << this->FormattedUniID << endl;
@@ -21,10 +21,9 @@ Professor::Professor(unsigned short DepartmentCode) :
 
 Professor::Professor(string Name, unsigned short DepartmentCode) : 
 	Person(Name), 
-	FormattedUniID("P-" + to_string(DepartmentCode) + "-" + string(6 - (to_string(getUniID())).length(), '0') + to_string(getUniID())) {
+	FormattedUniID("P-" + string(4 - (to_string(DepartmentCode)).length(), '0') + to_string(DepartmentCode) + "-" + string(6 - (to_string(getUniID())).length(), '0') + to_string(getUniID())) {
 
-	cout << "|" << endl << "+------- Constructing Professor -------+" << endl;
-	cout << "+- Constructed Professor with ID: " << getFormattedID() << " -+" << endl;
+  cout << "| Professor ID: " << this->FormattedUniID << endl;
 }
 
 Professor::~Professor() {}

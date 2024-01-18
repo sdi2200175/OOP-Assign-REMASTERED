@@ -13,7 +13,7 @@
 
 Student::Student(unsigned short DepartmentCode) : 
 	Person(),
-	FormattedUniID("S-" + to_string(DepartmentCode) + "-" + string(6 - (to_string(getUniID())).length(), '0') + to_string(getUniID())) {
+	FormattedUniID("S-" + string(4 - (to_string(DepartmentCode)).length(), '0') + to_string(DepartmentCode) + "-" + string(6 - (to_string(getUniID())).length(), '0') + to_string(getUniID())) {
 
 	cin >> *this;
   cout << "| Student ID: " << this->FormattedUniID << endl;
@@ -21,16 +21,15 @@ Student::Student(unsigned short DepartmentCode) :
 
 Student::Student(string Name, unsigned int ECTs, string DateOfBirth, string DateOfRegistration, unsigned short DepartmentCode) : 
 	Person(Name), ECTs(ECTs), DateOfBirth(DateOfBirth), DateOfRegistration(DateOfRegistration),
-	FormattedUniID("S-" + to_string(DepartmentCode) + "-" + string(6 - (to_string(getUniID())).length(), '0') + to_string(getUniID())) {
+	FormattedUniID("S-" + string(4 - (to_string(DepartmentCode)).length(), '0') + to_string(DepartmentCode) + "-" + string(6 - (to_string(getUniID())).length(), '0') + to_string(getUniID())) {
 
-	cout << "|" << endl << "+-------- Constructing Student --------+" << endl;
-	cout << "+- Constructed Student with ID: " << getFormattedID() << " -+" << endl;
+  cout << "| Student ID: " << this->FormattedUniID << endl;
 }
 
 Student::~Student() {}
 
 ostream &operator<< (ostream &str, Student &student) {
-	str << "|" << endl << "+--------- Student Properties ---------+" << endl;
+	str << "|" << endl << "+-------- Student Description ---------+" << endl;
 	str << "| Full Name: " << student.getName() << endl;
 	str << "| ECTs: " << student.ECTs << endl;
 	str << "| Date of Birth: " << student.DateOfBirth << endl;

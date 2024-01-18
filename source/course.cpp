@@ -13,16 +13,21 @@
 
 unsigned int Course::CourseAmount = 0;
 
-Course::Course() : CourseID(++CourseAmount) {
-	cin >> *this;
+Course::Course(unsigned short DepartmentCode) : CourseID(++CourseAmount),
+	FormattedCourseID("C-" + string(4 - (to_string(DepartmentCode)).length(), '0') + to_string(DepartmentCode) + "-" + string(6 - (to_string(getCourseID())).length(), '0') + to_string(getCourseID())) {
+	
+  cin >> *this;
+  cout << "| Course ID: " << this->FormattedCourseID << endl;
 }
 
-Course::Course(string Name, bool Mandatory, unsigned short ECTs) : Name(Name), Mandatory(Mandatory), ECTs(ECTs), CourseID(++CourseAmount) {
-	cout << "|" << endl << "+--------- Constructing Course --------+" << endl;
-	cout << "+--------- Constructed Course ---------+" << endl;	
+Course::Course(string Name, bool Mandatory, unsigned short ECTs, unsigned short DepartmentCode) : 
+  	Name(Name), Mandatory(Mandatory), ECTs(ECTs), CourseID(++CourseAmount),
+	FormattedCourseID("C-" + string(4 - (to_string(DepartmentCode)).length(), '0') + to_string(DepartmentCode) + "-" + string(6 - (to_string(getCourseID())).length(), '0') + to_string(getCourseID())) {
+
+  cout << "| Course ID: " << this->FormattedCourseID << endl;
 }
 
-Course::~Course() { CourseAmount--; }
+Course::~Course() {}
 
 ostream &operator<< (ostream &str, Course &course) {
 	str << "|" << endl << "+---------- Course Properties ---------+" << endl;

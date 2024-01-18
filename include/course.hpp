@@ -22,12 +22,14 @@ class Course {
         bool Mandatory;
         unsigned short ECTs;
         const unsigned int CourseID; 
+
+        const string FormattedCourseID;
     
     public:
 
         /* - Constructors and Destructors - */
-        Course();
-        Course(string Name, bool Mandatory, unsigned short ECTs);
+        Course(unsigned short DepartmentCode);
+        Course(string Name, bool Mandatory, unsigned short ECTs, unsigned short DepartmentCode);
         ~Course();
 
         /* - Getters - */
@@ -35,6 +37,8 @@ class Course {
         inline const bool &getMandatory() const { return Mandatory; }
         inline const unsigned short &getECTs() const { return ECTs; }
         inline const unsigned int &getCourseID() const { return CourseID; }
+
+        inline const string &getFormattedCourseID() const { return FormattedCourseID; }
 
         /* - Setters - */
         inline void setName(string Name) { this->Name = Name; }
