@@ -16,6 +16,7 @@
 
 #include "student.hpp"
 #include "professor.hpp"
+#include "course.hpp"
 
 using namespace std;
 
@@ -30,6 +31,9 @@ class Secretary {
 
     map<unsigned int, Professor*> ProfessorIDDatabase;
     map<string, Professor*> ProfessorNameDatabase;
+
+    map<unsigned int, Course*> CourseIDDatabase;
+    map<string, Course*> CourseNameDatabase;
 
   public:
 
@@ -91,6 +95,30 @@ class Secretary {
      * @exception Throws and invalid_argument exception if the Professor was not found in the Secretary.
      */
     Professor *retrieveProfessor(const string &Name);
+
+    /* - Course Management - */
+    void addCourse();
+    void addCourseToDatabase(Course *course);
+    void deleteCourse(Course *course);
+    void removeCourseFromDatabase(Course *course);
+
+    /**
+     * @brief Searches for a Course in the Secretary.
+     * 
+     * @param CourseID Search Term.
+     * @return A pointer the the Course that was found.
+     * @exception Throws an invalid_argument exception if the Course was not found in the secretary.
+     */
+    Course *retrieveCourse(unsigned int CourseID);
+
+    /**
+     * @brief Searches for a Course in the Secretary.
+     * 
+     * @param Course Search Term.
+     * @return A pointer to the Course that was found.
+     * @exception Throws and invalid_argument exception if the Course was not found in the Secretary.
+     */
+    Course *retrieveCourse(const string &Name);
 
     /* - Operator Overloads - */
     friend ostream &operator<< (ostream &str, Secretary &sec);

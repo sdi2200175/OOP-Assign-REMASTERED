@@ -79,6 +79,19 @@ class Interface {
      */
     void ProfessorModification(Professor *professor);
 
+        /**
+     * @brief Manages the Add, Modify and Delete Operations for the Course Objects in Secretary and handles the Display of them.
+     * 
+     */
+    void CourseManagement();
+
+    /**
+     * @brief Handles the Display and Modification of a Professor Object. Is Called by CourseManagement().
+     * 
+     * @param course Takes a Course Pointer as a parameter and performs all modifications on that Object.
+     */
+    void CourseModification(Course *course);
+
   public:
 
     Interface();

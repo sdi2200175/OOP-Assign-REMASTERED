@@ -39,6 +39,6 @@ class Person {
     virtual const string &getFormattedID() const = 0;
 
     /* - Static Universal Counter - */
-    static unsigned int Amount;
+    static unsigned int PersonAmount;
 
 };

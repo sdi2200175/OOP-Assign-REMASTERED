@@ -11,8 +11,8 @@
 
 #include "person.hpp"
 
-unsigned int Person::Amount = 0;
+unsigned int Person::PersonAmount = 0;
 
-Person::Person() : UniID(++Amount) {}
-Person::Person(string Name) : Name(Name), UniID(++Amount) {}
-Person::~Person() { Amount--; }
+Person::Person() : UniID(++PersonAmount) {}
+Person::Person(string Name) : Name(Name), UniID(++PersonAmount) {}
+Person::~Person() { PersonAmount--; }

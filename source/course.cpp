@@ -11,22 +11,25 @@
 
 #include "course.hpp"
 
-Course::Course() {
+unsigned int Course::CourseAmount = 0;
+
+Course::Course() : CourseID(++CourseAmount) {
 	cin >> *this;
 }
 
-Course::Course(string Name, bool Mandatory, unsigned short ECTs) : Name(Name), Mandatory(Mandatory), ECTs(ECTs) {
+Course::Course(string Name, bool Mandatory, unsigned short ECTs) : Name(Name), Mandatory(Mandatory), ECTs(ECTs), CourseID(++CourseAmount) {
 	cout << "|" << endl << "+--------- Constructing Course --------+" << endl;
 	cout << "+--------- Constructed Course ---------+" << endl;	
 }
 
-Course::~Course() {}
+Course::~Course() { CourseAmount--; }
 
 ostream &operator<< (ostream &str, Course &course) {
 	str << "|" << endl << "+---------- Course Properties ---------+" << endl;
 	str << "| Name: " << course.Name << endl;
-	if (course.Mandatory) { str << "| The course is Mandatory: " << endl; }
-	else { str << "| The course is not Mandatory: " << endl; }
+	str << "| Mandatory: ";
+	if (course.Mandatory) { str << "| Yes" << endl; }
+	else { str << "| No" << endl; }
     str << "| ECTs: " << course.ECTs << endl;
 	str << "+-------- End of Course Details -------+" << endl << "|" << endl;
 	return str;
