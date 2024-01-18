@@ -21,6 +21,9 @@ class Professor : public Person {
     private:
         const string FormattedUniID;
 
+        map<unsigned int, Course*> AssignedCoursesIDDatabase;
+        map<string, Course*> AssignedCoursesNameDatabase;
+
     public:
 
         /* - Constructors and Destructors - */

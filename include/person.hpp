@@ -12,6 +12,8 @@
 #pragma once
 
 #include <iostream>
+#include <map>
+#include "course.hpp"
 
 using namespace std;
 

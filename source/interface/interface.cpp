@@ -93,13 +93,14 @@ void Interface::main() {
     cout << "1. Add/Modify/Delete Professor(s)" << endl;
     cout << "2. Add/Modify/Delete Student(s)" << endl;
     cout << "3. Add/Modify/Delete Course(s)" << endl;
-    cout << "4. Print Department Information and/or Statistics" << endl;
-    cout << "5. Save to Files and Exit" << endl;
+    cout << "4. Assign Professors to Course(s)" << endl;
+    // cout << "Print Department Information and/or Statistics" << endl;
+    // cout << "Save to Files and Exit" << endl;
     cout << "> Enter the Number corresponding to the desired Action: ";
 
     unsigned short Choice;
     try {
-      Choice = this->ValidateMenuInput(5);
+      Choice = this->ValidateMenuInput(4);
 
     // stoi() exception handling
     } catch (invalid_argument &e) {
@@ -138,7 +139,7 @@ void Interface::main() {
         break; 
       
       default:
-        break;
+        return;
     }
   }
 }

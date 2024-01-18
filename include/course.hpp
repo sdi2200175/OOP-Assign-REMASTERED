@@ -12,6 +12,9 @@
 #pragma once
 
 #include <iostream>
+#include <map>
+#include "professor.hpp"
+#include "student.hpp";
 
 using namespace std;
 
@@ -24,7 +27,13 @@ class Course {
         const unsigned int CourseID; 
 
         const string FormattedCourseID;
+
+        map<unsigned int, Professor*> AssignedProfessorsIDDatabase;
+        map<string, Professor*> AssignedProfessorsNameDatabase;
     
+        map<unsigned int, Student*> AttendingStudentsIDDatabase;
+        map<string, Student*> AttendingStudentsNameDatabase;
+
     public:
 
         /* - Constructors and Destructors - */
