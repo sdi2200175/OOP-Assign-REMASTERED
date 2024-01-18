@@ -123,8 +123,14 @@ bool Interface::ProfessorAssignment(Course *course) {
         }
 
         cout << "| Found Professor named " << professor->getName() << " with University ID: " << professor->getFormattedID() << "." << endl;
-        if (Choice == 1) { course->addProfessorToAssignedProfessorsDatabase(professor); }
-        else { course->removeProfessorFromAssignedProfessorsDatabase(professor); }
+        if (Choice == 1) { 
+          course->addProfessorToAssignedProfessorsDatabase(professor); 
+          professor->addCourseToAssignedCoursesDatabase(course);
+        }
+        else { 
+          course->removeProfessorFromAssignedProfessorsDatabase(professor); 
+          professor->removeCourseFromAssignedCoursesDatabase(course);
+        }
         flag = true;
         break;
       }
@@ -202,8 +208,14 @@ bool Interface::StudentRegistration(Course *course) {
         }
 
         cout << "| Found Student named " << student->getName() << " with University ID: " << student->getFormattedID() << "." << endl;
-        if (Choice == 1) { course->addStudentToRegisteredStudentsDatabase(student); }
-        else { course->removeStudentFromRegisteredStudentsDatabase(student); }
+        if (Choice == 1) { 
+          course->addStudentToRegisteredStudentsDatabase(student); 
+          student->addCourseToRegisteredCoursesDatabase(course);  
+        }
+        else { 
+          course->removeStudentFromRegisteredStudentsDatabase(student); 
+          student->removeCourseFromRegisteredCoursesDatabase(course);
+        }
         flag = true;
         break;
       }

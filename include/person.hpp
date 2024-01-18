@@ -16,8 +16,6 @@
 
 using namespace std;
 
-class Course;
-
 class Person {
 
   private:

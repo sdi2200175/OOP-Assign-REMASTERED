@@ -16,6 +16,8 @@
 
 using namespace std;
 
+class Course;
+
 class Professor : public Person {
     
     private:
@@ -33,6 +35,10 @@ class Professor : public Person {
 
         /* - Pure Virtual Function - */
         inline virtual const string &getFormattedID() const { return FormattedUniID; }
+
+        /* - Course Assignment - */
+        void addCourseToAssignedCoursesDatabase(Course *course);
+        void removeCourseFromAssignedCoursesDatabase(Course *course);
 
         /* - Operator Overloads - */
         friend ostream &operator<< (ostream &str, Professor &professor);

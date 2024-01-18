@@ -10,6 +10,9 @@
  */
 
 #include "student.hpp"
+#include "course.hpp"
+
+/* - Constructors and Destructors - */
 
 Student::Student(unsigned short DepartmentCode) : 
 	Person(),
@@ -27,6 +30,44 @@ Student::Student(string Name, unsigned int ECTs, string DateOfBirth, string Date
 }
 
 Student::~Student() {}
+
+/* Course Registration */
+
+void Student::addCourseToRegisteredCoursesDatabase(Course *course) {
+	this->RegisteredCoursesIDDatabase.insert(make_pair(course->getCourseID(), course));
+	this->RegisteredCoursesNameDatabase.insert(make_pair(course->getName(), course));
+}
+
+void Student::removeCourseFromRegisteredCoursesDatabase(Course *course) {
+	this->RegisteredCoursesIDDatabase.erase(course->getCourseID());
+	this->RegisteredCoursesNameDatabase.erase(course->getName());
+}
+
+/* - Mandatory Course Completion - */
+
+void Student::addCourseToMandatoryDatabase(Course *course) {
+	this->CompletedMandatoryCoursesIDDatabase.insert(make_pair(course->getCourseID(), course));
+  	this->CompletedMandatoryCoursesNameDatabase.insert(make_pair(course->getName(), course));
+}
+
+void Student::removeCourseFromMandatoryDatabase(Course *course) {
+	this->CompletedMandatoryCoursesIDDatabase.erase(course->getCourseID());
+	this->CompletedMandatoryCoursesNameDatabase.erase(course->getName());
+}
+
+/* - Non Mandatory Course Completion - */
+
+void Student::addCourseToNonMandatoryDatabase(Course *course) {
+	this->CompletedNonMandatoryCoursesIDDatabase.insert(make_pair(course->getCourseID(), course));
+  	this->CompletedNonMandatoryCoursesNameDatabase.insert(make_pair(course->getName(), course));
+}
+
+void Student::removeCourseFromNonMandatoryDatabase(Course *course) {
+	this->CompletedNonMandatoryCoursesIDDatabase.erase(course->getCourseID());
+	this->CompletedNonMandatoryCoursesNameDatabase.erase(course->getName());
+}
+
+/* - Operator Overloads - */
 
 ostream &operator<< (ostream &str, Student &student) {
 	str << "|" << endl << "+-------- Student Description ---------+" << endl;

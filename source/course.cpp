@@ -10,8 +10,12 @@
  */
 
 #include "course.hpp"
+#include "professor.hpp"
+#include "student.hpp"
 
 unsigned int Course::CourseAmount = 0;
+
+/* - Constructors and Destructors - */
 
 Course::Course(unsigned short DepartmentCode) : CourseID(++CourseAmount),
 	FormattedCourseID("C-" + string(4 - (to_string(DepartmentCode)).length(), '0') + to_string(DepartmentCode) + "-" + string(6 - (to_string(getCourseID())).length(), '0') + to_string(getCourseID())) {
@@ -52,6 +56,8 @@ void Course::removeStudentFromRegisteredStudentsDatabase(Student *student) {
   this->RegisteredStudentsIDDatabase.erase(student->getUniID());
   this->RegisteredStudentsNameDatabase.erase(student->getName());
 }
+
+/* - Operator Overloads - */
 
 ostream &operator<< (ostream &str, Course &course) {
 	str << "|" << endl << "+---------- Course Properties ---------+" << endl;

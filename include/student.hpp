@@ -16,6 +16,8 @@
 
 using namespace std;
 
+class Course;
+
 class Student : public Person {
     
     private:
@@ -24,8 +26,14 @@ class Student : public Person {
     
         const string FormattedUniID;
 
-        map<unsigned int, Course*> CompletedCoursesIDDatabase;
-        map<string, Course*> CompletedCoursesNameDatabase;
+        map<unsigned int, Course*> RegisteredCoursesIDDatabase;
+        map<string, Course*> RegisteredCoursesNameDatabase;
+
+        map<unsigned int, Course*> CompletedMandatoryCoursesIDDatabase;
+        map<string, Course*> CompletedMandatoryCoursesNameDatabase;
+
+        map<unsigned int, Course*> CompletedNonMandatoryCoursesIDDatabase;
+        map<string, Course*> CompletedNonMandatoryCoursesNameDatabase;
 
     public:
 
@@ -46,6 +54,18 @@ class Student : public Person {
 
         /* - Pure Virtual Function - */
         inline virtual const string &getFormattedID() const { return FormattedUniID; }
+
+        /* Course Registration */
+        void addCourseToRegisteredCoursesDatabase(Course *course);
+        void removeCourseFromRegisteredCoursesDatabase(Course *course);
+
+        /* - Mandatory Course Completion - */
+        void addCourseToMandatoryDatabase(Course *course);
+        void removeCourseFromMandatoryDatabase(Course *course);
+
+        /* - Non Mandatory Course Completion - */
+        void addCourseToNonMandatoryDatabase(Course *course);
+        void removeCourseFromNonMandatoryDatabase(Course *course);
 
         /* - Operator Overloads - */
         friend ostream &operator<< (ostream &str, Student &student);

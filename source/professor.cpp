@@ -10,6 +10,9 @@
  */
 
 #include "professor.hpp"
+#include "course.hpp"
+
+/* - Constructors and Destructors - */
 
 Professor::Professor(unsigned short DepartmentCode) : 
 	Person(),
@@ -27,6 +30,20 @@ Professor::Professor(string Name, unsigned short DepartmentCode) :
 }
 
 Professor::~Professor() {}
+
+/* - Course Assignment - */
+
+void Professor::addCourseToAssignedCoursesDatabase(Course *course) {
+	this->AssignedCoursesIDDatabase.insert(make_pair(course->getCourseID(), course));
+  	this->AssignedCoursesNameDatabase.insert(make_pair(course->getName(), course));
+}
+
+void Professor::removeCourseFromAssignedCoursesDatabase(Course *course) {
+	this->AssignedCoursesIDDatabase.erase(course->getCourseID());
+	this->AssignedCoursesNameDatabase.erase(course->getName());
+}
+
+/* - Operator Overloads - */
 
 ostream &operator<< (ostream &str, Professor &professor) {
 	str << "|" << endl << "+-------- Professor Properties --------+" << endl;
