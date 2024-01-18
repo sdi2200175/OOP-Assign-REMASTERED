@@ -80,9 +80,10 @@ void Interface::StudentManagement() {
         }
 
         cout << "| Found Student named " << student->getName() << " with University ID: " << student->getFormattedID() << "." << endl;
-        this->StudentModification(student);
+        bool modified = this->StudentModification(student);
         SHOULD_EXIT();
-        cout << "+---- Modified Student in Secretary ---+" << endl;
+        if (modified)
+          cout << "+---- Modified Student in Secretary ---+" << endl;
         break;
       }
 
@@ -114,7 +115,7 @@ void Interface::StudentManagement() {
         cout << "| Found Student named " << student->getName() << " with University ID: " << student->getFormattedID() << "." << endl;
         this->secretary->deleteStudent(student);
         cout << "+--- Deleted Student from Secretary ---+" << endl;
-        return;
+        break;
       }
 
       default:
@@ -128,7 +129,9 @@ void Interface::StudentManagement() {
  * 
  * @param student Takes a Student Pointer as a parameter and performs all modifications on that Object.
  */
-void Interface::StudentModification(Student *student) {
+bool Interface::StudentModification(Student *student) {
+
+  bool modified = false;
 
   while (true) {
     cout << "|" << endl << "+- Modifying Student with ID " << student->getFormattedID() << " -+" << endl;
@@ -156,7 +159,7 @@ void Interface::StudentModification(Student *student) {
     }
 
     // checks whether the user has input "!q" and if they have it returns the function.
-    SHOULD_EXIT();
+    SHOULD_EXIT_2();
 
     string Buffer;
     switch (Choice) {
@@ -178,6 +181,7 @@ void Interface::StudentModification(Student *student) {
       this->secretary->removeStudentFromDatabase(student);
       student->setName(Buffer);
       this->secretary->addStudentToDatabase(student);
+      modified = true;
       break;
     }
 
@@ -203,6 +207,7 @@ void Interface::StudentModification(Student *student) {
       }
 
       student->setECTs(NewECTs);
+      modified = true;
       break;
     }
 
@@ -222,6 +227,7 @@ void Interface::StudentModification(Student *student) {
       }
 
       student->setDateOfBirth(Buffer);
+      modified = true;
       break;
     }
 
@@ -241,11 +247,12 @@ void Interface::StudentModification(Student *student) {
       }
 
       student->setDateOfRegistration(Buffer);
+      modified = true;
       break;
     }
 
     default:
-      return;
+      return modified;
     }
   }
 }

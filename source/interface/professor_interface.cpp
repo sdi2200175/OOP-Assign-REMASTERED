@@ -59,7 +59,7 @@ void Interface::ProfessorManagement() {
         Professor *professor = nullptr;
 
         while (true) {
-          cout << "> Enter the Full Name or the University ID of the Student you want to modify: ";
+          cout << "> Enter the Full Name or the University ID of the Professor you want to modify: ";
           try {
             Professor* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveProfessor;
             Professor* (Secretary::*retrieveByName)(const string &) = &Secretary::retrieveProfessor;
@@ -80,9 +80,10 @@ void Interface::ProfessorManagement() {
         }
 
         cout << "| Found Professor named " << professor->getName() << " with University ID: " << professor->getFormattedID() << "." << endl;
-        this->ProfessorModification(professor);
+        bool modified = this->ProfessorModification(professor);
         SHOULD_EXIT();
-        cout << "+--- Modified Professor in Secretary --+" << endl;
+        if (modified)
+          cout << "+--- Modified Professor in Secretary --+" << endl;
         break;
       }
 
@@ -91,7 +92,7 @@ void Interface::ProfessorManagement() {
         Professor *professor = nullptr;
 
         while (true) {
-          cout << "> Enter the Full Name or the University ID of the Student you want to delete: ";
+          cout << "> Enter the Full Name or the University ID of the Professor you want to delete: ";
           try {
             Professor* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveProfessor;
             Professor* (Secretary::*retrieveByName)(const string &) = &Secretary::retrieveProfessor;
@@ -114,7 +115,7 @@ void Interface::ProfessorManagement() {
         cout << "| Found Professor named " << professor->getName() << " with University ID: " << professor->getFormattedID() << "." << endl;
         this->secretary->deleteProfessor(professor);
         cout << "+-- Deleted Professor from Secretary --+" << endl;
-        return;
+        break;
       }
 
       default:
@@ -128,7 +129,9 @@ void Interface::ProfessorManagement() {
  * 
  * @param professor Takes a Professor Pointer as a parameter and performs all modifications on that Object.
  */
-void Interface::ProfessorModification(Professor *professor) {
+bool Interface::ProfessorModification(Professor *professor) {
+
+  bool modified = false;
 
   while (true) {
     cout << "|" << endl << "+- Modifying Professor with ID " << professor->getFormattedID() << " -+" << endl;
@@ -153,7 +156,7 @@ void Interface::ProfessorModification(Professor *professor) {
     }
 
     // checks whether the user has input "!q" and if they have it returns the function.
-    SHOULD_EXIT();
+    SHOULD_EXIT_2();
 
     string Buffer;
     switch (Choice) {
@@ -175,11 +178,12 @@ void Interface::ProfessorModification(Professor *professor) {
       this->secretary->removeProfessorFromDatabase(professor);
       professor->setName(Buffer);
       this->secretary->addProfessorToDatabase(professor);
+      modified = true;
       break;
     }
 
     default:
-      return;
+      return modified;
     }
   }
 }

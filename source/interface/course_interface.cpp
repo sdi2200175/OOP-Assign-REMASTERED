@@ -80,9 +80,10 @@ void Interface::CourseManagement() {
         }
 
         cout << "| Found Course named " << course->getName() << " with Course ID: " << course->getFormattedCourseID() << "." << endl;
-        this->CourseModification(course);
+        bool modified = this->CourseModification(course);
         SHOULD_EXIT();
-        cout << "+---- Modified Course in Secretary ----+" << endl;
+        if (modified)
+          cout << "+---- Modified Course in Secretary ----+" << endl;
         break;
       }
 
@@ -114,7 +115,7 @@ void Interface::CourseManagement() {
         cout << "| Found Course named " << course->getName() << " with Course ID: " << course->getFormattedCourseID() << "." << endl;
         this->secretary->deleteCourse(course);
         cout << "+---- Deleted Course from Secretary ---+" << endl;
-        return;
+        break;
       }
 
       default:
@@ -128,7 +129,9 @@ void Interface::CourseManagement() {
  * 
  * @param course Takes a Course Pointer as a parameter and performs all modifications on that Object.
  */
-void Interface::CourseModification(Course *course) {
+bool Interface::CourseModification(Course *course) {
+
+  bool modified = false;
 
   while (true) {
     cout << "|" << endl << "+- Modifying Course with ID " << course->getFormattedCourseID() << " -+" << endl;
@@ -155,7 +158,7 @@ void Interface::CourseModification(Course *course) {
     }
 
     // checks whether the user has input "!q" and if they have it returns the function.
-    SHOULD_EXIT();
+    SHOULD_EXIT_2();
 
     string Buffer;
     switch (Choice) {
@@ -177,13 +180,15 @@ void Interface::CourseModification(Course *course) {
       this->secretary->removeCourseFromDatabase(course);
       course->setName(Buffer);
       this->secretary->addCourseToDatabase(course);
+      modified = true;
       break;
     }
 
     case 2: {
       course->setMandatory(!(course->getMandatory()));
       if (course->getMandatory()) { cout << "| The Course is now Mandatory" << endl; }
-	  else { cout << "| The Course is now non Mandatory" << endl; }
+	    else { cout << "| The Course is now non Mandatory" << endl; }
+      modified = true;
       break;
     }
 
@@ -209,11 +214,12 @@ void Interface::CourseModification(Course *course) {
       }
 
       course->setECTs(NewECTs);
+      modified = true;
       break;
     }
 
     default:
-      return;
+      return modified;
     }
   }
 }
