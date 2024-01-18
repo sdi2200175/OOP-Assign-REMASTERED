@@ -81,9 +81,9 @@ void Interface::StudentManagement() {
         }
 
         cout << "| Found Student named " << student->getName() << " with University ID: " << student->getFormattedID() << "." << endl;
-        bool modified = this->StudentModification(student);
+        bool flag = this->StudentModification(student);
         SHOULD_EXIT();
-        if (modified)
+        if (flag)
           cout << "+---- Modified Student in Secretary ---+" << endl;
         break;
       }
@@ -133,7 +133,7 @@ void Interface::StudentManagement() {
  */
 bool Interface::StudentModification(Student *student) {
 
-  bool modified = false;
+  bool flag = false;
 
   while (true) {
     cout << "|" << endl << "+- Modifying Student with ID " << student->getFormattedID() << " -+" << endl;
@@ -183,7 +183,7 @@ bool Interface::StudentModification(Student *student) {
       this->secretary->removeStudentFromDatabase(student);
       student->setName(Buffer);
       this->secretary->addStudentToDatabase(student);
-      modified = true;
+      flag = true;
       break;
     }
 
@@ -209,7 +209,7 @@ bool Interface::StudentModification(Student *student) {
       }
 
       student->setECTs(NewECTs);
-      modified = true;
+      flag = true;
       break;
     }
 
@@ -229,7 +229,7 @@ bool Interface::StudentModification(Student *student) {
       }
 
       student->setDateOfBirth(Buffer);
-      modified = true;
+      flag = true;
       break;
     }
 
@@ -249,12 +249,12 @@ bool Interface::StudentModification(Student *student) {
       }
 
       student->setDateOfRegistration(Buffer);
-      modified = true;
+      flag = true;
       break;
     }
 
     default:
-      return modified;
+      return flag;
     }
   }
 }

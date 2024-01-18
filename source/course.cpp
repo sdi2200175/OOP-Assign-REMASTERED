@@ -29,6 +29,18 @@ Course::Course(string Name, bool Mandatory, unsigned short ECTs, unsigned short 
 
 Course::~Course() {}
 
+/* - Professor Assignment - */
+
+void Course::addProfessorToAssignedProfessorsDatabase(Professor *professor) {
+  this->AssignedProfessorsIDDatabase.insert(make_pair(professor->getUniID(), professor));
+  this->AssignedProfessorsNameDatabase.insert(make_pair(professor->getName(), professor));
+}
+
+void Course::removeProfessorFromAssignedProfessorsDatabase(Professor *professor) {
+  this->AssignedProfessorsIDDatabase.erase(professor->getUniID());
+  this->AssignedProfessorsNameDatabase.erase(professor->getName());
+}
+
 ostream &operator<< (ostream &str, Course &course) {
 	str << "|" << endl << "+---------- Course Properties ---------+" << endl;
 	str << "| Name: " << course.Name << endl;

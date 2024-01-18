@@ -81,9 +81,9 @@ void Interface::CourseManagement() {
         }
 
         cout << "| Found Course named " << course->getName() << " with Course ID: " << course->getFormattedCourseID() << "." << endl;
-        bool modified = this->CourseModification(course);
+        bool flag = this->CourseModification(course);
         SHOULD_EXIT();
-        if (modified)
+        if (flag)
           cout << "+---- Modified Course in Secretary ----+" << endl;
         break;
       }
@@ -133,7 +133,7 @@ void Interface::CourseManagement() {
  */
 bool Interface::CourseModification(Course *course) {
 
-  bool modified = false;
+  bool flag = false;
 
   while (true) {
     cout << "|" << endl << "+- Modifying Course with ID " << course->getFormattedCourseID() << " -+" << endl;
@@ -182,7 +182,7 @@ bool Interface::CourseModification(Course *course) {
       this->secretary->removeCourseFromDatabase(course);
       course->setName(Buffer);
       this->secretary->addCourseToDatabase(course);
-      modified = true;
+      flag = true;
       break;
     }
 
@@ -190,7 +190,7 @@ bool Interface::CourseModification(Course *course) {
       course->setMandatory(!(course->getMandatory()));
       if (course->getMandatory()) { cout << "| The Course is now Mandatory" << endl; }
 	    else { cout << "| The Course is now non Mandatory" << endl; }
-      modified = true;
+      flag = true;
       break;
     }
 
@@ -216,12 +216,12 @@ bool Interface::CourseModification(Course *course) {
       }
 
       course->setECTs(NewECTs);
-      modified = true;
+      flag = true;
       break;
     }
 
     default:
-      return modified;
+      return flag;
     }
   }
 }
@@ -232,17 +232,59 @@ bool Interface::CourseModification(Course *course) {
  */
 void Interface::ProfessorAssignment() {
 
-  while(true) {
+  string Buffer;
+  Course *course = nullptr;
 
-    cout << "|" << endl << "+------ Professor Assignment Menu -----+" << endl;
+  while (true) {
+    cout << "> Enter the Full Name or the Course ID of the Course whose assigned Professor(s) you want to modify: ";
+    try {
+      Course* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveCourse;
+      Course* (Secretary::*retrieveByName)(const string &) = &Secretary::retrieveCourse;
+      course = ValidateSearchCriteria<Course>(retrieveByID, retrieveByName);
+          
+    // handle the case where the id inserted is outside the allowed range of number lengths.
+    } catch (out_of_range &e) {
+      cerr << e.what() << endl;
+    continue;
+          
+    // handle the case where the id and/or name is invalid or uses invalid characters.
+    } catch (invalid_argument &e) {
+      cerr << e.what() << endl;
+    continue;
+    }
+
+    break;
+  }
+
+  cout << "| Found Course named " << course->getName() << " with Course ID: " << course->getFormattedCourseID() << "." << endl;
+  bool flag = this->ProfessorAssigner(course);
+  SHOULD_EXIT();
+  if (flag)
+    cout << "+--- Modified assigned Professor(s) ---+" << endl;
+  return;
+  
+}
+
+/**
+ * @brief Assigns Professor Objects to a Course Object in Secretary. Is Called by ProfessorAssignment().
+ * 
+ * @param course Takes a Course Pointer as a parameter and performs all modifications on that Object.
+ */
+bool Interface::ProfessorAssigner(Course *course) {
+
+  bool flag = false;
+
+  while (true) {
+    cout << "|" << endl << "+- Modifying assigned Professor(s) of Course with ID " << course->getFormattedCourseID() << " -+" << endl;
     cout << "| Choose one of the following options: " << endl;
-    cout << "1. Assign Professor(s) to a Course" << endl;
-    cout << "2. Go Back" << endl;
+    cout << "1. Assign Professor(s) to this Course" << endl;
+    cout << "2. Remove assigned Professor(s) from this Course" << endl;
+    cout << "3. Go Back" << endl;
     cout << "> Enter the Number corresponding to the desired Action: ";
 
     unsigned short Choice;
     try {
-      Choice = this->ValidateMenuInput(2);
+      Choice = this->ValidateMenuInput(3);
 
     // stoi() exception handling
     } catch (invalid_argument &e) {
@@ -256,54 +298,75 @@ void Interface::ProfessorAssignment() {
     }
 
     // checks whether the user has input "!q" and if they have it returns the function.
-    SHOULD_EXIT();
-    switch(Choice) {
+    SHOULD_EXIT_2();
 
-      // Assign Professor(s) to a Course
-      case 1: {
-        string Buffer;
-        Course *course = nullptr;
+    switch (Choice) {
+    case 1: {
 
-        while (true) {
-          cout << "> Enter the Full Name or the Course ID of the Course you want to assign Professor(s) to: ";
-          try {
-            Course* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveCourse;
-            Course* (Secretary::*retrieveByName)(const string &) = &Secretary::retrieveCourse;
-            course = ValidateSearchCriteria<Course>(retrieveByID, retrieveByName);
+      string Buffer;
+      Professor *professor = nullptr;
+
+      while (true) {
+        cout << "> Enter the Full Name or the University ID of the Professor you want to assign to this Course: ";
+        try {
+          Professor* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveProfessor;
+          Professor* (Secretary::*retrieveByName)(const string &) = &Secretary::retrieveProfessor;
+          professor = ValidateSearchCriteria<Professor>(retrieveByID, retrieveByName);
           
-          // handle the case where the id inserted is outside the allowed range of number lengths.
-          } catch (out_of_range &e) {
-            cerr << e.what() << endl;
-            continue;
+        // handle the case where the id inserted is outside the allowed range of number lengths.
+        } catch (out_of_range &e) {
+          cerr << e.what() << endl;
+          continue;
           
-          // handle the case where the id and/or name is invalid or uses invalid characters.
-          } catch (invalid_argument &e) {
-            cerr << e.what() << endl;
-            continue;
-          }
-
-          break;
+        // handle the case where the id and/or name is invalid or uses invalid characters.
+        } catch (invalid_argument &e) {
+          cerr << e.what() << endl;
+          continue;
         }
 
-        cout << "| Found Course named " << course->getName() << " with Course ID: " << course->getFormattedCourseID() << "." << endl;
-        bool assigned = this->ProfessorAssigner(course);
-        SHOULD_EXIT();
-        if (assigned)
-          cout << "+-- Assigned Professor(s) to a Course -+" << endl;
         break;
       }
 
-      default:
-        return;
+      cout << "| Found Professor named " << professor->getName() << " with University ID: " << professor->getFormattedID() << "." << endl;
+      course->addProfessorToAssignedProfessorsDatabase(professor);
+      flag = true;
+      break;
+    }
+
+    case 2: {
+
+      string Buffer;
+      Professor *professor = nullptr;
+
+      while (true) {
+        cout << "> Enter the Full Name or the University ID of the Professor you want to remove from this Course: ";
+        try {
+          Professor* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveProfessor;
+          Professor* (Secretary::*retrieveByName)(const string &) = &Secretary::retrieveProfessor;
+          professor = ValidateSearchCriteria<Professor>(retrieveByID, retrieveByName);
+          
+        // handle the case where the id inserted is outside the allowed range of number lengths.
+        } catch (out_of_range &e) {
+          cerr << e.what() << endl;
+          continue;
+          
+        // handle the case where the id and/or name is invalid or uses invalid characters.
+        } catch (invalid_argument &e) {
+          cerr << e.what() << endl;
+          continue;
+        }
+
+        break;
+      }
+
+      cout << "| Found Professor named " << professor->getName() << " with University ID: " << professor->getFormattedID() << "." << endl;
+      course->removeProfessorFromAssignedProfessorsDatabase(professor);
+      flag = true;
+      break;
+    }
+
+    default:
+      return flag;
     }
   }
-}
-
-/**
- * @brief Assigns Professor Objects to a Course Object in Secretary. Is Called by ProfessorAssignment().
- * 
- * @param course Takes a Course Pointer as a parameter and performs all modifications on that Object.
- */
-bool Interface::ProfessorAssigner(Course *course) {
-
 }

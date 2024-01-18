@@ -14,7 +14,7 @@
 #include <iostream>
 #include <map>
 #include "professor.hpp"
-#include "student.hpp";
+#include "student.hpp"
 
 using namespace std;
 
@@ -53,6 +53,10 @@ class Course {
         inline void setName(string Name) { this->Name = Name; }
         inline void setMandatory(bool Mandatory) { this->Mandatory = Mandatory; }
         inline void setECTs(unsigned short ECTs) { this->ECTs = ECTs; }
+
+        /* - Professor Assignment - */
+        void addProfessorToAssignedProfessorsDatabase(Professor *professor);
+        void removeProfessorFromAssignedProfessorsDatabase(Professor *professor);
 
         /* - Operator Overloads - */
         friend ostream &operator<< (ostream &str, Course &course);

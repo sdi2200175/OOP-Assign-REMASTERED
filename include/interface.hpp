@@ -26,7 +26,7 @@ using namespace std;
  * @brief Special MACRO that checks whether the Interface has detected the exit command "!q" and returns the current function if it has.
  * 
  */
-#define SHOULD_EXIT_2() if(ShouldExit) return modified;
+#define SHOULD_EXIT_2() if(ShouldExit) return flag;
 
 class Interface {
 

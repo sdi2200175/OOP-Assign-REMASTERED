@@ -81,9 +81,9 @@ void Interface::ProfessorManagement() {
         }
 
         cout << "| Found Professor named " << professor->getName() << " with University ID: " << professor->getFormattedID() << "." << endl;
-        bool modified = this->ProfessorModification(professor);
+        bool flag = this->ProfessorModification(professor);
         SHOULD_EXIT();
-        if (modified)
+        if (flag)
           cout << "+--- Modified Professor in Secretary --+" << endl;
         break;
       }
@@ -133,7 +133,7 @@ void Interface::ProfessorManagement() {
  */
 bool Interface::ProfessorModification(Professor *professor) {
 
-  bool modified = false;
+  bool flag = false;
 
   while (true) {
     cout << "|" << endl << "+- Modifying Professor with ID " << professor->getFormattedID() << " -+" << endl;
@@ -180,12 +180,12 @@ bool Interface::ProfessorModification(Professor *professor) {
       this->secretary->removeProfessorFromDatabase(professor);
       professor->setName(Buffer);
       this->secretary->addProfessorToDatabase(professor);
-      modified = true;
+      flag = true;
       break;
     }
 
     default:
-      return modified;
+      return flag;
     }
   }
 }
