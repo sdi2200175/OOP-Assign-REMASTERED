@@ -13,9 +13,10 @@
 
 #include <iostream>
 #include <map>
-// #include "course.hpp"
 
 using namespace std;
+
+class Course;
 
 class Person {
 

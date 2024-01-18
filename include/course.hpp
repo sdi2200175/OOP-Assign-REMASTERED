@@ -13,10 +13,11 @@
 
 #include <iostream>
 #include <map>
-#include "professor.hpp"
-#include "student.hpp"
 
 using namespace std;
+
+class Professor;
+class Student;
 
 class Course {
         

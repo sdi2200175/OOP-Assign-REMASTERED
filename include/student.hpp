@@ -24,8 +24,8 @@ class Student : public Person {
     
         const string FormattedUniID;
 
-        // map<unsigned int, Course*> CompletedCoursesIDDatabase;
-        // map<string, Course*> CompletedCoursesNameDatabase;
+        map<unsigned int, Course*> CompletedCoursesIDDatabase;
+        map<string, Course*> CompletedCoursesNameDatabase;
 
     public:
 
