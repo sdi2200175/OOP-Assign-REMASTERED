@@ -11,12 +11,12 @@
 
 #include "secretary.hpp"
 
-Secretary::Secretary() {
+Secretary::Secretary() : Semester(Autumn) {
   cin >> *this;
 }
 
 Secretary::Secretary(string DepartmentName, unsigned int DepartmentCode, unsigned int ECTRequirement, unsigned short MaximumAttendance) : 
-  DepartmentName(DepartmentName), DepartmentCode(DepartmentCode), ECTRequirement(ECTRequirement), MaximumAttendance(MaximumAttendance) {}
+  DepartmentName(DepartmentName), DepartmentCode(DepartmentCode), ECTRequirement(ECTRequirement), MaximumAttendance(MaximumAttendance), Semester(Autumn) {}
 
 Secretary::~Secretary() {
 

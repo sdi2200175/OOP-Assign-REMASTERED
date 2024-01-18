@@ -24,6 +24,7 @@ class Course {
         string Name;
         bool Mandatory;
         unsigned short ECTs;
+        unsigned short Semester;
         const unsigned int CourseID; 
 
         const string FormattedCourseID;
@@ -38,13 +39,14 @@ class Course {
 
         /* - Constructors and Destructors - */
         Course(unsigned short DepartmentCode);
-        Course(string Name, bool Mandatory, unsigned short ECTs, unsigned short DepartmentCode);
+        Course(string Name, bool Mandatory, unsigned short ECTs, unsigned short Semester, unsigned short DepartmentCode);
         ~Course();
 
         /* - Getters - */
         inline const string &getName() const { return Name; }
         inline const bool &getMandatory() const { return Mandatory; }
         inline const unsigned short &getECTs() const { return ECTs; }
+        inline const unsigned short &getSemester() const { return Semester; }
         inline const unsigned int &getCourseID() const { return CourseID; }
 
         inline const string &getFormattedCourseID() const { return FormattedCourseID; }
@@ -53,6 +55,7 @@ class Course {
         inline void setName(string Name) { this->Name = Name; }
         inline void setMandatory(bool Mandatory) { this->Mandatory = Mandatory; }
         inline void setECTs(unsigned short ECTs) { this->ECTs = ECTs; }
+        inline void setSemester(unsigned short Semester) { this->Semester = Semester; }
 
         /* - Professor Assignment - */
         void addProfessorToAssignedProfessorsDatabase(Professor *professor);

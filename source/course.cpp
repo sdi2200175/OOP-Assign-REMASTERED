@@ -20,8 +20,8 @@ Course::Course(unsigned short DepartmentCode) : CourseID(++CourseAmount),
   cout << "| Course ID: " << this->FormattedCourseID << endl;
 }
 
-Course::Course(string Name, bool Mandatory, unsigned short ECTs, unsigned short DepartmentCode) : 
-  	Name(Name), Mandatory(Mandatory), ECTs(ECTs), CourseID(++CourseAmount),
+Course::Course(string Name, bool Mandatory, unsigned short ECTs, unsigned short Semester, unsigned short DepartmentCode) : 
+  	Name(Name), Mandatory(Mandatory), ECTs(ECTs), Semester(Semester), CourseID(++CourseAmount),
 	FormattedCourseID("C-" + string(4 - (to_string(DepartmentCode)).length(), '0') + to_string(DepartmentCode) + "-" + string(6 - (to_string(getCourseID())).length(), '0') + to_string(getCourseID())) {
 
   cout << "| Course ID: " << this->FormattedCourseID << endl;
@@ -60,6 +60,7 @@ ostream &operator<< (ostream &str, Course &course) {
 	if (course.Mandatory) { str << "| Yes" << endl; }
 	else { str << "| No" << endl; }
     str << "| ECTs: " << course.ECTs << endl;
+	str << "| Semester: " << course.Semester << endl;
 	str << "+-------- End of Course Details -------+" << endl << "|" << endl;
 	return str;
 }
@@ -75,5 +76,8 @@ istream &operator>> (istream &str, Course &course) {
 	cout << "> Enter ECTs: ";
 	getline(str, Buffer);
 	course.ECTs = (unsigned short)stoi(Buffer);
+	cout << "> Enter Semester: ";
+	getline(str, Buffer);
+	course.Semester = (unsigned short)stoi(Buffer);
 	return str;
 }

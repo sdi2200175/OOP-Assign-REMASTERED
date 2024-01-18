@@ -20,11 +20,14 @@
 
 using namespace std;
 
+enum CurrentSemester { Autumn = 1, Spring = 2 };
+
 class Secretary {
 
   private:
     string DepartmentName;
-    unsigned short DepartmentCode, ECTRequirement, MaximumAttendance;
+    unsigned short DepartmentCode, ECTRequirement, MaximumAttendance; 
+    CurrentSemester Semester;
 
     map<unsigned int, Student*> StudentIDDatabase;
     map<string, Student*> StudentNameDatabase;
@@ -44,9 +47,13 @@ class Secretary {
 
     /* - Getters - */
     inline const string &getDepartmentName() { return DepartmentName; }
-    inline unsigned int getDepartmentCode() { return DepartmentCode; }
-    inline unsigned int getECTRequirement() {return ECTRequirement; }  
-    inline unsigned int getMaximumAttendance() { return MaximumAttendance; }
+    inline unsigned short getDepartmentCode() { return DepartmentCode; }
+    inline unsigned short getECTRequirement() {return ECTRequirement; }  
+    inline unsigned short getMaximumAttendance() { return MaximumAttendance; }
+    inline CurrentSemester getSemester() { return Semester; }
+
+    /* Setters */
+    inline void setCurrentSemester(CurrentSemester Semester) { this->Semester = Semester; }
 
     /* - Student Management - */
     void addStudent();
