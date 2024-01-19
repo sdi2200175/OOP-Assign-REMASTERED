@@ -12,6 +12,7 @@
 #pragma once
 
 #include <iostream>
+#include <list>
 #include "person.hpp"
 
 using namespace std;
@@ -22,9 +23,7 @@ class Professor : public Person {
     
     private:
         const string FormattedUniID;
-
-        map<unsigned int, Course*> AssignedCoursesIDDatabase;
-        map<string, Course*> AssignedCoursesNameDatabase;
+        list<Course*> AssignedCourses;
 
     public:
 
@@ -37,8 +36,8 @@ class Professor : public Person {
         inline virtual const string &getFormattedID() const { return FormattedUniID; }
 
         /* - Course Assignment - */
-        void addCourseToAssignedCoursesDatabase(Course *course);
-        void removeCourseFromAssignedCoursesDatabase(Course *course);
+        void assignCourse(Course *course);
+        void unassignCourse(Course *course);
 
         /* - Operator Overloads - */
         friend ostream &operator<< (ostream &str, Professor &professor);

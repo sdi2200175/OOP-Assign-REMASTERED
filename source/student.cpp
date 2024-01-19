@@ -33,12 +33,12 @@ Student::~Student() {}
 
 /* Course Registration */
 
-void Student::addCourseToRegisteredCoursesDatabase(Course *course) {
+void Student::registerCourse(Course *course) {
 	this->RegisteredCoursesIDDatabase.insert(make_pair(course->getCourseID(), course));
 	this->RegisteredCoursesNameDatabase.insert(make_pair(course->getName(), course));
 }
 
-void Student::removeCourseFromRegisteredCoursesDatabase(Course *course) {
+void Student::deregisterCourse(Course *course) {
 	this->RegisteredCoursesIDDatabase.erase(course->getCourseID());
 	this->RegisteredCoursesNameDatabase.erase(course->getName());
 }

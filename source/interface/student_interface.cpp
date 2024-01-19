@@ -17,7 +17,7 @@
  */
 void Interface::StudentManagement() {
 
-  while(true) {
+while(true) {
 
     cout << "|" << endl << "+------ Student Management Menu -------+" << endl;
     cout << "| Choose one of the following options: " << endl;
@@ -48,9 +48,8 @@ void Interface::StudentManagement() {
 
       // Add a Student to the Secretary
       case 1: {
-        cout << "|" << endl << "+-------- Constructing Student --------+" << endl;
         this->secretary->addStudent();
-        cout << "+----- Added Student to Secretary -----+" << endl;
+        cout << "| Added Student to Secretary." << endl;
         break;
       }
 
@@ -59,7 +58,6 @@ void Interface::StudentManagement() {
         string Buffer;
         Student *student = nullptr;
 
-        while (true) {
           cout << "> Enter the Full Name or the University ID of the Student you want to modify: ";
           try {
             Student* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveStudent;
@@ -69,22 +67,17 @@ void Interface::StudentManagement() {
           // handle the case where the id inserted is outside the allowed range of number lengths.
           } catch (out_of_range &e) {
             cerr << e.what() << endl;
-            continue;
+            break;
           
           // handle the case where the id and/or name is invalid or uses invalid characters.
           } catch (invalid_argument &e) {
             cerr << e.what() << endl;
-            continue;
-          }
-
           break;
         }
 
         cout << "| Found Student named " << student->getName() << " with University ID: " << student->getFormattedID() << "." << endl;
-        bool flag = this->StudentModification(student);
+        this->StudentModification(student);
         SHOULD_EXIT();
-        if (flag)
-          cout << "+---- Modified Student in Secretary ---+" << endl;
         break;
       }
 
@@ -93,7 +86,6 @@ void Interface::StudentManagement() {
         string Buffer;
         Student *student = nullptr;
 
-        while (true) {
           cout << "> Enter the Full Name or the University ID of the Student you want to delete: ";
           try {
             Student* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveStudent;
@@ -103,20 +95,17 @@ void Interface::StudentManagement() {
           // handle the case where the id inserted is outside the allowed range of number lengths.
           } catch (out_of_range &e) {
             cerr << e.what() << endl;
-            continue;
+            break;
 
           // handle the case where the id and/or name is invalid or uses invalid characters.
           } catch (invalid_argument &e) {
             cerr << e.what() << endl;
-            continue;
-          }
-
           break;
         }
 
         cout << "| Found Student named " << student->getName() << " with University ID: " << student->getFormattedID() << "." << endl;
         this->secretary->deleteStudent(student);
-        cout << "+--- Deleted Student from Secretary ---+" << endl;
+        cout << "| Deleted Student from Secretary." << endl;
         break;
       }
 
@@ -127,13 +116,11 @@ void Interface::StudentManagement() {
 }
 
 /**
- * @brief Handles the Display and Modification of a Student Object. Is Called by StudentManagement().
+ * @brief Handles the Display and Modification of a Student Object. Is called by StudentManagement().
  * 
  * @param student Takes a Student Pointer as a parameter and performs all modifications on that Object.
  */
-bool Interface::StudentModification(Student *student) {
-
-  bool flag = false;
+void Interface::StudentModification(Student *student) {
 
   while (true) {
     cout << "|" << endl << "+- Modifying Student with ID " << student->getFormattedID() << " -+" << endl;
@@ -161,7 +148,7 @@ bool Interface::StudentModification(Student *student) {
     }
 
     // checks whether the user has input "!q" and if they have it returns the function.
-    SHOULD_EXIT_2();
+    SHOULD_EXIT();
 
     string Buffer;
     switch (Choice) {
@@ -183,7 +170,7 @@ bool Interface::StudentModification(Student *student) {
       this->secretary->removeStudentFromDatabase(student);
       student->setName(Buffer);
       this->secretary->addStudentToDatabase(student);
-      flag = true;
+      cout << "| Modified Student's Name." << endl;
       break;
     }
 
@@ -209,7 +196,7 @@ bool Interface::StudentModification(Student *student) {
       }
 
       student->setECTs(NewECTs);
-      flag = true;
+      cout << "| Modified Student's ECTs." << endl;
       break;
     }
 
@@ -229,7 +216,7 @@ bool Interface::StudentModification(Student *student) {
       }
 
       student->setDateOfBirth(Buffer);
-      flag = true;
+      cout << "| Modified Student's Date of Birth." << endl;
       break;
     }
 
@@ -249,12 +236,12 @@ bool Interface::StudentModification(Student *student) {
       }
 
       student->setDateOfRegistration(Buffer);
-      flag = true;
+      cout << "| Modified Student's Date of Registration." << endl;
       break;
     }
 
     default:
-      return flag;
+      return;
     }
   }
 }

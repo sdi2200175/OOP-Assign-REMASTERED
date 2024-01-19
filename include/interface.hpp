@@ -22,12 +22,6 @@ using namespace std;
  */
 #define SHOULD_EXIT() if(ShouldExit) return;
 
-/**
- * @brief Special MACRO that checks whether the Interface has detected the exit command "!q" and returns the current function if it has.
- * 
- */
-#define SHOULD_EXIT_2() if(ShouldExit) return flag;
-
 class Interface {
 
   private:
@@ -45,7 +39,7 @@ class Interface {
      * 
      * @param student Takes a Student Pointer as a parameter and performs all modifications on that Object.
      */
-    bool StudentModification(Student *student);
+    void StudentModification(Student *student);
 
     /**
      * @brief Manages the Add, Modify and Delete Operations for the Professor Objects in Secretary and handles the Display of them.
@@ -58,7 +52,7 @@ class Interface {
      * 
      * @param professor Takes a Professor Pointer as a parameter and performs all modifications on that Object.
      */
-    bool ProfessorModification(Professor *professor);
+    void ProfessorModification(Professor *professor);
 
     /**
      * @brief Manages the Add, Modify and Delete Operations for the Course Objects in Secretary and handles the Display of them.
@@ -71,27 +65,7 @@ class Interface {
      * 
      * @param course Takes a Course Pointer as a parameter and performs all modifications on that Object.
      */
-    bool CourseModification(Course *course);
-
-    /**
-     * @brief Searches for a Course Object.
-     * 
-     */
-    void CourseSearch(unsigned short Choice);
-
-    /**
-     * @brief Assigns Professor Objects to a Course Object in Secretary. Is called by CourseSearch().
-     * 
-     * @param course Takes a Course Pointer as a parameter and performs all modifications on that Object.
-     */
-    bool ProfessorAssignment(Course *course);
-
-    /**
-     * @brief Assigns Student Objects to a Course Object in Secretary. Is called by CourseSearch().
-     * 
-     * @param course Takes a Course Pointer as a parameter and performs all modifications on that Object.
-     */
-    bool StudentRegistration(Course *course);
+    void CourseModification(Course *course);
 
     /**
      * @brief Changes the Semester from 'Fall' to 'Spring' or the opposite.
@@ -192,3 +166,4 @@ T *Interface::ValidateSearchCriteria(T *(Secretary::*IDSearchFunc)(unsigned int)
     return (this->secretary->*NameSearchFunc)(Buffer);
   }
 }
+

@@ -33,14 +33,16 @@ Professor::~Professor() {}
 
 /* - Course Assignment - */
 
-void Professor::addCourseToAssignedCoursesDatabase(Course *course) {
-	this->AssignedCoursesIDDatabase.insert(make_pair(course->getCourseID(), course));
-  	this->AssignedCoursesNameDatabase.insert(make_pair(course->getName(), course));
+void Professor::assignCourse(Course *course) {
+	// this->AssignedCoursesIDDatabase.insert(make_pair(course->getCourseID(), course));
+  	// this->AssignedCoursesNameDatabase.insert(make_pair(course->getName(), course));
+	this->AssignedCourses.insert(this->AssignedCourses.end(), course);
 }
 
-void Professor::removeCourseFromAssignedCoursesDatabase(Course *course) {
-	this->AssignedCoursesIDDatabase.erase(course->getCourseID());
-	this->AssignedCoursesNameDatabase.erase(course->getName());
+void Professor::unassignCourse(Course *course) {
+	// this->AssignedCoursesIDDatabase.erase(course->getCourseID());
+	// this->AssignedCoursesNameDatabase.erase(course->getName());
+	this->AssignedCourses.remove(course);
 }
 
 /* - Operator Overloads - */

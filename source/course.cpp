@@ -35,26 +35,16 @@ Course::~Course() {}
 
 /* - Professor Assignment - */
 
-void Course::addProfessorToAssignedProfessorsDatabase(Professor *professor) {
+void Course::assignProfessor(Professor *professor) {
   this->AssignedProfessorsIDDatabase.insert(make_pair(professor->getUniID(), professor));
   this->AssignedProfessorsNameDatabase.insert(make_pair(professor->getName(), professor));
 }
 
-void Course::removeProfessorFromAssignedProfessorsDatabase(Professor *professor) {
-  this->AssignedProfessorsIDDatabase.erase(professor->getUniID());
-  this->AssignedProfessorsNameDatabase.erase(professor->getName());
-}
-
 /* - Student Registration - */
 
-void Course::addStudentToRegisteredStudentsDatabase(Student *student) {
+void Course::registerStudent(Student *student) {
   this->RegisteredStudentsIDDatabase.insert(make_pair(student->getUniID(), student));
   this->RegisteredStudentsNameDatabase.insert(make_pair(student->getName(), student));
-}
-
-void Course::removeStudentFromRegisteredStudentsDatabase(Student *student) {
-  this->RegisteredStudentsIDDatabase.erase(student->getUniID());
-  this->RegisteredStudentsNameDatabase.erase(student->getName());
 }
 
 /* - Operator Overloads - */

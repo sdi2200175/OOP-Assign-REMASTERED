@@ -53,8 +53,8 @@ class Student : public Person {
         inline virtual const string &getFormattedID() const { return FormattedUniID; }
 
         /* Course Registration */
-        void addCourseToRegisteredCoursesDatabase(Course *course);
-        void removeCourseFromRegisteredCoursesDatabase(Course *course);
+        void registerCourse(Course *course);
+        void deregisterCourse(Course *course);
 
         /* - Course Completion - */
         void addCourseToCompletedCoursesDatabase(Course *course);

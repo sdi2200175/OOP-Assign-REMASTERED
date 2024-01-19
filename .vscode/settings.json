@@ -59,6 +59,7 @@
     "unordered_map": "cpp",
     "algorithm": "cpp",
     "random": "cpp",
-    "numbers": "cpp"
+    "numbers": "cpp",
+    "*.tcc": "cpp"
   }
 }

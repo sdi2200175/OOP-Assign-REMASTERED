@@ -59,12 +59,10 @@ class Course {
         inline void setSemester(unsigned short Semester) { this->Semester = Semester; }
 
         /* - Professor Assignment - */
-        void addProfessorToAssignedProfessorsDatabase(Professor *professor);
-        void removeProfessorFromAssignedProfessorsDatabase(Professor *professor);
+        void assignProfessor(Professor *professor);
 
         /* - Student Registration - */
-        void addStudentToRegisteredStudentsDatabase(Student *student);
-        void removeStudentFromRegisteredStudentsDatabase(Student *student);
+        void registerStudent(Student *student);
 
         /* - Operator Overloads - */
         friend ostream &operator<< (ostream &str, Course &course);

@@ -48,9 +48,8 @@ void Interface::CourseManagement() {
 
       // Add a Course to the Secretary
       case 1: {
-        cout << "|" << endl << "+--------- Constructing Course --------+" << endl;
         this->secretary->addCourse();
-        cout << "+------ Added Course to Secretary -----+" << endl;
+        cout << "| Added Course to Secretary." << endl;
         break;
       }
 
@@ -59,32 +58,26 @@ void Interface::CourseManagement() {
         string Buffer;
         Course *course = nullptr;
 
-        while (true) {
-          cout << "> Enter the Full Name or the Course ID of the Course you want to modify: ";
-          try {
-            Course* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveCourse;
-            Course* (Secretary::*retrieveByName)(const string &) = &Secretary::retrieveCourse;
-            course = ValidateSearchCriteria<Course>(retrieveByID, retrieveByName);
+        cout << "> Enter the Full Name or the Course ID of the Course you want to modify: ";
+        try {
+          Course* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveCourse;
+          Course* (Secretary::*retrieveByName)(const string &) = &Secretary::retrieveCourse;
+          course = ValidateSearchCriteria<Course>(retrieveByID, retrieveByName);
+        
+        // handle the case where the id inserted is outside the allowed range of number lengths.
+        } catch (out_of_range &e) {
+          cerr << e.what() << endl;
+          break;
           
-          // handle the case where the id inserted is outside the allowed range of number lengths.
-          } catch (out_of_range &e) {
-            cerr << e.what() << endl;
-            continue;
-          
-          // handle the case where the id and/or name is invalid or uses invalid characters.
-          } catch (invalid_argument &e) {
-            cerr << e.what() << endl;
-            continue;
-          }
-
+        // handle the case where the id and/or name is invalid or uses invalid characters.
+        } catch (invalid_argument &e) {
+          cerr << e.what() << endl;
           break;
         }
 
         cout << "| Found Course named " << course->getName() << " with Course ID: " << course->getFormattedCourseID() << "." << endl;
-        bool flag = this->CourseModification(course);
+        this->CourseModification(course);
         SHOULD_EXIT();
-        if (flag)
-          cout << "+---- Modified Course in Secretary ----+" << endl;
         break;
       }
 
@@ -93,30 +86,26 @@ void Interface::CourseManagement() {
         string Buffer;
         Course *course = nullptr;
 
-        while (true) {
-          cout << "> Enter the Full Name or the Course ID of the Course you want to delete: ";
-          try {
-            Course* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveCourse;
-            Course* (Secretary::*retrieveByName)(const string &) = &Secretary::retrieveCourse;
-            course = ValidateSearchCriteria<Course>(retrieveByID, retrieveByName);
+        cout << "> Enter the Full Name or the Course ID of the Course you want to delete: ";
+        try {
+          Course* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveCourse;
+          Course* (Secretary::*retrieveByName)(const string &) = &Secretary::retrieveCourse;
+          course = ValidateSearchCriteria<Course>(retrieveByID, retrieveByName);
 
-          // handle the case where the id inserted is outside the allowed range of number lengths.
-          } catch (out_of_range &e) {
-            cerr << e.what() << endl;
-            continue;
+        // handle the case where the id inserted is outside the allowed range of number lengths.
+        } catch (out_of_range &e) {
+          cerr << e.what() << endl;
+          break;
 
-          // handle the case where the id and/or name is invalid or uses invalid characters.
-          } catch (invalid_argument &e) {
-            cerr << e.what() << endl;
-            continue;
-          }
-
+        // handle the case where the id and/or name is invalid or uses invalid characters.
+        } catch (invalid_argument &e) {
+          cerr << e.what() << endl;
           break;
         }
 
         cout << "| Found Course named " << course->getName() << " with Course ID: " << course->getFormattedCourseID() << "." << endl;
         this->secretary->deleteCourse(course);
-        cout << "+---- Deleted Course from Secretary ---+" << endl;
+        cout << "| Deleted Course from Secretary." << endl;
         break;
       }
 
@@ -131,9 +120,7 @@ void Interface::CourseManagement() {
  * 
  * @param course Takes a Course Pointer as a parameter and performs all modifications on that Object.
  */
-bool Interface::CourseModification(Course *course) {
-
-  bool flag = false;
+void Interface::CourseModification(Course *course) {
 
   while (true) {
     cout << "|" << endl << "+- Modifying Course with ID " << course->getFormattedCourseID() << " -+" << endl;
@@ -141,12 +128,14 @@ bool Interface::CourseModification(Course *course) {
     cout << "1. Change Course's Name" << endl;
     cout << "2. Change whether the Course is Mandatory or not" << endl;
     cout << "3. Change Course's ECTs" << endl;
-    cout << "4. Go Back" << endl;
+    cout << "4. Assign a Professor" << endl;
+    cout << "6. Register a Student" << endl;
+    cout << "7. Go Back" << endl;
     cout << "> Enter the Number corresponding to the desired Action: ";
 
     unsigned short Choice;
     try {
-      Choice = this->ValidateMenuInput(4);
+      Choice = this->ValidateMenuInput(7);
 
     // stoi() exception handling
     } catch (invalid_argument &e) {
@@ -160,7 +149,7 @@ bool Interface::CourseModification(Course *course) {
     }
 
     // checks whether the user has input "!q" and if they have it returns the function.
-    SHOULD_EXIT_2();
+    SHOULD_EXIT();
 
     string Buffer;
     switch (Choice) {
@@ -182,15 +171,14 @@ bool Interface::CourseModification(Course *course) {
       this->secretary->removeCourseFromDatabase(course);
       course->setName(Buffer);
       this->secretary->addCourseToDatabase(course);
-      flag = true;
+      cout << "| Modified Course's Name." << endl;
       break;
     }
 
     case 2: {
       course->setMandatory(!(course->getMandatory()));
-      if (course->getMandatory()) { cout << "| The Course is now Mandatory" << endl; }
-	    else { cout << "| The Course is now non Mandatory" << endl; }
-      flag = true;
+      if (course->getMandatory()) { cout << "| The Course is now Mandatory." << endl; }
+	    else { cout << "| The Course is now non Mandatory." << endl; }
       break;
     }
 
@@ -216,12 +204,74 @@ bool Interface::CourseModification(Course *course) {
       }
 
       course->setECTs(NewECTs);
-      flag = true;
+      cout << "| Modified Course's ECTs." << endl;
+      break;
+    }
+
+    case 4: {
+      Professor *professor = nullptr;
+      cout << "Enter the Name or University ID of the Professor you want to assign to this Course: ";
+      try {
+        Professor* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveProfessor;
+        Professor* (Secretary::*retrieveByName)(const string &) = &Secretary::retrieveProfessor;
+        professor = ValidateSearchCriteria<Professor>(retrieveByID, retrieveByName);
+
+      // handle the case where the id inserted is outside the allowed range of number lengths.
+      } catch (out_of_range &e) {
+          cerr << e.what() << endl;
+          break;
+        
+      // handle the case where the id and/or name is invalid or uses invalid characters.
+      } catch (invalid_argument &e) {
+        cerr << e.what() << endl;
+        break;
+      }
+      
+      cout << "| Found Professor named " << professor->getName() << " with University ID: " << professor->getFormattedID() << "." << endl;
+
+      cout << "| Continue with Assignment (Y or N): ";
+      getline(cin, Buffer);
+      if (!Buffer.compare("Y") || !Buffer.compare("y")) {
+        course->assignProfessor(professor);
+        cout << "| Assigned Professor to Course." << endl;
+      }
+
+      break;
+    }
+
+    case 5: {
+      Professor *professor = nullptr;
+      cout << "Enter the Name or University ID of the Professor you want to assign to this Course: ";
+      try {
+        Professor* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveProfessor;
+        Professor* (Secretary::*retrieveByName)(const string &) = &Secretary::retrieveProfessor;
+        professor = ValidateSearchCriteria<Professor>(retrieveByID, retrieveByName);
+
+      // handle the case where the id inserted is outside the allowed range of number lengths.
+      } catch (out_of_range &e) {
+          cerr << e.what() << endl;
+          break;
+        
+      // handle the case where the id and/or name is invalid or uses invalid characters.
+      } catch (invalid_argument &e) {
+        cerr << e.what() << endl;
+        break;
+      }
+      
+      cout << "| Found Professor named " << professor->getName() << " with University ID: " << professor->getFormattedID() << "." << endl;
+
+      cout << "| Continue with Assignment (Y or N): ";
+      getline(cin, Buffer);
+      if (!Buffer.compare("Y") || !Buffer.compare("y")) {
+        course->assignProfessor(professor);
+        cout << "| Assigned Professor to Course." << endl;
+      }
+
       break;
     }
 
     default:
-      return flag;
+      return;
     }
   }
 }

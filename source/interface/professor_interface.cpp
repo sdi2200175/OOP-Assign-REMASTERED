@@ -48,9 +48,8 @@ void Interface::ProfessorManagement() {
       
       // Add a Professor to the Secretary
       case 1: {
-        cout << "+------- Constructing Professor -------+" << endl;
         this->secretary->addProfessor();
-        cout << "+---- Added Professor to Secretary ----+" << endl;
+        cout << "| Added Professor to Secretary." << endl;
         break;
       }
 
@@ -59,32 +58,26 @@ void Interface::ProfessorManagement() {
         string Buffer;
         Professor *professor = nullptr;
 
-        while (true) {
-          cout << "> Enter the Full Name or the University ID of the Professor you want to modify: ";
-          try {
-            Professor* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveProfessor;
-            Professor* (Secretary::*retrieveByName)(const string &) = &Secretary::retrieveProfessor;
-            professor = ValidateSearchCriteria<Professor>(retrieveByID, retrieveByName);
-          
-          // handle the case where the id inserted is outside the allowed range of number lengths.
-          } catch (out_of_range &e) {
-            cerr << e.what() << endl;
-            continue;
-          
-          // handle the case where the id and/or name is invalid or uses invalid characters.
-          } catch (invalid_argument &e) {
-            cerr << e.what() << endl;
-            continue;
-          }
-
+        cout << "> Enter the Full Name or the University ID of the Professor you want to modify: ";
+        try {
+          Professor* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveProfessor;
+          Professor* (Secretary::*retrieveByName)(const string &) = &Secretary::retrieveProfessor;
+          professor = ValidateSearchCriteria<Professor>(retrieveByID, retrieveByName);
+        
+        // handle the case where the id inserted is outside the allowed range of number lengths.
+        } catch (out_of_range &e) {
+          cerr << e.what() << endl;
+          break;
+        
+        // handle the case where the id and/or name is invalid or uses invalid characters.
+        } catch (invalid_argument &e) {
+          cerr << e.what() << endl;
           break;
         }
 
         cout << "| Found Professor named " << professor->getName() << " with University ID: " << professor->getFormattedID() << "." << endl;
-        bool flag = this->ProfessorModification(professor);
+        this->ProfessorModification(professor);
         SHOULD_EXIT();
-        if (flag)
-          cout << "+--- Modified Professor in Secretary --+" << endl;
         break;
       }
 
@@ -93,30 +86,26 @@ void Interface::ProfessorManagement() {
         string Buffer;
         Professor *professor = nullptr;
 
-        while (true) {
-          cout << "> Enter the Full Name or the University ID of the Professor you want to delete: ";
-          try {
-            Professor* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveProfessor;
-            Professor* (Secretary::*retrieveByName)(const string &) = &Secretary::retrieveProfessor;
-            professor = ValidateSearchCriteria<Professor>(retrieveByID, retrieveByName);
+        cout << "> Enter the Full Name or the University ID of the Professor you want to delete: ";
+        try {
+          Professor* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveProfessor;
+          Professor* (Secretary::*retrieveByName)(const string &) = &Secretary::retrieveProfessor;
+          professor = ValidateSearchCriteria<Professor>(retrieveByID, retrieveByName);
           
-          // handle the case where the id inserted is outside the allowed range of number lengths.
-          } catch (out_of_range &e) {
-            cerr << e.what() << endl;
-            continue;
+        // handle the case where the id inserted is outside the allowed range of number lengths.
+        } catch (out_of_range &e) {
+          cerr << e.what() << endl;
+          break;
           
-          // handle the case where the id and/or name is invalid or uses invalid characters.
-          } catch (invalid_argument &e) {
-            cerr << e.what() << endl;
-            continue;
-          }
-
+        // handle the case where the id and/or name is invalid or uses invalid characters.
+        } catch (invalid_argument &e) {
+          cerr << e.what() << endl;
           break;
         }
 
         cout << "| Found Professor named " << professor->getName() << " with University ID: " << professor->getFormattedID() << "." << endl;
         this->secretary->deleteProfessor(professor);
-        cout << "+-- Deleted Professor from Secretary --+" << endl;
+        cout << "| Deleted Professor from Secretary." << endl;
         break;
       }
 
@@ -131,9 +120,7 @@ void Interface::ProfessorManagement() {
  * 
  * @param professor Takes a Professor Pointer as a parameter and performs all modifications on that Object.
  */
-bool Interface::ProfessorModification(Professor *professor) {
-
-  bool flag = false;
+void Interface::ProfessorModification(Professor *professor) {
 
   while (true) {
     cout << "|" << endl << "+- Modifying Professor with ID " << professor->getFormattedID() << " -+" << endl;
@@ -158,7 +145,7 @@ bool Interface::ProfessorModification(Professor *professor) {
     }
 
     // checks whether the user has input "!q" and if they have it returns the function.
-    SHOULD_EXIT_2();
+    SHOULD_EXIT();
 
     string Buffer;
     switch (Choice) {
@@ -180,12 +167,12 @@ bool Interface::ProfessorModification(Professor *professor) {
       this->secretary->removeProfessorFromDatabase(professor);
       professor->setName(Buffer);
       this->secretary->addProfessorToDatabase(professor);
-      flag = true;
+      cout << "| Modified Professor's Name." << endl;
       break;
     }
 
     default:
-      return flag;
+      return;
     }
   }
 }
