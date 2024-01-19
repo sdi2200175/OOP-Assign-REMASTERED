@@ -127,6 +127,12 @@ class Secretary {
      */
     Course *retrieveCourse(const string &Name);
 
+    /**
+     * @brief Changes the Semester from 'Fall' to 'Spring' or the opposite.
+     * 
+     */
+    void SemesterChange();
+
     /* - Operator Overloads - */
     friend ostream &operator<< (ostream &str, Secretary &sec);
     friend istream &operator>> (istream &str, Secretary &sec);

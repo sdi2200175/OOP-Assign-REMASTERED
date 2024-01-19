@@ -186,6 +186,14 @@ Course *Secretary::retrieveCourse(const string &Name) {
     return course->second;
 }
 
+/**
+ * @brief Changes the Semester from 'Fall' to 'Spring' or the opposite.
+ * 
+ */
+void Secretary::SemesterChange() {
+  
+}
+
 ostream &operator<< (ostream &str, Secretary &sec) {
   str << "|" << endl << "+-- Department Secretary Description --+" << endl;
   str << "| Department Name: " << sec.DepartmentName << endl;

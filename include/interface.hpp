@@ -68,12 +68,6 @@ class Interface {
     void CourseModification(Course *course);
 
     /**
-     * @brief Changes the Semester from 'Fall' to 'Spring' or the opposite.
-     * 
-     */
-    void SemesterChange();
-
-    /**
      * @brief Validates the input when the user is asked to choose among a number of operations. If the function detects an input of "!q" it changes the Should exit
      * value and returns 1.
      * 

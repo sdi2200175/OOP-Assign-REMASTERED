@@ -138,13 +138,6 @@ void Interface::main() {
         break;
       }
 
-      case 4:
-      case 5: {
-        this->CourseSearch1(Choice);
-        SHOULD_EXIT();        
-        break; 
-      }
-
       case 9: {
         return;
       }
