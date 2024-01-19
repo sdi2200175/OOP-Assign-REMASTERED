@@ -20,7 +20,7 @@
 
 using namespace std;
 
-enum CurrentSemester { Autumn = 1, Spring = 2 };
+enum CurrentSemester { Fall = 1, Spring = 2 };
 
 class Secretary {
 

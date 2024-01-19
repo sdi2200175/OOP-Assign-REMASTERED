@@ -29,11 +29,8 @@ class Student : public Person {
         map<unsigned int, Course*> RegisteredCoursesIDDatabase;
         map<string, Course*> RegisteredCoursesNameDatabase;
 
-        map<unsigned int, Course*> CompletedMandatoryCoursesIDDatabase;
-        map<string, Course*> CompletedMandatoryCoursesNameDatabase;
-
-        map<unsigned int, Course*> CompletedNonMandatoryCoursesIDDatabase;
-        map<string, Course*> CompletedNonMandatoryCoursesNameDatabase;
+        map<unsigned int, Course*> CompletedCoursesIDDatabase;
+        map<string, Course*> CompletedCoursesNameDatabase;
 
     public:
 
@@ -59,13 +56,9 @@ class Student : public Person {
         void addCourseToRegisteredCoursesDatabase(Course *course);
         void removeCourseFromRegisteredCoursesDatabase(Course *course);
 
-        /* - Mandatory Course Completion - */
-        void addCourseToMandatoryDatabase(Course *course);
-        void removeCourseFromMandatoryDatabase(Course *course);
-
-        /* - Non Mandatory Course Completion - */
-        void addCourseToNonMandatoryDatabase(Course *course);
-        void removeCourseFromNonMandatoryDatabase(Course *course);
+        /* - Course Completion - */
+        void addCourseToCompletedCoursesDatabase(Course *course);
+        void removeCourseFromCompletedCoursesDatabase(Course *course);
 
         /* - Operator Overloads - */
         friend ostream &operator<< (ostream &str, Student &student);

@@ -95,13 +95,16 @@ void Interface::main() {
     cout << "3. Add/Modify/Delete Course(s)" << endl;
     cout << "4. Modify a Course's assigned Professor(s)" << endl;
     cout << "5. Modify a Course's registered Student(s)" << endl;
-    // cout << "Print Department Information and/or Statistics" << endl;
-    // cout << "Save to Files and Exit" << endl;
+    cout << "6. " << endl;
+    cout << "7. " << endl;
+    cout << "8. " << endl;
+    cout << "9. " << endl;
+    cout << "10. Change Semester" << endl;
     cout << "> Enter the Number corresponding to the desired Action: ";
 
     unsigned short Choice;
     try {
-      Choice = this->ValidateMenuInput(5);
+      Choice = this->ValidateMenuInput(10);
 
     // stoi() exception handling
     } catch (invalid_argument &e) {
@@ -141,6 +144,12 @@ void Interface::main() {
         this->CourseSearch(Choice);
         SHOULD_EXIT();        
         break; 
+      }
+
+      case 10: {
+        this->SemesterChange();
+        SHOULD_EXIT();
+        break;
       }
       
       default:

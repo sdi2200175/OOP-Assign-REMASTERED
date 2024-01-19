@@ -43,28 +43,16 @@ void Student::removeCourseFromRegisteredCoursesDatabase(Course *course) {
 	this->RegisteredCoursesNameDatabase.erase(course->getName());
 }
 
-/* - Mandatory Course Completion - */
+/* - Course Completion - */
 
-void Student::addCourseToMandatoryDatabase(Course *course) {
-	this->CompletedMandatoryCoursesIDDatabase.insert(make_pair(course->getCourseID(), course));
-  	this->CompletedMandatoryCoursesNameDatabase.insert(make_pair(course->getName(), course));
+void Student::addCourseToCompletedCoursesDatabase(Course *course) {
+	this->CompletedCoursesIDDatabase.insert(make_pair(course->getCourseID(), course));
+  	this->CompletedCoursesNameDatabase.insert(make_pair(course->getName(), course));
 }
 
-void Student::removeCourseFromMandatoryDatabase(Course *course) {
-	this->CompletedMandatoryCoursesIDDatabase.erase(course->getCourseID());
-	this->CompletedMandatoryCoursesNameDatabase.erase(course->getName());
-}
-
-/* - Non Mandatory Course Completion - */
-
-void Student::addCourseToNonMandatoryDatabase(Course *course) {
-	this->CompletedNonMandatoryCoursesIDDatabase.insert(make_pair(course->getCourseID(), course));
-  	this->CompletedNonMandatoryCoursesNameDatabase.insert(make_pair(course->getName(), course));
-}
-
-void Student::removeCourseFromNonMandatoryDatabase(Course *course) {
-	this->CompletedNonMandatoryCoursesIDDatabase.erase(course->getCourseID());
-	this->CompletedNonMandatoryCoursesNameDatabase.erase(course->getName());
+void Student::removeCourseFromCompletedCoursesDatabase(Course *course) {
+	this->CompletedCoursesIDDatabase.erase(course->getCourseID());
+	this->CompletedCoursesNameDatabase.erase(course->getName());
 }
 
 /* - Operator Overloads - */
