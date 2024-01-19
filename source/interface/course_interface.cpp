@@ -129,13 +129,13 @@ void Interface::CourseModification(Course *course) {
     cout << "2. Change whether the Course is Mandatory or not" << endl;
     cout << "3. Change Course's ECTs" << endl;
     cout << "4. Assign a Professor" << endl;
-    cout << "6. Register a Student" << endl;
-    cout << "7. Go Back" << endl;
+    cout << "5. Register a Student" << endl;
+    cout << "6. Go Back" << endl;
     cout << "> Enter the Number corresponding to the desired Action: ";
 
     unsigned short Choice;
     try {
-      Choice = this->ValidateMenuInput(7);
+      Choice = this->ValidateMenuInput(6);
 
     // stoi() exception handling
     } catch (invalid_argument &e) {
@@ -240,12 +240,12 @@ void Interface::CourseModification(Course *course) {
     }
 
     case 5: {
-      Professor *professor = nullptr;
-      cout << "Enter the Name or University ID of the Professor you want to assign to this Course: ";
+      Student *student = nullptr;
+      cout << "Enter the Name or University ID of the Student you want to assign to this Course: ";
       try {
-        Professor* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveProfessor;
-        Professor* (Secretary::*retrieveByName)(const string &) = &Secretary::retrieveProfessor;
-        professor = ValidateSearchCriteria<Professor>(retrieveByID, retrieveByName);
+        Student* (Secretary::*retrieveByID)(unsigned int) = &Secretary::retrieveStudent;
+        Student* (Secretary::*retrieveByName)(const string &) = &Secretary::retrieveStudent;
+        student = ValidateSearchCriteria<Student>(retrieveByID, retrieveByName);
 
       // handle the case where the id inserted is outside the allowed range of number lengths.
       } catch (out_of_range &e) {
@@ -258,13 +258,13 @@ void Interface::CourseModification(Course *course) {
         break;
       }
       
-      cout << "| Found Professor named " << professor->getName() << " with University ID: " << professor->getFormattedID() << "." << endl;
+      cout << "| Found Student named " << student->getName() << " with University ID: " << student->getFormattedID() << "." << endl;
 
       cout << "| Continue with Assignment (Y or N): ";
       getline(cin, Buffer);
       if (!Buffer.compare("Y") || !Buffer.compare("y")) {
-        course->assignProfessor(professor);
-        cout << "| Assigned Professor to Course." << endl;
+        course->registerStudent(student);
+        cout << "| Registered Student to Course." << endl;
       }
 
       break;
