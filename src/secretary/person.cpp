@@ -114,7 +114,7 @@ void student::setECTs() {
 /* - Grade Management - */
 
 void student::addGrade(const std::string &course_name, unsigned int formatted_course_id, unsigned int grade, unsigned int grader_id) {
-  struct grade *new_grade = new struct grade;6
+  struct grade *new_grade = new struct grade;
   new_grade->course_name = course_name;
   new_grade->formatted_uni_id = formatted_course_id;
   new_grade->grader_id = grader_id;
