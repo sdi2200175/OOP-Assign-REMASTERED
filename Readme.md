@@ -1,1 +1,0 @@
-# Object-Oriented Programming Assignment Part 2
