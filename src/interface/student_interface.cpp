@@ -95,14 +95,15 @@ interface::SHOULD_EXIT studentModification(interface &interface, student *studen
     interface.output << "2. Change Student's Date of Birth" << std::endl;
     interface.output << "3. Change Student's Date of Registration" << std::endl;
     interface.output << "4. Change Student's ECTs" << std::endl;
-    interface.output << "5. Print Student Parameters" << std::endl;
-    interface.output << "6. Return to Student Management Menu" << std::endl;
+    interface.output << "5. Print Student Grades" << std::endl;
+    interface.output << "6. Print Student Parameters" << std::endl;
+    interface.output << "7. Return to Student Management Menu" << std::endl;
 
     /* - obtain and validate user option/input - */
     unsigned char option;
 
     VALIDATE_EXIT(option = validation::validateNumericalInput<unsigned char>(interface.input, interface.output, interface.error, 
-                                                                          "Enter the number corresponding to what you want to do: ", 6));
+                                                                          "Enter the number corresponding to what you want to do: ", 7));
 
     /* - cases for each option - */
     switch (option) {
@@ -126,6 +127,11 @@ interface::SHOULD_EXIT studentModification(interface &interface, student *studen
         break;
 
       case 5:
+        student->printGrades(validation::validateNumericalInput<unsigned short>(interface.input, interface.output, interface.error, 
+          "Enter the semester for which you'd like to print the Student's grades: (Type '0' to print every grade) ", student->getSemester()));
+        break; 
+
+      case 6:
         interface.output << *student;
         break;
 

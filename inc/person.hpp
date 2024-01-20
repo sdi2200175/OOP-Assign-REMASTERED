@@ -87,9 +87,16 @@ private:
 
   struct grade {
     std::string course_name;
-    unsigned int formatted_uni_id;
-    unsigned int grader_id;
+    unsigned int course_id;
+    std::string grader_name;
+    std::string grader_id;
     unsigned short grade;
+    unsigned short semester;
+
+    inline friend std::ostream &operator<< (std::ostream &stream, struct grade &grade) {
+      stream << "| " << grade.course_name << ", graded " << grade.grade << " by Professor named '" << grade.grader_name << "." << std::endl;
+      return stream;
+    }
   };
 
   std::vector<struct grade *> grades;
@@ -141,7 +148,10 @@ public:
   inline void incrementSemester() { this->semester++; }
 
   /* - Grade Management - */
-  void addGrade(const std::string &course_name, unsigned int fomatted_uni_id, unsigned int grade, unsigned int grader_id);
+  bool addGrade(const std::string &course_name, unsigned int course_id, const std::string &grader_name, const std::string &grader_id, 
+    unsigned short semester, unsigned int grade);
+
+  void printGrades(unsigned short semester = 0);
 
   /* - Operator Overloads - */
   friend std::ostream &operator<< (std::ostream &stream, student &student);

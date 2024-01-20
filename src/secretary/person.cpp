@@ -52,7 +52,29 @@ std::istream &operator>>(std::istream &stream, person &person) {
 
 
 
+
+
+
+
+
+
+
+
+
+
 ///////////////////////////////* - Student derived class mothod definitions - *///////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -95,7 +117,13 @@ student::student(const std::string &name, const std::string &date_of_birth, cons
  * @brief Destroy the student object.
  * 
  */
-student::~student() {}
+student::~student() {
+  for (std::vector<struct grade *>::iterator itr = this->grades.begin();
+    itr != this->grades.end(); itr++) {
+
+    delete (*itr);
+  }
+}
 
 /* - Setters - */
 
@@ -113,13 +141,55 @@ void student::setECTs() {
 
 /* - Grade Management - */
 
-void student::addGrade(const std::string &course_name, unsigned int formatted_course_id, unsigned int grade, unsigned int grader_id) {
+bool student::addGrade(const std::string &course_name, unsigned int course_id, const std::string &grader_name, const std::string &grader_id, 
+  unsigned short semester, unsigned int grade) {
+
+  for (std::vector<struct grade *>::iterator itr = this->grades.begin();
+    itr != this->grades.end(); itr++) {
+
+    if ((*itr)->course_id == course_id) {
+      std::cout << "| This Student has already been graded." << std::endl;
+
+      if (validation::validateBoolInput(std::cin, std::cout, std::cerr, "Would you like to modify their grade?")) {
+        (*itr)->grader_name = grader_name;
+        (*itr)->grader_id = grader_id;
+        (*itr)->grade = grade;
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
   struct grade *new_grade = new struct grade;
   new_grade->course_name = course_name;
-  new_grade->formatted_uni_id = formatted_course_id;
+  new_grade->course_id = course_id;
+  new_grade->grader_name = grader_name;
   new_grade->grader_id = grader_id;
+  new_grade->semester = semester;
   new_grade->grade = grade;
   this->grades.insert(this->grades.end(), new_grade);
+
+  return true;
+}
+
+void student::printGrades(unsigned short semester) {
+
+  if (!semester) {
+    for (std::vector<struct grade *>::iterator itr = this->grades.begin(); 
+      itr != this->grades.end(); itr++) {
+
+      std::cout << *itr;
+    }
+  } else {
+    for (std::vector<struct grade *>::iterator itr = this->grades.begin(); 
+      itr != this->grades.end(); itr++) {
+
+      if((*itr)->semester != semester) continue;
+      std::cout << *itr;
+    }
+  }
+
 }
 
 /* - Operator Overloads - */
@@ -145,7 +215,28 @@ std::istream &operator>>(std::istream &stream, student &student) {
 
 
 
-///////////////////////////////* - Professor derived class mothod definitions - *///////////////////////////////
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////* - Professor derived class method definitions - *///////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
 
 
 

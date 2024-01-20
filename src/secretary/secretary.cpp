@@ -74,7 +74,8 @@ void secretary::addStudent(student *student) {
 student *secretary::retrieveStudent(unsigned int uni_id) {
   std::map<unsigned int, person*>::iterator itr = this->uni_id_database.find(uni_id);
   if (itr != this->uni_id_database.end())
-    return (student *)itr->second;
+    if (((professor *)itr->second)->getFormattedUniID()[0] != 'P')
+      return (student *)itr->second;
   
   return nullptr;
 }
@@ -142,7 +143,8 @@ void secretary::addProfessor(professor *professor) {
 professor *secretary::retrieveProfessor(unsigned int uni_id) {
   std::map<unsigned int, person*>::iterator itr = this->uni_id_database.find(uni_id);
   if (itr != this->uni_id_database.end())
-    return (professor *)itr->second;
+    if (((professor *)itr->second)->getFormattedUniID()[0] == 'P')
+      return (professor *)itr->second;
 
   return nullptr;
 }
@@ -166,7 +168,7 @@ bool secretary::deleteProfessor() {
   professor *(secretary::*id_search)(unsigned int) = &secretary::retrieveProfessor;
   professor *(secretary::*name_search)(const std::string &) = &secretary::retrieveProfessor;
   professor *prof = validation::validateSearchCriteria<professor>(std::cin, std::cout, std::cerr, 
-                                                              "Enter the Name or ID of the Professor you want to delete: ", id_search, name_search, *this);
+                      "Enter the Name or ID of the Professor you want to delete: ", id_search, name_search, *this);
   
   if (prof != nullptr) {
     std::cout << "|" << std::endl << "The Professor with the following credentials was found: " << std::endl;

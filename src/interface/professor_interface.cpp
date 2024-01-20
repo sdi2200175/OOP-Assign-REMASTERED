@@ -34,7 +34,7 @@ interface::SHOULD_EXIT interface::professorManagement() {
     unsigned char option;
 
     VALIDATE_EXIT(option = validation::validateNumericalInput<unsigned char>(this->input, this->output, this->error, 
-                                                                          "Enter the number corresponding to what you want to do: ", 4));
+                              "Enter the number corresponding to what you want to do: ", 4));
 
     /* - cases for each option - */
     switch (option) {
@@ -49,7 +49,7 @@ interface::SHOULD_EXIT interface::professorManagement() {
         professor *(secretary::*id_search)(unsigned int) = &secretary::retrieveProfessor;
         professor *(secretary::*name_search)(const std::string &) = &secretary::retrieveProfessor;
         professor *prof = validation::validateSearchCriteria<professor>(this->input, this->output, this->error,
-                                                                    "Enter the Name or ID of the Professor you want to modify: ", id_search, name_search, *this->sec);
+                            "Enter the Name or ID of the Professor you want to modify: ", id_search, name_search, *this->sec);
 
         // if the professor was not found we print an error and break, else we print the professor's credenitials
         // and verify the professor's modification.
@@ -103,7 +103,7 @@ interface::SHOULD_EXIT professorModification(interface &interface, professor *pr
     unsigned char option;
 
     VALIDATE_EXIT(option = validation::validateNumericalInput<unsigned char>(interface.input, interface.output, interface.error, 
-                              "Enter the number corresponding to what you want to do: ", 4));
+                              "Enter the number corresponding to what you want to do: ", 5));
 
     /* - cases for each option - */
     switch (option) {
@@ -131,20 +131,20 @@ interface::SHOULD_EXIT professorModification(interface &interface, professor *pr
 
           bool found = false;
           for (std::vector<unsigned int>::const_iterator itr = professor->getAssignedCourses().begin(); 
-              itr != professor->getAssignedCourses().end(); itr++) {
+            itr != professor->getAssignedCourses().end(); itr++) {
 
-            if ((found = interface.sec->retrieveCourse(*itr)->isRegistered(stud))) {
+            course *cour = interface.sec->retrieveCourse(*itr);
+            if ((found = cour->isRegistered(stud))) {
 
-              interface.output << "| Student is registered in '" << interface.sec->retrieveCourse(*itr)->getName() << "' with University ID: " << interface.sec->retrieveCourse(*itr)->getFormattedUniID() << "." << std::endl;
+              interface.output << "| Student is registered in '" << cour->getName() << "' with University ID: " << cour->getFormattedUniID() << "." << std::endl;
               bool modify = validation::validateBoolInput(interface.input, interface.output, interface.error, 
                               "Is this the Course you'd like to grade this Student on? ");
-
 
               if (modify) {
                 unsigned short grade = validation::validateNumericalInput<unsigned short>(interface.input, interface.output, interface.error,
                                           "Enter the grade you'd like to give to this Student: ", 10);
 
-                stud->addGrade(interface.sec->retrieveCourse(*itr)->getName(), interface.sec->retrieveCourse(*itr)->getUniID(), grade, professor->getUniID());
+                stud->addGrade(cour->getName(), cour->getUniID(), professor->getName(), professor->getFormattedUniID(), stud->getSemester(), grade);
                 interface.output << "|--------- Student has been graded successfully ----------|" << std::endl;
               }
             }
@@ -152,6 +152,8 @@ interface::SHOULD_EXIT professorModification(interface &interface, professor *pr
 
           if (!found) {
             interface.error << "! ERROR: The Student you searched for is not registered to any of your courses." << std::endl;
+          } else {
+            interface.output << "| Student grades have not been modified." << std::endl;
           }
 
         } else {

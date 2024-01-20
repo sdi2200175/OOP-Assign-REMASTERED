@@ -126,8 +126,12 @@ bool course::registerStudent(student *student) {
  * @return false If the student is not registered to the course.
  */
 bool course::isRegistered(student *student) {
-  if (std::find(this->attendees.begin(), this->attendees.end(), student) != this->attendees.end())
-    return true;
+  for (std::vector<person*>::iterator itr = this->attendees.begin(); 
+    itr != this->attendees.end(); itr++) {
+
+    if ((*itr)->getFormattedUniID().compare(student->getFormattedUniID()))
+      return true;
+  }
 
   return false;
 }
