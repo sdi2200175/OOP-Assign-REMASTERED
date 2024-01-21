@@ -62,6 +62,7 @@ public:
   inline unsigned short getSemester() const { return this->semester; }
   inline unsigned int getUniID() const { return this->uni_id; }
   inline const std::string &getFormattedUniID() { return this->formatted_uni_id; }
+  inline const std::vector<person*> &getAttendees() const { return this->attendees; }
 
   /* - Setters - */
   void setName();
@@ -87,7 +88,15 @@ public:
   bool isAssigned(professor *professor);
   inline void unassignProfessors() { this->assigned_professors.clear(); } 
 
-  /* - Student Registration - */
+/* - Student Registration - */
+
+/**
+ * @brief Registers a student to the course.
+ * 
+ * @param student The student that will be registered.
+ * @return true If the student was registered successfully.
+ * @return false If the student was already registered to the course.
+ */
   bool registerStudent(student *student);
   bool isRegistered(student *student);
   inline void deregisterStudents() { this->attendees.clear(); }

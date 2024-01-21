@@ -148,6 +148,8 @@ public:
 
   void printGrades(unsigned short semester = 0);
 
+  unsigned short getGrade(unsigned int course_id);
+
   /* - Operator Overloads - */
   friend std::ostream &operator<< (std::ostream &stream, student &student);
   friend std::istream &operator>> (std::istream &stream, student &student);

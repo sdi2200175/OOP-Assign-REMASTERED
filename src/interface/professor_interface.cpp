@@ -96,14 +96,15 @@ interface::SHOULD_EXIT professorModification(interface &interface, professor *pr
     interface.output << "1. Change Professor's Name" << std::endl;
     interface.output << "2. Change Professor's Date of Birth" << std::endl;
     interface.output << "3. Submit Semester Grades" << std::endl;
-    interface.output << "4. Print Professor Parameters" << std::endl;
-    interface.output << "5. Return to Professor Management Menu" << std::endl;
+    interface.output << "4. Print Professor's Statistics" << std::endl;
+    interface.output << "5. Print Professor's Parameters" << std::endl;
+    interface.output << "6. Return to Professor Management Menu" << std::endl;
 
     /* - obtain and validate user option/input - */
     unsigned char option;
 
     VALIDATE_EXIT(option = validation::validateNumericalInput<unsigned char>(interface.input, interface.output, interface.error, 
-                              "Enter the number corresponding to what you want to do: ", 5));
+                              "Enter the number corresponding to what you want to do: ", 6));
 
     /* - cases for each option - */
     switch (option) {
@@ -160,7 +161,31 @@ interface::SHOULD_EXIT professorModification(interface &interface, professor *pr
         break;
       }
 
-      case 4:
+      case 4: {
+        
+        for (std::vector<unsigned int>::const_iterator itr = professor->getAssignedCourses().begin(); 
+          itr != professor->getAssignedCourses().end(); itr++) {
+
+          course *cour = interface.sec->retrieveCourse(*itr);  
+          interface.output << "| Professor is assigned to Course '" << cour->getName() << "' with University ID: " << cour->getFormattedUniID() << "." << std::endl;
+          bool modify = validation::validateBoolInput(interface.input, interface.output, interface.error, 
+                          "Is this the Course which Statistics you'd like to print? ");
+
+          if (!modify)
+            continue;
+
+          for (std::vector<person*>::const_iterator itr2 = cour->getAttendees().begin();
+            itr2 != cour->getAttendees().end(); itr2++) {
+            student *stud = interface.sec->retrieveStudent((*itr2)->getUniID());
+            interface.output << "| Student named '" << stud->getName() << "' graded " << stud->getGrade(cour->getUniID()) << std::endl;
+          }
+          
+        }
+
+        break;
+      }
+
+      case 5:
         interface.output << *professor;
         break;
 

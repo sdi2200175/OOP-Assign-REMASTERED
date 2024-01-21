@@ -192,6 +192,18 @@ void student::printGrades(unsigned short semester) {
 
 }
 
+unsigned short student::getGrade(unsigned int course_id) {
+  
+  for (std::vector<struct grade *>::iterator itr = this->grades.begin(); 
+    itr != this->grades.end(); itr++) {
+  
+    if (course_id == (*itr)->course_id)
+      return (*itr)->grade;
+  }
+
+  return 0;
+}
+
 /* - Operator Overloads - */
 
 std::ostream &operator<<(std::ostream &stream, student &student) {
