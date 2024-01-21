@@ -45,11 +45,20 @@ secretary::secretary(const std::string &department_name, unsigned short departme
 secretary::~secretary() {
 
   for (std::map<unsigned int, person*>::iterator itr = this->uni_id_database.begin();
-      itr != this->uni_id_database.end();
-      itr++) {
+      itr != this->uni_id_database.end(); itr++) {
+
+      if (((professor *)itr->second)->getFormattedUniID()[0] != 'P')
+        delete (student *)itr->second;
+      else
+        delete (professor *)itr->second;  
+  }
+
+  for (std::map<unsigned int, course*>::iterator itr = this->uni_id_course_database.begin();
+      itr != this->uni_id_course_database.end(); itr++) {
 
     delete itr->second;  
   }
+
 }
 
 

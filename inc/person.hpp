@@ -116,7 +116,7 @@ public:
    * @param department_code The code of the secretary department. Used in generating the unique formated id.
    */
   student(const std::string &name, const std::string &date_of_birth, const std::string &date_of_registration, unsigned short ects,
-          unsigned short mandatory_courses_passed, unsigned short department_code);
+           unsigned short mandatory_courses_passed, unsigned short department_code);
 
   /**
    * @brief Destroy the student object.

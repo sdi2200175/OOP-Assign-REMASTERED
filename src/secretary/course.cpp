@@ -50,7 +50,21 @@ course::course(const std::string &name, unsigned short ects, bool is_mandatory, 
  * @brief Destroy the course object
  * 
  */
-course::~course() {}
+course::~course() {
+
+  for (std::vector<person *>::iterator itr = this->attendees.begin();
+    itr != this->attendees.end(); itr++) {
+
+    delete (*itr);
+  }
+    
+  for (std::vector<person *>::iterator itr = this->assigned_professors.begin();
+    itr != this->assigned_professors.end(); itr++) {
+
+    delete (*itr);
+  }
+
+};
 
 /* - Setters - */
 

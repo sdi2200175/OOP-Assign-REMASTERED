@@ -91,6 +91,7 @@ student::student(unsigned short department_code) : person(), semester(1),
   + std::to_string(department_code) + "-" + std::string(7 - std::to_string(this->uni_id).length(), '0') + std::to_string(this->uni_id)) {
 
   std::cin >> *this;
+  mandatory_courses_passed = 0;
   std::cout << "|-- Created Student named '" + this->getName() + "' with University ID: " + this->formatted_uni_id + " --|" << std::endl;
 }
 

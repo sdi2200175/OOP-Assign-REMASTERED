@@ -138,8 +138,8 @@ interface::SHOULD_EXIT courseModification(interface &interface, course *course) 
           interface.output << "|" << "| Professor with the following credentials was found: " << std::endl;
           interface.output << *prof;
           
-          if (validation::validateBoolInput(interface.input, interface.output, interface.error, "Would to like to assign this Profesor? ")) {
-            if (course->assignProfessor(prof)) 
+          if (validation::validateBoolInput(interface.input, interface.output, interface.error, "Would to like to assign this Professor? ")) {
+            if (course->assignProfessor(prof))
               interface.output << "|-------------- Professor has been assigned --------------|" << std::endl;
             else 
               interface.error << "! ERROR: This Professor is already assigned to this Course." << std::endl;
