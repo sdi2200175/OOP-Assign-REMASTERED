@@ -267,9 +267,8 @@ void secretary::removeCourse(course *course) {
 /* New Semester */
 
 void secretary::incrementSemester(){
-  SEMESTER semester = this->getCurrentSemester();
   
-  if (semester == FALL)
+  if (this->current_semester == FALL)
     this->current_semester = SPRING;
   else    
     this->current_semester = FALL;
@@ -293,6 +292,12 @@ void secretary::incrementSemester(){
     cour->newSemester();
   }
 
+}
+
+/* Print Graduates */
+
+void secretary::printGraduates(){
+  
 }
 
 /* - Operator Overloads - */

@@ -90,6 +90,9 @@ public:
   /* Increment Semester */
   void incrementSemester();
 
+  /* Print Graduates */
+  void printGraduates();
+
   /* - Operator overload functions - */
   friend std::ostream &operator<< (std::ostream &stream, secretary &secretary);
   friend std::istream &operator>> (std::istream &stream, secretary &secretary);

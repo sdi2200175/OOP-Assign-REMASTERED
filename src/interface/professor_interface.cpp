@@ -169,7 +169,7 @@ interface::SHOULD_EXIT professorModification(interface &interface, professor *pr
           course *cour = interface.sec->retrieveCourse(*itr);  
           interface.output << "| Professor is assigned to Course '" << cour->getName() << "' with University ID: " << cour->getFormattedUniID() << "." << std::endl;
           bool modify = validation::validateBoolInput(interface.input, interface.output, interface.error, 
-                          "Is this the Course which Statistics you'd like to print? ");
+                          "Is this a Course for which the Statistics you'd like to print? ");
 
           if (!modify)
             continue;

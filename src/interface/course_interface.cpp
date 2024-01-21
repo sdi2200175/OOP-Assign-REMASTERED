@@ -97,14 +97,15 @@ interface::SHOULD_EXIT courseModification(interface &interface, course *course) 
     interface.output << "4. Change Course Semester" << std::endl;
     interface.output << "5. Assign a Professor to this Course" << std::endl;
     interface.output << "6. Register a Student to this Course" << std::endl;
-    interface.output << "7. Print Course Parameters" << std::endl;
-    interface.output << "8. Return to Course Management Menu" << std::endl;
+    interface.output << "7. Print and Save to File every Student that Passed this Course" << std::endl;
+    interface.output << "8. Print Course Parameters" << std::endl;
+    interface.output << "9. Return to Course Management Menu" << std::endl;
 
         /* - obtain and validate user option/input - */
     unsigned char option;
 
     VALIDATE_EXIT(option = validation::validateNumericalInput<unsigned char>(interface.input, interface.output, interface.error, 
-                              "Enter the number corresponding to what you want to do: ", 8));
+                              "Enter the number corresponding to what you want to do: ", 9));
 
     /* - cases for each option - */
     switch (option) {
@@ -186,7 +187,10 @@ interface::SHOULD_EXIT courseModification(interface &interface, course *course) 
         break;
       }
 
-      case 7:
+      case 7: {
+      }
+
+      case 8:
         interface.output << *course;
         break;
 

@@ -34,7 +34,7 @@ interface::SHOULD_EXIT interface::studentManagement() {
     unsigned char option;
 
     VALIDATE_EXIT(option = validation::validateNumericalInput<unsigned char>(this->input, this->output, this->error, 
-                                                                          "Enter the number corresponding to what you want to do: ", 4));
+                                                                            "Enter the number corresponding to what you want to do: ", 4));
 
     /* - cases for each option - */
     switch (option) {

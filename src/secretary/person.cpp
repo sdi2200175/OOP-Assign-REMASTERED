@@ -206,8 +206,10 @@ unsigned short student::getGrade(unsigned int course_id) {
 }
 
 /* New Semester */
+
 void student::newSemester() {
   this->semester++;
+  // to do: ects++, mandatory_courses_passed++
 }
 
 /* - Operator Overloads - */
@@ -302,6 +304,7 @@ void professor::setDateOfBirth() {
 }
 
 /* New Semester */
+
 void professor::newSemester() {
   this->assigned_courses.clear();
 }

@@ -65,13 +65,14 @@ interface::SHOULD_EXIT interface::mainMenu() {
     this->output << "1. Proceed to Student Management Menu" << std::endl;
     this->output << "2. Proceed to Professor Management Menu" << std::endl;
     this->output << "3. Proceed to Course Management Menu" << std::endl;
-    this->output << "4. Print Department Statistics" << std::endl;
-    this->output << "5. Next Semester" << std::endl;
-    this->output << "6. Save Data to Files and Exit Program" << std::endl;
+    this->output << "4. Print every Student who is able to Graduate" << std::endl;
+    this->output << "5. Move on to the Next Semester" << std::endl;
+    this->output << "6. Print Department Parameters" << std::endl;
+    this->output << "7. Save Data to Files and Exit Program" << std::endl;
     
     /* - obtain and validate user option/input - */
     unsigned char option = validation::validateNumericalInput<unsigned char>(this->input, this->output, this->error,
-                                                                            "Enter the number corresponding to what you want to do: ", 6);
+                                                                            "Enter the number corresponding to what you want to do: ", 7);
 
     /* - cases for each option - */
     switch (option) {
@@ -91,11 +92,14 @@ interface::SHOULD_EXIT interface::mainMenu() {
           break;
 
         case 4:
-          this->output << *(this->sec);
-          break;
+          this->sec->printGraduates();
 
         case 5:
           this->sec->incrementSemester();
+          break;
+        
+        case 6:
+          this->output << *(this->sec);
           break;
 
         default:
