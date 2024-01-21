@@ -94,6 +94,10 @@ interface::SHOULD_EXIT interface::mainMenu() {
           this->output << *(this->sec);
           break;
 
+        case 5:
+          this->sec->incrementSemester();
+          break;
+
         default:
           return EXIT;
       

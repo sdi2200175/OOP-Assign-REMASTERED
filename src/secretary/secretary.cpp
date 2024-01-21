@@ -264,6 +264,37 @@ void secretary::removeCourse(course *course) {
   this->uni_name_course_database.erase(course->getName());
 }
 
+/* New Semester */
+
+void secretary::incrementSemester(){
+  SEMESTER semester = this->getCurrentSemester();
+  
+  if (semester == FALL)
+    this->current_semester = SPRING;
+  else    
+    this->current_semester = FALL;
+  
+  for (std::map<unsigned int, person*>::iterator itr = uni_id_database.begin(); 
+    itr != this->uni_id_database.end(); itr++) {
+    if (((professor *)itr->second)->getFormattedUniID()[0] == 'P'){
+      professor *prof = (professor *)itr->second;
+      prof->newSemester();
+    }
+    else {
+      student *stud = (student *)itr->second;
+      stud->newSemester();
+    }
+       
+  }
+
+  for (std::map<unsigned int, course*>::iterator itr = uni_id_course_database.begin(); 
+    itr != this->uni_id_course_database.end(); itr++) {
+    course *cour = itr->second; 
+    cour->newSemester();
+  }
+
+}
+
 /* - Operator Overloads - */
 
 std::ostream &operator<< (std::ostream &stream, secretary &secretary) {

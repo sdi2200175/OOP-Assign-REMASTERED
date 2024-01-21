@@ -87,6 +87,9 @@ public:
   bool deleteCourse();
   void removeCourse(course *course);
 
+  /* Increment Semester */
+  void incrementSemester();
+
   /* - Operator overload functions - */
   friend std::ostream &operator<< (std::ostream &stream, secretary &secretary);
   friend std::istream &operator>> (std::istream &stream, secretary &secretary);

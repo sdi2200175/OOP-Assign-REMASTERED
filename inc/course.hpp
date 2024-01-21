@@ -101,6 +101,9 @@ public:
   bool isRegistered(student *student);
   inline void deregisterStudents() { this->attendees.clear(); }
 
+  /* New Semester */
+  void newSemester();
+
   /* - Operator Overloads - */
   friend std::ostream &operator<< (std::ostream &stream, course &course);
   friend std::istream &operator>> (std::istream &stream, course &course);

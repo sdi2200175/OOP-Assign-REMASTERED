@@ -150,6 +150,13 @@ bool course::isRegistered(student *student) {
   return false;
 }
 
+/* New Semester */
+
+void course::newSemester(){
+  this->assigned_professors.clear();
+  this->attendees.clear();
+}
+
 /* - Operator Overloads - */
 
 std::ostream &operator<< (std::ostream &stream, course &course) {

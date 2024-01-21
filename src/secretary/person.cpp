@@ -205,6 +205,11 @@ unsigned short student::getGrade(unsigned int course_id) {
   return 0;
 }
 
+/* New Semester */
+void student::newSemester() {
+  this->semester++;
+}
+
 /* - Operator Overloads - */
 
 std::ostream &operator<<(std::ostream &stream, student &student) {
@@ -294,6 +299,11 @@ professor::~professor() {}
 
 void professor::setDateOfBirth() {
   this->date_of_birth = validation::validateDateInput(std::cin, std::cout, std::cerr, "Enter New Date of Birth: ");
+}
+
+/* New Semester */
+void professor::newSemester() {
+  this->assigned_courses.clear();
 }
 
 /* - Operator Overloads - */

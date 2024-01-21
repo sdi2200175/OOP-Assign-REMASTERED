@@ -150,6 +150,9 @@ public:
 
   unsigned short getGrade(unsigned int course_id);
 
+  /* New Semester */
+  void newSemester();
+
   /* - Operator Overloads - */
   friend std::ostream &operator<< (std::ostream &stream, student &student);
   friend std::istream &operator>> (std::istream &stream, student &student);
@@ -204,6 +207,9 @@ public:
   void setDateOfBirth();
   inline void setDateOfBirth(const std::string &date_of_birth) { this->date_of_birth = date_of_birth; }
   inline void insertAssignedCourses(const unsigned int uni_id) { this->assigned_courses.insert(this->assigned_courses.end(), uni_id); }
+
+  /* New Semester */
+  void newSemester();
 
   /* - Operator Overloads - */
   friend std::ostream &operator<< (std::ostream &stream, professor &professor);
