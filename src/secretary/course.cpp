@@ -84,6 +84,7 @@ bool course::assignProfessor(professor *professor) {
     return false;
 
   this->assigned_professors.insert(this->assigned_professors.end(), professor);
+  professor->insertAssignedCourses(this->uni_id);
   return true;
 }
 
@@ -128,7 +129,6 @@ bool course::registerStudent(student *student) {
 bool course::isRegistered(student *student) {
   for (std::vector<person*>::iterator itr = this->attendees.begin(); 
     itr != this->attendees.end(); itr++) {
-
     if ((*itr)->getFormattedUniID().compare(student->getFormattedUniID()))
       return true;
   }

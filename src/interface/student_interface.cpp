@@ -27,7 +27,7 @@ interface::SHOULD_EXIT interface::studentManagement() {
     this->output << "| Choose one of the following options: " << std::endl;
     this->output << "1. Add a new Student to the Secretary Department" << std::endl;
     this->output << "2. Modify an existing Student of the Secretary Department" << std::endl;
-    this->output << "3. Remove an exisitng Student from the Secretary Department" << std::endl;
+    this->output << "3. Remove an existing Student from the Secretary Department" << std::endl;
     this->output << "4. Return to the Main Menu" << std::endl;
 
     /* - obtain and validate user option/input - */

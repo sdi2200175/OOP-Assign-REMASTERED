@@ -62,10 +62,10 @@ interface::SHOULD_EXIT interface::mainMenu() {
     /* - menu print - */
     this->output << "|" << std::endl << "|-------------------- Main User Menu ---------------------|" << std::endl;
     this->output << "| Choose one of the following options: " << std::endl;
-    this->output << "1. Add/Modify/Delete Student(s)" << std::endl;
-    this->output << "2. Add/Modify/Delete Professor(s)" << std::endl;
-    this->output << "3. Add/Modify/Delete Course(s)" << std::endl;
-    this->output << "4. Department Statistics" << std::endl;
+    this->output << "1. Proceed to Student Management Menu" << std::endl;
+    this->output << "2. Proceed to Professor Management Menu" << std::endl;
+    this->output << "3. Proceed to Course Management Menu" << std::endl;
+    this->output << "4. Print Department Statistics" << std::endl;
     this->output << "5. Next Semester" << std::endl;
     this->output << "6. Save Data to Files and Exit Program" << std::endl;
     
@@ -76,20 +76,28 @@ interface::SHOULD_EXIT interface::mainMenu() {
     /* - cases for each option - */
     switch (option) {
 
-      case 1:
-        VALIDATE_EXIT(this->studentManagement());
-        break;
+      while (true) {
+      
+        case 1:
+          VALIDATE_EXIT(this->studentManagement());
+          break;
 
-      case 2:
-        VALIDATE_EXIT(this->professorManagement());
-        break;
+        case 2:
+          VALIDATE_EXIT(this->professorManagement());
+          break;
 
-      case 3:
-        VALIDATE_EXIT(this->courseManagement());
-        break;
+        case 3:
+          VALIDATE_EXIT(this->courseManagement());
+          break;
 
-      default:
-        return EXIT;
+        case 4:
+          this->output << *(this->sec);
+          break;
+
+        default:
+          return EXIT;
+      
+      }
     }
   }
 }

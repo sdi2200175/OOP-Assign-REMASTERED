@@ -92,11 +92,6 @@ private:
     std::string grader_id;
     unsigned short grade;
     unsigned short semester;
-
-    inline friend std::ostream &operator<< (std::ostream &stream, struct grade &grade) {
-      stream << "| " << grade.course_name << ", graded " << grade.grade << " by Professor named '" << grade.grader_name << "." << std::endl;
-      return stream;
-    }
   };
 
   std::vector<struct grade *> grades;
@@ -206,6 +201,7 @@ public:
   /* - Setters */
   void setDateOfBirth();
   inline void setDateOfBirth(const std::string &date_of_birth) { this->date_of_birth = date_of_birth; }
+  inline void insertAssignedCourses(const unsigned int uni_id) { this->assigned_courses.insert(this->assigned_courses.end(), uni_id); }
 
   /* - Operator Overloads - */
   friend std::ostream &operator<< (std::ostream &stream, professor &professor);

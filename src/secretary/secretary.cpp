@@ -263,13 +263,13 @@ std::ostream &operator<< (std::ostream &stream, secretary &secretary) {
   stream << "| Secretary Department Required Attendance: " << secretary.regular_attendance << " years(s)" << std::endl;
   stream << "| Secretary Department Maximum Attendance: " << secretary.maximum_attendance << " year(s)" << std::endl;
   stream << "| Secretary Department Graduation ECT Requirement: " << secretary.required_ects << " ECT(s)" << std::endl;
-  stream << "| Secretary Deaprtment Mandatory Courses: " << secretary.mandatory_courses << " course(s)" << std::endl;
+  stream << "| Secretary Department Mandatory Courses: " << secretary.mandatory_courses << " course(s)" << std::endl;
   return stream;
 }
 
 std::istream &operator>> (std::istream &stream, secretary &secretary) {
   secretary.department_name = validation::validateNameInput(stream, std::cout, std::cerr, "Enter Secretary Department Name: ");
-  secretary.department_code = validation::validateNumericalInput<unsigned short>(stream, std::cout, std::cerr, "Enter Secretary Deaprtment Code: ", 9999);
+  secretary.department_code = validation::validateNumericalInput<unsigned short>(stream, std::cout, std::cerr, "Enter Secretary Department Code: ", 9999);
   secretary.regular_attendance = validation::validateNumericalInput<unsigned short>(stream, std::cout, std::cerr, "Enter Secretary Department Required Years of Attendance: ", 10);
   secretary.maximum_attendance = validation::validateNumericalInput<unsigned short>(stream, std::cout, std::cerr, "Enter secretary Department Maximum Years of Attendance: ", 10);
   secretary.required_ects = validation::validateNumericalInput<unsigned short>(stream, std::cout, std::cerr, "Enter Secretary Department Graduation ECT Requirement: ", 300);

@@ -27,7 +27,7 @@ interface::SHOULD_EXIT interface::courseManagement() {
     this->output << "| Choose one of the following options: " << std::endl;
     this->output << "1. Add a new Course to the Secretary Department" << std::endl;
     this->output << "2. Modify an existing Course of the Secretary Department" << std::endl;
-    this->output << "3. Remove an exisitng Course from the Secretary Department" << std::endl;
+    this->output << "3. Remove an existing Course from the Secretary Department" << std::endl;
     this->output << "4. Return to the Main Menu" << std::endl;
 
     /* - obtain and validate user option/input - */
@@ -95,8 +95,8 @@ interface::SHOULD_EXIT courseModification(interface &interface, course *course) 
     interface.output << "2. Change Course ECTs" << std::endl;
     interface.output << "3. Change Whether the Course is Mandatory or Not" << std::endl;
     interface.output << "4. Change Course Semester" << std::endl;
-    interface.output << "5. Assign a Professor to this Course." << std::endl;
-    interface.output << "6. Register a Student to this Course." << std::endl;
+    interface.output << "5. Assign a Professor to this Course" << std::endl;
+    interface.output << "6. Register a Student to this Course" << std::endl;
     interface.output << "7. Print Course Parameters" << std::endl;
     interface.output << "8. Return to Course Management Menu" << std::endl;
 
@@ -132,7 +132,7 @@ interface::SHOULD_EXIT courseModification(interface &interface, course *course) 
         professor *(secretary::*id_search)(unsigned int) = &secretary::retrieveProfessor;
         professor *(secretary::*name_search)(const std::string &) = &secretary::retrieveProfessor;
         professor *prof = validation::validateSearchCriteria<professor>(interface.input, interface.output, interface.error, 
-                            "Enter the Name or Univerisyt ID of the Profressor you want to assign to this Course: ", id_search, name_search, *interface.sec);
+                            "Enter the Name or University ID of the Professor you want to assign to this Course: ", id_search, name_search, *interface.sec);
 
         if (prof != nullptr) {
           interface.output << "|" << "| Professor with the following credentials was found: " << std::endl;
@@ -159,7 +159,7 @@ interface::SHOULD_EXIT courseModification(interface &interface, course *course) 
         student *(secretary::*id_search)(unsigned int) = &secretary::retrieveStudent;
         student *(secretary::*name_search)(const std::string &) = &secretary::retrieveStudent;
         student *stud = validation::validateSearchCriteria<student>(interface.input, interface.output, interface.error, 
-                          "Enter the Name or Univerisyt ID of the Student you want to register to this Course: ", id_search, name_search, *interface.sec);
+                          "Enter the Name or University ID of the Student you want to register to this Course: ", id_search, name_search, *interface.sec);
 
         if (stud != nullptr) {
           interface.output << "|" << "| Student with the following credentials was found: " << std::endl;

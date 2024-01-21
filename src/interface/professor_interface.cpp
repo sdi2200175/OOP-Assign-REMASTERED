@@ -27,7 +27,7 @@ interface::SHOULD_EXIT interface::professorManagement() {
     this->output << "| Choose one of the following options: " << std::endl;
     this->output << "1. Add a new Professor to the Secretary Department" << std::endl;
     this->output << "2. Modify an existing Professor of the Secretary Department" << std::endl;
-    this->output << "3. Remove an exisitng Professor from the Secretary Department" << std::endl;
+    this->output << "3. Remove an existing Professor from the Secretary Department" << std::endl;
     this->output << "4. Return to the Main Menu" << std::endl;
 
     /* - obtain and validate user option/input - */
@@ -129,12 +129,12 @@ interface::SHOULD_EXIT professorModification(interface &interface, professor *pr
           interface.output << "| The Student with the following credentials was found: " << std::endl;
           interface.output << *stud;
 
-          bool found = false;
+          bool found = false; 
           for (std::vector<unsigned int>::const_iterator itr = professor->getAssignedCourses().begin(); 
             itr != professor->getAssignedCourses().end(); itr++) {
 
             course *cour = interface.sec->retrieveCourse(*itr);
-            if ((found = cour->isRegistered(stud))) {
+            if ((found = cour->registerStudent(stud))) {
 
               interface.output << "| Student is registered in '" << cour->getName() << "' with University ID: " << cour->getFormattedUniID() << "." << std::endl;
               bool modify = validation::validateBoolInput(interface.input, interface.output, interface.error, 
@@ -150,11 +150,8 @@ interface::SHOULD_EXIT professorModification(interface &interface, professor *pr
             }
           }
 
-          if (!found) {
+          if (!found) 
             interface.error << "! ERROR: The Student you searched for is not registered to any of your courses." << std::endl;
-          } else {
-            interface.output << "| Student grades have not been modified." << std::endl;
-          }
 
         } else {
           interface.error << "! ERROR: The Student you searched for was not found." << std::endl;

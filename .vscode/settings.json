@@ -69,6 +69,9 @@
     "iterator": "cpp",
     "memory_resource": "cpp",
     "numeric": "cpp",
-    "utility": "cpp"
+    "utility": "cpp",
+    "list": "cpp",
+    "fstream": "cpp",
+    "iomanip": "cpp"
   }
 }

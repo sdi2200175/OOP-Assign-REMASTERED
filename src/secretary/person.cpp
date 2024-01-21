@@ -177,16 +177,16 @@ void student::printGrades(unsigned short semester) {
 
   if (!semester) {
     for (std::vector<struct grade *>::iterator itr = this->grades.begin(); 
-      itr != this->grades.end(); itr++) {
+      itr != this->grades.end(); itr++) {    
+    std::cout << "| " << (*itr)->course_name << ", graded " << (*itr)->grade << " by Professor named '" << (*itr)->grader_name << "'." << std::endl;
+  }
 
-      std::cout << *itr;
-    }
   } else {
     for (std::vector<struct grade *>::iterator itr = this->grades.begin(); 
       itr != this->grades.end(); itr++) {
 
       if((*itr)->semester != semester) continue;
-      std::cout << *itr;
+      std::cout << "| " << (*itr)->course_name << ", graded " << (*itr)->grade << " by Professor named '" << (*itr)->grader_name << "'." << std::endl;
     }
   }
 
