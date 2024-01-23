@@ -8,7 +8,7 @@ CC = g++
 
 # - Compiler Options - #
 
-CFLAGS = -Wall -Werror
+CFLAGS = -Wall -Werror -Wpedantic
 LFLAGS = -lm
 
 # - Final Executable Compilation Options - #
