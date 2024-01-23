@@ -53,6 +53,10 @@ inline std::string validateNameInput(std::istream& input, std::ostream& output,
         // something unexpected is found we throw an internal exception and catch it
         // to exit the internal loop and continue the external one.
         try {
+
+            if (buffer.length() == 0)
+                throw std::invalid_argument("! ERROR: No input.");
+
             for (std::string::iterator itr = buffer.begin(); itr != buffer.end();
                  itr++)
                 if ((*itr >= 'a' && *itr <= 'z') || (*itr >= 'A' && *itr <= 'Z') || *itr == ' ')
@@ -60,8 +64,7 @@ inline std::string validateNameInput(std::istream& input, std::ostream& output,
                 else
                     throw std::invalid_argument("! ERROR: Invalid Character '" + std::string(1, *itr) + "' inserted.");
         } catch (std::invalid_argument& e) {
-            error << e.what() << std::endl
-                  << "|" << std::endl;
+            error << e.what() << std::endl;
             continue;
         }
 
@@ -98,6 +101,9 @@ inline std::string validateDateInput(std::istream& input, std::ostream& output,
         // to exit the internal loop and continue the external one.
         try {
 
+            if (buffer.length() == 0)
+                throw std::invalid_argument("! ERROR: No input.");
+
             // first we check the dates format and length to make sure its correct
             if (buffer.length() != 10 || buffer[2] != '/' || buffer[5] != '/')
                 throw std::invalid_argument("! ERROR: Invalid Date Format.");
@@ -133,12 +139,10 @@ inline std::string validateDateInput(std::istream& input, std::ostream& output,
                 else
                     throw std::invalid_argument("! ERROR: Character '" + std::string(1, *itr) + "' is not a valid numerical value.");
         } catch (std::invalid_argument& e) {
-            output << e.what() << std::endl
-                   << "|" << std::endl;
+            output << e.what() << std::endl;
             continue;
         } catch (std::out_of_range& e) {
-            std::cout << e.what() << std::endl
-                      << "|" << std::endl;
+            std::cout << e.what() << std::endl;
             continue;
         }
 
@@ -174,6 +178,10 @@ inline bool validateBoolInput(std::istream& input, std::ostream& output,
         // something unexpected is found we throw an internal exception and catch it
         // to exit the internal loop and continue the external one.
         try {
+
+            if (buffer.length() == 0)
+                throw std::invalid_argument("! ERROR: No input.");
+
             if (!buffer.compare("Y") || !buffer.compare("y"))
                 return true;
             else if (!buffer.compare("N") || !buffer.compare("n"))
@@ -182,8 +190,7 @@ inline bool validateBoolInput(std::istream& input, std::ostream& output,
                 throw std::invalid_argument("! ERROR: Input '" + buffer + "' is not valid for this type of input.");
 
         } catch (std::invalid_argument& e) {
-            output << e.what() << std::endl
-                   << "|" << std::endl;
+            output << e.what() << std::endl;
             continue;
         }
     }
@@ -221,6 +228,10 @@ T validateNumericalInput(std::istream& input, std::ostream& output,
             return 0;
 
         try {
+
+            if (buffer.length() == 0)
+                throw std::invalid_argument("! ERROR: No input.");
+
             for (std::string::iterator itr = buffer.begin(); itr != buffer.end();
                  itr++)
                 if (*itr >= '0' && *itr <= '9')
@@ -234,12 +245,10 @@ T validateNumericalInput(std::istream& input, std::ostream& output,
             value = (T)temp;
 
         } catch (std::invalid_argument& e) {
-            error << e.what() << std::endl
-                  << "|" << std::endl;
+            error << e.what() << std::endl;
             continue;
         } catch (std::out_of_range& e) {
-            error << "! ERROR: Inserted number is too large." << std::endl
-                  << "|" << std::endl;
+            error << "! ERROR: Inserted number is too large." << std::endl;
             continue;
         }
 
@@ -286,8 +295,7 @@ T* validateSearchCriteria(std::istream& input, std::ostream& output,
                 else
                     throw std::invalid_argument("! ERROR: Character '" + std::string(1, *itr) + "' is not a valid numerical value.");
         } catch (std::invalid_argument& e) {
-            error << e.what() << std::endl
-                  << "|" << std::endl;
+            error << e.what() << std::endl;
             return nullptr;
         }
 

@@ -26,15 +26,13 @@ interface::interface(std::istream& input, std::ostream& output, std::ostream& er
 
     /* - Start Message - */
 
-    this->output << "        Welcome to the University Management System" << std::endl;
-    this->output << "+---------------------------------------------------------+" << std::endl;
-    this->output << "| Made by: Evaggelia Ragkousi and Spyros Strakosia" << std::endl
-                 << "|" << std::endl;
+    this->output << " Univeristy Management System" << std::endl
+                 << "|==========================================================|" << std::endl
+                 << " Made by: Evaggelia Ragkousi and Spyros Strakosia" << std::endl << std::endl;
 
     /* - File Loader - */
     this->output << "? Attempting to load Department Secretary properties from files..." << std::endl;
-    this->error << "! ERROR: File loading failed. Proceeding with manual input." << std::endl
-                << "|" << std::endl;
+    this->error << "! ERROR: File loading failed. Proceeding with manual input." << std::endl << std::endl;
 
     /* - Fallback if secretary files aren't found - */
     this->sec = new secretary;
@@ -69,15 +67,17 @@ interface::SHOULD_EXIT interface::mainMenu() {
         system("clear");
 
         /* - menu print - */
-        this->output << "|-------------------- Main User Menu ---------------------|" << std::endl;
-        this->output << "| Choose one of the following options: " << std::endl;
-        this->output << "1. Proceed to Student Management Menu" << std::endl;
-        this->output << "2. Proceed to Professor Management Menu" << std::endl;
-        this->output << "3. Proceed to Course Management Menu" << std::endl;
-        this->output << "4. Print every Student who is able to Graduate" << std::endl;
-        this->output << "5. Move on to the Next Semester" << std::endl;
-        this->output << "6. Print Department Parameters" << std::endl;
-        this->output << "7. Save Data to Files and Exit Program" << std::endl;
+        this->output << " Main User Menu" << std::endl 
+                     << "|==========================================================|" << std::endl
+                     << " Choose one of the following options: " << std::endl
+                     << " 1. Proceed to Student Management Menu" << std::endl
+                     << " 2. Proceed to Professor Management Menu" << std::endl
+                     << " 3. Proceed to Course Management Menu" << std::endl
+                     << " 4. Print every Student who is able to Graduate" << std::endl
+                     << " 5. Move on to the Next Semester" << std::endl
+                     << " 6. Print Department Parameters" << std::endl
+                     << " 7. Save Data to Files and Exit Program" << std::endl
+                     << "|==========================================================|" << std::endl;
 
         /* - obtain and validate user option/input - */
         auto option = validation::validateNumericalInput<unsigned char>(this->input, this->output, this->error,
