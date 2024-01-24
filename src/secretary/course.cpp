@@ -68,7 +68,7 @@ course::~course() {
 
         delete (*itr);
     }
-};
+}
 
 /* - Setters - */
 

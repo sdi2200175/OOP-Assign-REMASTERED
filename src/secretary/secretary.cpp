@@ -18,7 +18,6 @@
  */
 secretary::secretary() {
     std::cin >> *this;
-    std::cout << "|-- Created Secretary For Department of " << this->department_name << " --|" << std::endl;
 }
 
 /**
@@ -31,16 +30,13 @@ secretary::secretary() {
  * @param required_ects The ects required by an attendee of the department managed by the secretary object to graduate.
  * @param mandatory_courses The amount of courses in the department managed by the secretary object that are needed for graduation.
  */
-secretary::secretary(const std::string& department_name, unsigned short department_code, unsigned short regular_attendance, unsigned short maximum_attendance,
+secretary::secretary(const std::string& department_name, unsigned short department_code, unsigned short regular_attendance,
     unsigned short required_ects, unsigned short mandatory_courses)
     : department_name(department_name)
     , department_code(department_code)
-    , maximum_attendance(maximum_attendance)
+    , regular_attendance(regular_attendance)
     , required_ects(required_ects)
-    , mandatory_courses(mandatory_courses) {
-
-    std::cout << "|-- Created Secretary For Department of " << this->department_name << " --|" << std::endl;
-}
+    , mandatory_courses(mandatory_courses) {}
 
 /**
  * @brief Destroy the secretary object
@@ -70,10 +66,11 @@ secretary::~secretary() {
  * @brief Creates a student using the direct user input constructor and adds it to the university databases.
  *
  */
-void secretary::createStudent() {
+student *secretary::createStudent() {
     student* new_student = new student(this->department_code);
     this->uni_id_database.insert(std::make_pair(new_student->getUniID(), new_student));
     this->uni_name_database.insert(std::make_pair(new_student->getName(), new_student));
+    return new_student;
 }
 
 void secretary::addStudent(student* student) {
@@ -138,10 +135,11 @@ void secretary::removeStudent(student* student) {
 
 /* - Professor Management - */
 
-void secretary::createProfessor() {
+professor *secretary::createProfessor() {
     professor* new_professor = new professor(this->department_code);
     this->uni_id_database.insert(std::make_pair(new_professor->getUniID(), new_professor));
     this->uni_name_database.insert(std::make_pair(new_professor->getName(), new_professor));
+    return new_professor;
 }
 
 void secretary::addProfessor(professor* professor) {
@@ -299,26 +297,18 @@ void secretary::printGraduates() {
 /* - Operator Overloads - */
 
 std::ostream& operator<<(std::ostream& stream, secretary& secretary) {
-    return stream << " Showing Secretary Properties:" << std::endl
-                  << "|==========================================================|" << std::endl
-                  << " Department Name: " << secretary.department_name << std::endl
-                  << " Department Code: " << secretary.department_code << std::endl
-                  << " Department Required Attendance: " << secretary.regular_attendance << " years(s)" << std::endl
-                  << " Department Maximum Attendance: " << secretary.maximum_attendance << " year(s)" << std::endl
-                  << " Department Graduation ECT Requirement: " << secretary.required_ects << " ECT(s)" << std::endl
-                  << " Department Mandatory Courses: " << secretary.mandatory_courses << " course(s)" << std::endl
-                  << "|=====================================================|" << std::endl;
+    return stream << "| Department Name: " << secretary.department_name << std::endl
+                  << "| Department Code: " << secretary.department_code << std::endl
+                  << "| Department Required Attendance: " << secretary.regular_attendance << " years(s)" << std::endl
+                  << "| Department Graduation ECT Requirement: " << secretary.required_ects << " ECT(s)" << std::endl
+                  << "| Department Mandatory Courses: " << secretary.mandatory_courses << " course(s)" << std::endl;
 }
 
 std::istream& operator>>(std::istream& stream, secretary& secretary) {
-    std::cout << " Building Secretary: " << std::endl
-              << "|==========================================================|" << std::endl;
-
-    secretary.department_name = validation::validateNameInput(stream, std::cout, std::cerr, "Enter Secretary Department Name: ");
-    secretary.department_code = validation::validateNumericalInput<unsigned short>(stream, std::cout, std::cerr, "Enter Secretary Department Code: ", 9999);
-    secretary.regular_attendance = validation::validateNumericalInput<unsigned short>(stream, std::cout, std::cerr, "Enter Secretary Department Required Years of Attendance: ", 10);
-    secretary.maximum_attendance = validation::validateNumericalInput<unsigned short>(stream, std::cout, std::cerr, "Enter secretary Department Maximum Years of Attendance: ", 10);
-    secretary.required_ects = validation::validateNumericalInput<unsigned short>(stream, std::cout, std::cerr, "Enter Secretary Department Graduation ECT Requirement: ", 300);
-    secretary.mandatory_courses = validation::validateNumericalInput<unsigned short>(stream, std::cout, std::cerr, "Enter Secretary Department Mandatory Courses: ", 100);
+    secretary.department_name = validation::validateNameInput(stream, std::cout, std::cerr, "Enter Department Name: ");
+    secretary.department_code = validation::validateNumericalInput<unsigned short>(stream, std::cout, std::cerr, "Enter Department Code: ", 9999);
+    secretary.regular_attendance = validation::validateNumericalInput<unsigned short>(stream, std::cout, std::cerr, "Enter Required Years of Attendance: ", 10);
+    secretary.required_ects = validation::validateNumericalInput<unsigned short>(stream, std::cout, std::cerr, "Enter Department Graduation ECT Requirement: ", 300);
+    secretary.mandatory_courses = validation::validateNumericalInput<unsigned short>(stream, std::cout, std::cerr, "Enter Department Mandatory Courses: ", 100);
     return stream;
 }

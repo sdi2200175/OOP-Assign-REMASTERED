@@ -17,6 +17,13 @@
 class interface {
 
 public:
+
+    /**
+     * @brief A Standard divided used across the interface of the program.
+     * 
+     */
+    static const std::string divider;
+
     /**
      * @brief Gauges whether the program should exit or not. When a function with return type SHOULD_EXIT returns EXIT
      * the program will quit the mainMenu() function and close.
@@ -55,6 +62,8 @@ private:
     std::istream& input;
     std::ostream& output;
     std::ostream& error;
+
+    void displayTitle();
 
     /**
      * @brief Manages all student-centric options in the program.

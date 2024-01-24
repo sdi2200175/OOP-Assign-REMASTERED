@@ -60,13 +60,12 @@ std::istream& operator>>(std::istream& stream, person& person) {
  */
 student::student(unsigned short department_code)
     : person()
+    , mandatory_courses_passed(0)
     , semester(1)
     , formatted_uni_id(std::string(1, this->id_prefix) + "-" + std::string(4 - std::to_string(department_code).length(), '0')
           + std::to_string(department_code) + "-" + std::string(7 - std::to_string(this->uni_id).length(), '0') + std::to_string(this->uni_id)) {
 
     std::cin >> *this;
-    mandatory_courses_passed = 0;
-    std::cout << "|-- Created Student named '" + this->getName() + "' with University ID: " + this->formatted_uni_id + " --|" << std::endl;
 }
 
 /**
@@ -88,10 +87,7 @@ student::student(const std::string& name, const std::string& date_of_birth, cons
     , mandatory_courses_passed(mandatory_courses_passed)
     , semester(1)
     , formatted_uni_id(std::string(1, this->id_prefix) + "-" + std::string(4 - std::to_string(department_code).length(), '0')
-          + std::to_string(department_code) + "-" + std::string(7 - std::to_string(this->uni_id).length(), '0') + std::to_string(this->uni_id)) {
-
-    std::cout << "|-- Created Student named '" + this->getName() + "' with University ID: " + this->formatted_uni_id + " --|" << std::endl;
-}
+          + std::to_string(department_code) + "-" + std::string(7 - std::to_string(this->uni_id).length(), '0') + std::to_string(this->uni_id)) {}
 
 /**
  * @brief Destroy the student object.
@@ -194,19 +190,17 @@ void student::newSemester() {
 /* - Operator Overloads - */
 
 std::ostream& operator<<(std::ostream& stream, student& student) {
-    stream << "| Student's Full Name: " << student.name << std::endl;
-    stream << "| Student's Date of Birth: " << student.date_of_birth << std::endl;
-    stream << "| Student's Date of Registration: " << student.date_of_registration << std::endl;
-    stream << "| Student's Total ECT Amount: " << student.ects << " ECT(s)" << std::endl;
-    stream << "| Student's Amount of Mandatory Courses Passed: " << student.mandatory_courses_passed << " Course(s)" << std::endl;
-    stream << "| Student's University ID: " << student.formatted_uni_id << std::endl;
-    return stream;
+  return stream << "| Student's Full Name: " << student.name << std::endl
+                << "| Student's University ID: " << student.formatted_uni_id << std::endl
+                << "| Student's Date of Birth: " << student.date_of_birth << std::endl
+                << "| Student's Date of Registration: " << student.date_of_registration << std::endl
+                << "| Student's Passed Mandatory Courses : " << student.mandatory_courses_passed << " Course(s)" << std::endl
+                << "| Student's ECT Amount: " << student.ects << " ECT(s)" << std::endl;
 }
 
 std::istream& operator>>(std::istream& stream, student& student) {
     student.date_of_birth = validation::validateDateInput(stream, std::cout, std::cerr, "Enter Date of Birth: ");
     student.date_of_registration = validation::validateDateInput(stream, std::cout, std::cerr, "Enter Date of Registration: ");
-    student.ects = validation::validateNumericalInput(std::cin, std::cout, std::cerr, "Enter ECT Amount: ", 300);
     return stream;
 }
 
@@ -223,7 +217,6 @@ professor::professor(unsigned short department_code)
           + std::to_string(department_code) + "-" + std::string(7 - std::to_string(this->uni_id).length(), '0') + std::to_string(this->uni_id)) {
 
     std::cin >> *this;
-    std::cout << "|-- Created Professor named '" + this->getName() + "' with University ID: " + this->formatted_uni_id + " --|" << std::endl;
 }
 
 /**
@@ -237,10 +230,7 @@ professor::professor(const std::string& name, const std::string& date_of_birth, 
     : person(name)
     , date_of_birth(date_of_birth)
     , formatted_uni_id(std::string(1, this->id_prefix) + "-" + std::string(4 - std::to_string(department_code).length(), '0')
-          + std::to_string(department_code) + "-" + std::string(7 - std::to_string(this->uni_id).length(), '0') + std::to_string(this->uni_id)) {
-
-    std::cout << "|-- Created Professor named '" + this->getName() + "' with University ID: " + this->formatted_uni_id + " --|" << std::endl;
-}
+          + std::to_string(department_code) + "-" + std::string(7 - std::to_string(this->uni_id).length(), '0') + std::to_string(this->uni_id)) {}
 
 /**
  * @brief Destroy the professor object.
@@ -263,10 +253,11 @@ void professor::newSemester() {
 /* - Operator Overloads - */
 
 std::ostream& operator<<(std::ostream& stream, professor& professor) {
-    stream << "| Professor's Full Name: " << professor.name << std::endl;
-    stream << "| Professor's Date of Birth: " << professor.date_of_birth << std::endl;
-    stream << "| Professor's University ID: " << professor.formatted_uni_id << std::endl;
-    return stream;
+
+  return stream << "| Professor's Full Name: " << professor.name << std::endl
+                << "| Professor's University ID: " << professor.formatted_uni_id << std::endl
+                << "| Professor's Date of Birth: " << professor.date_of_birth << std::endl
+                << "| Professor's Assigned Courses: " << professor.getAssignedCourses().size() << " Course(s)" << std::endl;
 }
 
 std::istream& operator>>(std::istream& stream, professor& professor) {
