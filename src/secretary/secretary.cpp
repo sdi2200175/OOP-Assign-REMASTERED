@@ -1,314 +1,112 @@
-/**
- * @file secretary.cpp
- * @author Spyros Strakosia, Evaggelia Ragkousi
- * @brief
- * @version 0.1
- * @date 2024-01-19
- *
- * @copyright Copyright (c) 2024
- *
- */
+//
+// Created by Spyros Strakosia on 25/1/24.
+//
 
-#include "secretary.hpp"
-#include "validation.hpp"
+#include "io.h"
+#include "secretary.h"
 
-/**
- * @brief Construct a new secretary object by requesting input from the user directly
- *
- */
 secretary::secretary() {
     std::cin >> *this;
 }
 
-/**
- * @brief Construct a new secretary object without requesting user input directly.
- *
- * @param department_name The name of the department managed by the secretary object.
- * @param department_code The code of the department managed by the secretary object.
- * @param maximum_attendance The maximum amount of years one can attend the department managed by the secretary object.
- * @param regular_attendance The required amount of years one has to attend the department in order to get their diploma.
- * @param required_ects The ects required by an attendee of the department managed by the secretary object to graduate.
- * @param mandatory_courses The amount of courses in the department managed by the secretary object that are needed for graduation.
- */
-secretary::secretary(const std::string& department_name, unsigned short department_code, unsigned short regular_attendance,
-    unsigned short required_ects, unsigned short mandatory_courses)
-    : department_name(department_name)
-    , department_code(department_code)
-    , regular_attendance(regular_attendance)
-    , required_ects(required_ects)
-    , mandatory_courses(mandatory_courses) {}
+secretary::secretary(std::string dept_name, unsigned int dept_code, unsigned short min_attendance,
+                     unsigned short required_ects, unsigned short mandatory_courses) : dept_name(std::move(dept_name)),
+                     dept_code(dept_code), min_attendance(min_attendance), required_ects(required_ects), mandatory_courses(mandatory_courses) {}
 
-/**
- * @brief Destroy the secretary object
- *
- */
-secretary::~secretary() {
-
-    for (std::map<unsigned int, person*>::iterator itr = this->uni_id_database.begin();
-         itr != this->uni_id_database.end(); itr++) {
-
-        if (((professor*)itr->second)->getFormattedUniID()[0] != 'P')
-            delete (student*)itr->second;
-        else
-            delete (professor*)itr->second;
-    }
-
-    for (std::map<unsigned int, course*>::iterator itr = this->uni_id_course_database.begin();
-         itr != this->uni_id_course_database.end(); itr++) {
-
-        delete itr->second;
-    }
+std::ostream &operator<<(std::ostream &stream, const secretary &secretary) {
+    return stream << "| Department Name: " << secretary.dept_name << std::endl
+                  << "| Department Code: " << secretary.dept_code << std::endl
+                  << "| Department Minimum Attendance: " << secretary.min_attendance << " year(s)" << std::endl
+                  << "| Department ECT Requirement: " << secretary.required_ects << " ECT(s)" << std::endl
+                  << "| Department Mandatory Courses: " << secretary.mandatory_courses << " Course(s)" << std::endl
+                  << "| Department Students: " << secretary.id_database.size() << " Student(s)" << std::endl;
 }
 
-/* - Student Management - */
+std::istream &operator>>(std::istream &stream, secretary &secretary) {
 
-/**
- * @brief Creates a student using the direct user input constructor and adds it to the university databases.
- *
- */
-student *secretary::createStudent() {
-    student* new_student = new student(this->department_code);
-    this->uni_id_database.insert(std::make_pair(new_student->getUniID(), new_student));
-    this->uni_name_database.insert(std::make_pair(new_student->getName(), new_student));
-    return new_student;
-}
-
-void secretary::addStudent(student* student) {
-    this->uni_id_database.insert(std::make_pair(student->getUniID(), student));
-    this->uni_name_database.insert(std::make_pair(student->getName(), student));
-}
-
-student* secretary::retrieveStudent(unsigned int uni_id) {
-    std::map<unsigned int, person*>::iterator itr = this->uni_id_database.find(uni_id);
-    if (itr != this->uni_id_database.end())
-        if (((professor*)itr->second)->getFormattedUniID()[0] != 'P')
-            return (student*)itr->second;
-
-    return nullptr;
-}
-
-student* secretary::retrieveStudent(const std::string& name) {
-    std::multimap<std::string, person*>::iterator itr = this->uni_name_database.find(name);
-    if (itr != this->uni_name_database.end())
-        if (((professor*)itr->second)->getFormattedUniID()[0] != 'P')
-            return (student*)itr->second;
-
-    return nullptr;
-}
-
-/**
- * @brief Searches for and deletes a student.
- *
- * @return true Returns true if the student was actually deleted.
- * @return false Returns false if the student was not deleted.
- */
-bool secretary::deleteStudent() {
-    student* (secretary::*id_search)(unsigned int) = &secretary::retrieveStudent;
-    student* (secretary::*name_search)(const std::string&) = &secretary::retrieveStudent;
-    student* stud = validation::validateSearchCriteria<student>(std::cin, std::cout, std::cerr,
-        "Enter the Name or ID of the Student you want to delete: ", id_search, name_search, *this);
-
-    if (stud != nullptr) {
-        std::cout << "|" << std::endl
-                  << "The Student with the following credentials was found: " << std::endl;
-        std::cout << *stud;
-        if (validation::validateBoolInput(std::cin, std::cout, std::cerr, "Would you like to delete this student? ")) {
-            this->uni_id_database.erase(stud->getUniID());
-            this->uni_name_database.erase(stud->getName());
-            delete stud;
-            return true;
-        } else {
-            std::cout << "| Student Deletion Aborted." << std::endl;
-        }
-
-    } else {
-        std::cerr << "! ERROR: The Student you searched for was not found." << std::endl;
-    }
-
-    return false;
-}
-
-void secretary::removeStudent(student* student) {
-    this->uni_id_database.erase(student->getUniID());
-    this->uni_name_database.erase(student->getName());
-}
-
-/* - Professor Management - */
-
-professor *secretary::createProfessor() {
-    professor* new_professor = new professor(this->department_code);
-    this->uni_id_database.insert(std::make_pair(new_professor->getUniID(), new_professor));
-    this->uni_name_database.insert(std::make_pair(new_professor->getName(), new_professor));
-    return new_professor;
-}
-
-void secretary::addProfessor(professor* professor) {
-    this->uni_id_database.insert(std::make_pair(professor->getUniID(), professor));
-    this->uni_name_database.insert(std::make_pair(professor->getName(), professor));
-}
-
-professor* secretary::retrieveProfessor(unsigned int uni_id) {
-    std::map<unsigned int, person*>::iterator itr = this->uni_id_database.find(uni_id);
-    if (itr != this->uni_id_database.end())
-        if (((professor*)itr->second)->getFormattedUniID()[0] == 'P')
-            return (professor*)itr->second;
-
-    return nullptr;
-}
-
-professor* secretary::retrieveProfessor(const std::string& name) {
-    std::multimap<std::string, person*>::iterator itr = this->uni_name_database.find(name);
-    if (itr != this->uni_name_database.end())
-        if (((professor*)itr->second)->getFormattedUniID()[0] == 'P')
-            return (professor*)itr->second;
-
-    return nullptr;
-}
-
-/**
- * @brief Searches for and deletes a professor.
- *
- * @return true Returns true if the professor was actually deleted.
- * @return false Returns false if the professor was not deleted.
- */
-bool secretary::deleteProfessor() {
-    professor* (secretary::*id_search)(unsigned int) = &secretary::retrieveProfessor;
-    professor* (secretary::*name_search)(const std::string&) = &secretary::retrieveProfessor;
-    professor* prof = validation::validateSearchCriteria<professor>(std::cin, std::cout, std::cerr,
-        "Enter the Name or ID of the Professor you want to delete: ", id_search, name_search, *this);
-
-    if (prof != nullptr) {
-        std::cout << "|" << std::endl
-                  << "The Professor with the following credentials was found: " << std::endl;
-        std::cout << *prof;
-        if (validation::validateBoolInput(std::cin, std::cout, std::cerr, "Would you like to delete this Professor? ")) {
-            this->uni_id_database.erase(prof->getUniID());
-            this->uni_name_database.erase(prof->getName());
-            delete prof;
-            return true;
-        } else {
-            std::cout << "| Professor Deletion Aborted." << std::endl;
-        }
-
-    } else {
-        std::cerr << "! ERROR: The Professor you searched for was not found." << std::endl;
-    }
-
-    return false;
-}
-
-void secretary::removeProfessor(professor* professor) {
-    this->uni_id_database.erase(professor->getUniID());
-    this->uni_name_database.erase(professor->getName());
-}
-
-/* - Course Management - */
-
-void secretary::createCourse() {
-    course* new_course = new course(this->department_code);
-    this->uni_id_course_database.insert(std::make_pair(new_course->getUniID(), new_course));
-    this->uni_name_course_database.insert(std::make_pair(new_course->getName(), new_course));
-}
-
-void secretary::addCourse(course* course) {
-    this->uni_id_course_database.insert(std::make_pair(course->getUniID(), course));
-    this->uni_name_course_database.insert(std::make_pair(course->getName(), course));
-}
-
-course* secretary::retrieveCourse(unsigned int uni_id) {
-    std::map<unsigned int, course*>::iterator itr = this->uni_id_course_database.find(uni_id);
-    if (itr != this->uni_id_course_database.end())
-        return (course*)itr->second;
-
-    return nullptr;
-}
-
-course* secretary::retrieveCourse(const std::string& name) {
-    std::map<std::string, course*>::iterator itr = this->uni_name_course_database.find(name);
-    if (itr != this->uni_name_course_database.end())
-        return (course*)itr->second;
-
-    return nullptr;
-}
-
-bool secretary::deleteCourse() {
-    course* (secretary::*id_search)(unsigned int) = &secretary::retrieveCourse;
-    course* (secretary::*name_search)(const std::string&) = &secretary::retrieveCourse;
-    course* cour = validation::validateSearchCriteria<course>(std::cin, std::cout, std::cerr,
-        "Enter the Name or ID of the Course you want to delete: ", id_search, name_search, *this);
-
-    if (cour != nullptr) {
-        std::cout << "|" << std::endl
-                  << "The Course with the following credentials was found: " << std::endl;
-        std::cout << *cour;
-        if (validation::validateBoolInput(std::cin, std::cout, std::cerr, "Would you like to delete this Course? ")) {
-            this->uni_id_course_database.erase(cour->getUniID());
-            this->uni_name_course_database.erase(cour->getName());
-            delete cour;
-            return true;
-        } else {
-            std::cout << "| Course Deletion Aborted." << std::endl;
-        }
-
-    } else {
-        std::cerr << "! ERROR: The Course you searched for was not found." << std::endl;
-    }
-
-    return false;
-}
-
-void secretary::removeCourse(course* course) {
-    this->uni_id_course_database.erase(course->getUniID());
-    this->uni_name_course_database.erase(course->getName());
-}
-
-/* New Semester */
-
-void secretary::incrementSemester() {
-
-    if (this->current_semester == FALL)
-        this->current_semester = SPRING;
-    else
-        this->current_semester = FALL;
-
-    for (std::map<unsigned int, person*>::iterator itr = uni_id_database.begin();
-         itr != this->uni_id_database.end(); itr++) {
-        if (((professor*)itr->second)->getFormattedUniID()[0] == 'P') {
-            professor* prof = (professor*)itr->second;
-            prof->newSemester();
-        } else {
-            student* stud = (student*)itr->second;
-            stud->newSemester();
+    while (true) {
+        try {
+            secretary.dept_name = io::input::name(stream, "Enter Department Name:");
+            break;
+        } catch (std::invalid_argument &e) {
+            std::cout << e.what() << std::endl;
         }
     }
 
-    for (std::map<unsigned int, course*>::iterator itr = uni_id_course_database.begin();
-         itr != this->uni_id_course_database.end(); itr++) {
-        course* cour = itr->second;
-        cour->newSemester();
+    while (true) {
+        try {
+            secretary.dept_code = io::input::number<unsigned int>(stream, "Enter Department Code:", 9999);
+            break;
+        } catch (std::invalid_argument &e) {
+            std::cout << e.what() << std::endl;
+        } catch (std::out_of_range &e) {
+            std::cout << e.what() << std::endl;
+        }
     }
-}
 
-/* Print Graduates */
+    while (true) {
+        try {
+            secretary.min_attendance = io::input::number<unsigned short>(stream, "Enter Department Minimum Attendance:", 9);
+            break;
+        } catch (std::invalid_argument &e) {
+            std::cout << e.what() << std::endl;
+        } catch (std::out_of_range &e) {
+            std::cout << e.what() << std::endl;
+        }
+    }
 
-void secretary::printGraduates() {
-}
+    while (true) {
+        try {
+            secretary.required_ects = io::input::number<unsigned short>(stream, "Enter Department ECT Requirement:", 299);
+            break;
+        } catch (std::invalid_argument &e) {
+            std::cout << e.what() << std::endl;
+        } catch (std::out_of_range &e) {
+            std::cout << e.what() << std::endl;
+        }
+    }
 
-/* - Operator Overloads - */
+    while (true) {
+        try {
+            secretary.mandatory_courses = io::input::number<unsigned short>(stream, "Enter Department Mandatory Courses:", 99);
+            break;
+        } catch (std::invalid_argument &e) {
+            std::cout << e.what() << std::endl;
+        } catch (std::out_of_range &e) {
+            std::cout << e.what() << std::endl;
+        }
+    }
 
-std::ostream& operator<<(std::ostream& stream, secretary& secretary) {
-    return stream << "| Department Name: " << secretary.department_name << std::endl
-                  << "| Department Code: " << secretary.department_code << std::endl
-                  << "| Department Required Attendance: " << secretary.regular_attendance << " years(s)" << std::endl
-                  << "| Department Graduation ECT Requirement: " << secretary.required_ects << " ECT(s)" << std::endl
-                  << "| Department Mandatory Courses: " << secretary.mandatory_courses << " course(s)" << std::endl;
-}
-
-std::istream& operator>>(std::istream& stream, secretary& secretary) {
-    secretary.department_name = validation::validateNameInput(stream, std::cout, std::cerr, "Enter Department Name: ");
-    secretary.department_code = validation::validateNumericalInput<unsigned short>(stream, std::cout, std::cerr, "Enter Department Code: ", 9999);
-    secretary.regular_attendance = validation::validateNumericalInput<unsigned short>(stream, std::cout, std::cerr, "Enter Required Years of Attendance: ", 10);
-    secretary.required_ects = validation::validateNumericalInput<unsigned short>(stream, std::cout, std::cerr, "Enter Department Graduation ECT Requirement: ", 300);
-    secretary.mandatory_courses = validation::validateNumericalInput<unsigned short>(stream, std::cout, std::cerr, "Enter Department Mandatory Courses: ", 100);
     return stream;
+}
+
+void secretary::add(person *per) {
+    id_database.insert({ per->getUniId(), per });
+    name_database.insert({ per->getName(), per });
+}
+
+void secretary::add(course *cour) {
+    course_id_database.insert({ cour->getUniId(), cour });
+    course_name_database.insert({ cour->getName(), cour });
+}
+
+course *secretary::retrieveCourse(unsigned int id) {
+    auto itr = course_id_database.find(id);
+    if (itr == course_id_database.end())
+        throw std::out_of_range("! ERROR: This ID does not belong to any university Course.");
+
+    return itr->second;
+}
+
+course *secretary::retrieveCourse(const std::string &name) {
+    auto itr = course_name_database.find(name);
+    if (itr == course_name_database.end())
+        throw std::out_of_range("! ERROR: No course named '" + name + "' exists.");
+
+    return itr->second;
+}
+
+void secretary::remove(person *per) {
+    id_database.erase(per->getUniId());
+    name_database.erase(per->getName());
 }
