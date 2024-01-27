@@ -37,9 +37,10 @@ io::SHOULD_EXIT interface::studentManagement() {
 
         switch (option) {
 
-            // Add a student to the department
+            // Student Addition
             case 1: {
 
+                // If the user's input is unexpected we throw catch an exception from io::input::boolean
                 try {
 
                     // We first build the student and then show the object's attributes.
@@ -65,7 +66,7 @@ io::SHOULD_EXIT interface::studentManagement() {
                 break;
             }
 
-            // Student modification.
+            // Student Modification
             case 2: {
 
                 // We search for the student and catch any exceptions that might be thrown from io::input::search.
@@ -79,11 +80,11 @@ io::SHOULD_EXIT interface::studentManagement() {
                                                                *sec, id_search, name_search);
 
                     // We show the student information and ask for the user's input whether they want to
-                    // delete the student or not.
-                    io::output::showAttr<student>("Found the following Student", stud, true);
+                    // modify the student or not.
+                    io::output::showAttr<student>("Student Information", stud, true);
 
                     // If the user types 'no' we abort.
-                    if (io::input::boolean(std::cin, "Would you like to modify this Student?"))
+                    if (!io::input::boolean(std::cin, "Would you like to modify this Student?"))
                         throw std::invalid_argument("Operation Aborted.");
 
                     CHECK_EXIT(this->studentModification(stud));
@@ -100,7 +101,7 @@ io::SHOULD_EXIT interface::studentManagement() {
                 break;
             }
 
-                // Student removal.
+                // Student Removal.
             case 3: {
 
                 // We search for the student and catch any exceptions that might be thrown from io::input::search.
@@ -136,7 +137,7 @@ io::SHOULD_EXIT interface::studentManagement() {
                 break;
             }
 
-                // Grade printing.
+            // Grade Printing
             case 4: {
 
                 // We search for the student and catch any exceptions that might be thrown from io::input::search.
@@ -176,14 +177,14 @@ io::SHOULD_EXIT interface::studentManagement() {
                 break;
             }
 
-                // Register to course.
+            // Course Registration
             case 5: {
                 courseRegistration();
                 io::input::await("Return to " + menu_title);
                 break;
             }
 
-                // Graduation Eligibility
+            // Graduation Eligibility
             case 6: {
 
                 try {
@@ -213,7 +214,7 @@ io::SHOULD_EXIT interface::studentManagement() {
                     std::cout << e.what() << std::endl;
                 }
 
-                // We wait for confirmation before returning to the menu screen.
+                // We wait for the user's input and return to the menu.
                 io::input::await("Return to " + menu_title);
                 break;
             }

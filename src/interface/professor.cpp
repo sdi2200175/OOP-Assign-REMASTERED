@@ -36,7 +36,7 @@ io::SHOULD_EXIT interface::professorManagement() {
 
         switch (option) {
 
-            // Add a professor to the department
+            // Professor Addition
             case 1: {
 
                 // If the user's input is unexpected we throw catch an exception from io::input::boolean
@@ -55,6 +55,7 @@ io::SHOULD_EXIT interface::professorManagement() {
 
                     sec->add(prof);
                     std::cout << "Professor added successfully!" << std::endl;
+
                 } catch (std::invalid_argument &e) {
                     std::cout << e.what() << std::endl;
                 }
@@ -64,7 +65,7 @@ io::SHOULD_EXIT interface::professorManagement() {
                 break;
             }
 
-                // Professor modification.
+            // Professor Modification
             case 2: {
 
                 // We search for the student and catch any exceptions that might be thrown from io::input::search.
@@ -82,7 +83,7 @@ io::SHOULD_EXIT interface::professorManagement() {
                     io::output::showAttr<professor>("Professor Information", prof, true);
 
                     // If the user types 'no' we abort.
-                    if (io::input::boolean(std::cin, "Would you like to modify this Professor?"))
+                    if (!io::input::boolean(std::cin, "Would you like to modify this Professor?"))
                         throw std::invalid_argument("Operation Aborted.");
 
                     CHECK_EXIT(professorModification(prof));
@@ -99,7 +100,7 @@ io::SHOULD_EXIT interface::professorManagement() {
                 break;
             }
 
-                // Professor removal.
+                // Professor Removal.
             case 3: {
 
                 // We search for the student and catch any exceptions that might be thrown from io::input::search.
@@ -135,14 +136,14 @@ io::SHOULD_EXIT interface::professorManagement() {
                 break;
             }
 
-                // Course Assignment
+            // Course Asssignment
             case 4: {
                 courseAssignment();
                 io::input::await("Return to " + menu_title);
                 break;
             }
 
-                // Student Grading
+            // Student Grading
             case 5: {
 
                 try {

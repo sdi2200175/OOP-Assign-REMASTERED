@@ -10,18 +10,12 @@ secretary::secretary() {
 }
 
 secretary::secretary(std::string dept_name, unsigned int dept_code, unsigned short min_attendance,
-                     unsigned short required_ects, unsigned short mandatory_courses, Semester semester) : dept_name(
-        std::move(dept_name)),
-                                                                                                          dept_code(
-                                                                                                                  dept_code),
-                                                                                                          min_attendance(
-                                                                                                                  min_attendance),
-                                                                                                          required_ects(
-                                                                                                                  required_ects),
-                                                                                                          mandatory_courses(
-                                                                                                                  mandatory_courses),
-                                                                                                          semester(
-                                                                                                                  semester) {}
+                     unsigned short required_ects, unsigned short mandatory_courses, Semester semester) : dept_name(std::move(dept_name)),
+                                                                                                          dept_code(dept_code),
+                                                                                                          min_attendance(min_attendance),
+                                                                                                          required_ects(required_ects),
+                                                                                                          mandatory_courses(mandatory_courses),
+                                                                                                          semester(semester) {}
 
 
 secretary::~secretary() {
@@ -37,20 +31,20 @@ secretary::~secretary() {
     }
 }
 
-std::ostream &operator<<(std::ostream &stream, const secretary &secretary) {
-    return stream << "| Department Name: " << secretary.dept_name << std::endl
-                  << "| Department Code: " << secretary.dept_code << std::endl
-                  << "| Department Minimum Attendance: " << secretary.min_attendance << " year(s)" << std::endl
-                  << "| Department ECT Requirement: " << secretary.required_ects << " ECT(s)" << std::endl
-                  << "| Department Mandatory Courses: " << secretary.mandatory_courses << " Course(s)" << std::endl
-                  << "| Department Students: " << secretary.id_database.size() << " Student(s)" << std::endl;
+std::ostream &operator<<(std::ostream &stream, const secretary &sec) {
+    return stream << "| Department's Name: " << sec.dept_name << std::endl
+                  << "| Department's Code: " << sec.dept_code << std::endl
+                  << "| Department's Minimum Years of Attendance: " << sec.min_attendance << " Year(s)" << std::endl
+                  << "| Department's ECT Requirement: " << sec.required_ects << " ECT(s)" << std::endl
+                  << "| Department's Mandatory Courses: " << sec.mandatory_courses << " Course(s)" << std::endl
+                  << "| Department's Students: " << sec.calculateSize() << " Student(s)" << std::endl;
 }
 
 std::istream &operator>>(std::istream &stream, secretary &secretary) {
 
     while (true) {
         try {
-            secretary.dept_name = io::input::name(stream, "Enter Department Name:");
+            secretary.dept_name = io::input::name(stream, "Enter Department's Name:");
             break;
         } catch (std::invalid_argument &e) {
             std::cout << e.what() << std::endl;
@@ -59,7 +53,7 @@ std::istream &operator>>(std::istream &stream, secretary &secretary) {
 
     while (true) {
         try {
-            secretary.dept_code = io::input::number<unsigned int>(stream, "Enter Department Code:", 9999);
+            secretary.dept_code = io::input::number<unsigned int>(stream, "Enter Department's Code:", 9999);
             break;
         } catch (std::invalid_argument &e) {
             std::cout << e.what() << std::endl;
@@ -70,7 +64,7 @@ std::istream &operator>>(std::istream &stream, secretary &secretary) {
 
     while (true) {
         try {
-            secretary.min_attendance = io::input::number<unsigned short>(stream, "Enter Department Minimum Attendance:",
+            secretary.min_attendance = io::input::number<unsigned short>(stream, "Enter Department's Minimum Years of Attendance:",
                                                                          9);
             break;
         } catch (std::invalid_argument &e) {
@@ -82,7 +76,7 @@ std::istream &operator>>(std::istream &stream, secretary &secretary) {
 
     while (true) {
         try {
-            secretary.required_ects = io::input::number<unsigned short>(stream, "Enter Department ECT Requirement:",
+            secretary.required_ects = io::input::number<unsigned short>(stream, "Enter Department's ECT Requirement:",
                                                                         299);
             break;
         } catch (std::invalid_argument &e) {
@@ -95,7 +89,7 @@ std::istream &operator>>(std::istream &stream, secretary &secretary) {
     while (true) {
         try {
             secretary.mandatory_courses = io::input::number<unsigned short>(stream,
-                                                                            "Enter Department Mandatory Courses:", 99);
+                                                                            "Enter Department's Mandatory Courses:", 99);
             break;
         } catch (std::invalid_argument &e) {
             std::cout << e.what() << std::endl;
@@ -141,6 +135,15 @@ void secretary::remove(person *per) {
 void secretary::remove(course *cour) {
     course_id_database.erase(cour->getUniId());
     course_name_database.erase(cour->getName());
+}
+
+unsigned int secretary::calculateSize() const {
+    unsigned int size = 0;
+    for (auto itr = id_database.begin(); itr != id_database.end(); itr++) {
+        if (itr->second->getFormattedUniId()[0] == 'S')
+            size++;
+    }
+    return size;
 }
 
 void secretary::incrementSemester() {

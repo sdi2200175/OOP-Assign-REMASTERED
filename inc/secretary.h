@@ -11,7 +11,7 @@
 #include "person.h"
 #include "course.h"
 
-/// Enum Representing the semester the department is currently on.
+/// Enum representing the semester the department is currently on.
 typedef enum {
     FALL = 1, SPRING = 2
 } Semester;
@@ -65,11 +65,12 @@ public:
 
     const std::unordered_multimap<std::string, course *> &getCourseNameDatabase() const { return course_name_database; }
 
-    // Database Manipulation.
+    // Addition functions
     void add(person *per);
 
     void add(course *cour);
 
+    //Person retrieval functions
     /**
      * Searches for and returns the person with the given university id or name.
      * @tparam T Class which is being searched for.
@@ -103,18 +104,22 @@ public:
         return (T *) itr->second;
     }
 
-    // Course retrieval functions.
+    // Course retrieval functions
     course *retrieveCourse(unsigned int id);
 
     course *retrieveCourse(const std::string &name);
 
-    // Removal functions.
+    // Removal functions
     void remove(person *per);
 
     void remove(course *cour);
 
-    // Semester Incrementation Function.
+    // Number of Students calculation function
+    unsigned int calculateSize() const;
+
+    // Semester incrementation function
     void incrementSemester();
+
 };
 
 

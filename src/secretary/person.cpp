@@ -95,9 +95,9 @@ std::ostream &operator<<(std::ostream &stream, const student &student) {
                   << "| Date of Registration: " << student.date_of_registration << std::endl
                   << "| Amount of ECT(s): " << student.ects << std::endl
                   << "| Semester: " << student.semester << std::endl
-                  << "| Amount of Mandatory Course(s) passed: " << student.mandatory_courses_passed << " course(s)"
+                  << "| Amount of Mandatory Course(s) Passed: " << student.mandatory_courses_passed << " Course(s)"
                   << std::endl
-                  << "| Amount of Total Course(s) passed: " << student.total_courses_passed << " course(s)" << std::endl
+                  << "| Amount of Total Course(s) Passed: " << student.total_courses_passed << " Course(s)" << std::endl
                   << "| University ID: " << student.formatted_uni_id << std::endl;
 }
 

@@ -375,7 +375,7 @@ namespace io {
                       << divider << std::endl;
 
             // Print the actual options.
-            for (int i = 0; i < amount_of_options; i++)
+            for (unsigned int i = 0; i < amount_of_options; i++)
                 std::cout << "| " << i + 1 << ". " << options[i] << std::endl;
 
             // Print a divider below the menu.
