@@ -138,10 +138,20 @@ void student::registr(unsigned int id) {
 
 void student::addGrade(Grade grade) {
     grades.insert(grades.end(), grade);
+    unsigned int prev_grade;
+
+    // We check to see if this grade is already in the grades vector.
+    for (auto itr = grades.begin(); itr != grades.end(); itr++)
+        if ((*itr)->course_id == grade->course_id) {
+            prev_grade = (*itr)->grade_num;
+            (*itr)->grade_num = grade->grade_num;
+            delete grade;
+            break;
+        }
 
     // If the student has passed the course e give them the ects
     // and mandatory pass if it was mandatory.
-    if (grade->grade_num > 5) {
+    if (grade->grade_num > 5 && prev_grade <= 5) {
         ects += grade->ects;
         mandatory_courses_passed += grade->mandatory;
         total_courses_passed += 1;

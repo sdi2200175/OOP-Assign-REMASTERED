@@ -183,7 +183,7 @@ io::SHOULD_EXIT interface::professorManagement() {
 
                     // We show the Course information and ask for the user's input whether they want to
                     // submit the grade for this course.
-                    io::output::showAttr<course>("Course Information", cour, true);
+                    io::output::showAttr<course>("Course Information", cour, false);
 
                     // If the user types 'no' we abort.
                     if (!io::input::boolean(std::cin, "Is this the Course you'd like to submit Grades for?"))
@@ -208,7 +208,7 @@ io::SHOULD_EXIT interface::professorManagement() {
 
                     // We show the Student information and ask for the user's input whether they want to
                     // submit the grade for this student.
-                    io::output::showAttr<student>("Student Information", stud, true);
+                    io::output::showAttr<student>("Student Information", stud, false);
 
                     // If the user types 'no' we abort.
                     if (!io::input::boolean(std::cin, "Is this the Student whose grades you'd like to submit?"))
@@ -221,6 +221,17 @@ io::SHOULD_EXIT interface::professorManagement() {
                         throw std::invalid_argument(
                                 "! ERROR: This Student is not currently registered to this Course.");
                     }
+
+                    // We iterate over the student's grades and check if the grade already exists in which case we print a relevant prompt.
+                    for (auto itr = stud->getGrades().begin(); itr != stud->getGrades().end(); itr++)
+                        if ((*itr)->course_id == cour->getUniId()) {
+
+                            // If the user types 'no' we abort.
+                            if (!io::input::boolean(std::cin, "This Student has already been graded. Would you like to resubmit their Grade?"))
+                                throw std::invalid_argument("Operation Aborted.");
+
+                            break;
+                        }
 
                     // We create the grade and add it to the student.
                     unsigned short grade_num = io::input::number<unsigned short>(std::cin,
@@ -242,6 +253,10 @@ io::SHOULD_EXIT interface::professorManagement() {
                 // We wait for the user's input and return to the menu.
                 io::input::await("Return to " + menu_title);
                 break;
+            }
+
+            case 6: {
+
             }
 
             default:

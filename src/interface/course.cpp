@@ -289,6 +289,7 @@ io::SHOULD_EXIT interface::courseModification(course *cour) {
 
 
 
+
 void interface::courseRegistration() {
 
     // We search for the student and catch any exceptions that might be thrown from io::input::search.
