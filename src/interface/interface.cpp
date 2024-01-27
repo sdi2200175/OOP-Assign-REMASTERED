@@ -32,15 +32,16 @@ interface::~interface() {
 io::SHOULD_EXIT interface::main_menu() {
 
     const std::string menu_title = "Main Menu";
-    const std::string options[] = { "Manage Student(s)",
-                                    "Manage Professor(s)",
-                                    "Manage Course(s)",
-                                    "Show Potential Graduates",
-                                    "Save to Local Files and Exit"};
+    const std::string options[] = {"Manage Student(s)", "Manage Professor(s)", "Manage Course(s)",
+                                   "Show Potential Graduates", "Move to the next Semester",
+                                   "Save to Local Files and Exit"};
 
     while (true) {
 
-        io::output::menu(std::string(), menu_title, options);
+        std::stringstream ss;
+        ss << "  Department Information" << std::endl << io::output::divider << std::endl << *sec << io::output::divider
+           << std::endl;
+        io::output::menu(ss.str(), menu_title, sizeof(options) / sizeof(options[0]), options);
 
         unsigned char option;
         while (true) {
@@ -58,15 +59,20 @@ io::SHOULD_EXIT interface::main_menu() {
         switch (option) {
 
             case 1:
-                studentManagement();
+                CHECK_EXIT(studentManagement());
                 break;
 
             case 2:
-                professorManagement();
+                CHECK_EXIT(professorManagement());
                 break;
 
             case 3:
-                courseManagement();
+                CHECK_EXIT(courseManagement());
+                break;
+
+            case 5:
+                sec->incrementSemester();
+                io::input::await("Return to Main Menu?");
                 break;
 
             default:
@@ -74,4 +80,3 @@ io::SHOULD_EXIT interface::main_menu() {
         }
     }
 }
-

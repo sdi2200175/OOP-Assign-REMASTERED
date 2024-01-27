@@ -30,36 +30,49 @@ private:
 public:
 
     course(unsigned short dept_code);
+
     course(std::string name, unsigned short ects, unsigned short semester, bool mandatory,
            unsigned int uni_id, unsigned short dept_code);
 
     // Operator overloads.
 
     friend std::ostream &operator<<(std::ostream &stream, const course &course);
+
     friend std::istream &operator>>(std::istream &stream, course &course);
 
     // Getters and Setters
 
     const std::string &getName() const { return name; }
+
     void setName(const std::string &new_name) { name = new_name; }
 
     unsigned short getEcts() const { return ects; }
+
     void setEcts(unsigned short new_ects) { ects = new_ects; }
 
     unsigned short getSemester() const { return semester; }
+
     void setSemester(unsigned short new_semester) { semester = new_semester; }
 
     bool isMandatory() const { return mandatory; }
+
     void setMandatory(bool new_mandatory) { mandatory = new_mandatory; }
 
     unsigned int getUniId() const { return uni_id; }
+
     const std::string &getFormattedUniId() const { return formatted_uni_id; }
 
     const std::vector<person *> &getAttendees() const { return attendees; }
+
     const std::vector<person *> &getAssignedProfessors() const { return assigned_professors; }
 
     // Attendee and Professor management.
+    void registr(student *student);
+
     void assign(professor *professor);
+
+    // Move to next semester
+    void incrementSemester();
 
     // Special variable that denotes the prefix of the formatted university id.
     static const char id_prefix = 'C';

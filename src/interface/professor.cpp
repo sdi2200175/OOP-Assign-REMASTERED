@@ -12,18 +12,14 @@
 io::SHOULD_EXIT interface::professorManagement() {
 
     const std::string menu_title = "Professor Management Menu";
-    const std::string options[] = { "Add a new Professor",
-                                    "Modify an existing Professor",
-                                    "Remove a Professor",
-                                    "Assign Professor to Course",
-                                    "Grade a Student",
-                                    "View Statistics of Attending Course(s)",
-                                    "Return to Main Menu"};
+    const std::string options[] = {"Add a new Professor", "Modify an existing Professor", "Remove a Professor",
+                                   "Assign Professor to Course", "Grade a Student",
+                                   "View Statistics of Attending Course(s)", "Return to Main Menu"};
 
     // The inner menu loop.
     while (true) {
 
-        io::output::menu(std::string(), menu_title, options);
+        io::output::menu(std::string(), menu_title, sizeof(options) / sizeof(options[0]), options);
 
         unsigned char option;
         while (true) {
@@ -42,224 +38,203 @@ io::SHOULD_EXIT interface::professorManagement() {
 
             // Add a professor to the department
             case 1: {
-                // We first build the professor and then show the object's attributes.
-                professor *prof = io::output::buildObj<professor, unsigned short>("Creating New Professor...", sec->getDeptCode());
-                io::output::showAttr<professor>("Professor Information", prof, true);
 
-                // We continuously ask for the user's input until it is correct whether they would like to add
-                // the student to the department.
-                while (true) {
+                // If the user's input is unexpected we throw catch an exception from io::input::boolean
+                try {
 
-                    // If the user's input is unexpected we throw catch an exception from io::input::boolean
-                    try {
-                        // If the user types 'yes' we add the student, else we delete the object and print a relevant message
-                        if (io::input::boolean(std::cin, "Would to like to add this Professor to the Department?")) {
-                            sec->add(prof);
-                            std::cout << "Professor added successfully!" << std::endl;
-                        } else {
-                            delete prof;
-                            std::cout << "Operation Aborted." << std::endl;
-                        }
+                    // We first build the professor and then show the object's attributes.
+                    professor *prof = io::output::buildObj<professor, unsigned short>("Creating New Professor...",
+                                                                                      sec->getDeptCode());
+                    io::output::showAttr<professor>("Professor Information", prof, true);
 
-                        break;
-                    } catch (std::invalid_argument &e) {
-                        std::cout << e.what() << std::endl;
+                    // If the user types 'no' we abort.
+                    if (!io::input::boolean(std::cin, "Would to like to add this Professor to the Department?")) {
+                        delete prof;
+                        throw std::invalid_argument("Operation Aborted.");
                     }
+
+                    sec->add(prof);
+                    std::cout << "Professor added successfully!" << std::endl;
+                } catch (std::invalid_argument &e) {
+                    std::cout << e.what() << std::endl;
                 }
 
                 // We wait for confirmation before returning to the menu screen.
-                io::input::await("Return to Professor Management Menu?");
+                io::input::await("Return to " + menu_title);
                 break;
             }
 
+                // Professor modification.
             case 2: {
 
-                // We store pointers to the relevant retrieval functions.
-                professor *(secretary::*id_search)(unsigned int) = &secretary::retrieve<professor>;
-                professor *(secretary::*name_search)(const std::string &) = &secretary::retrieve<professor>;
-                professor *prof;
-
                 // We search for the student and catch any exceptions that might be thrown from io::input::search.
                 try {
-                    prof = io::input::search<professor>(std::cin, "Enter the Full Name or the University UD of the Professor you would like to modify:", *sec,
-                                                        id_search, name_search);
+
+                    // We store pointers to the relevant retrieval functions.
+                    professor *(secretary::*id_search)(unsigned int) = &secretary::retrieve<professor>;
+                    professor *(secretary::*name_search)(const std::string &) = &secretary::retrieve<professor>;
+                    professor *prof = io::input::search<professor>(std::cin,
+                                                                   "Enter the Full Name or the University ID of the Professor you would like to modify:",
+                                                                   *sec, id_search, name_search);
+
+                    // We show the professor information and ask for the user's input whether they want to
+                    // modify the professor or not.
+                    io::output::showAttr<professor>("Professor Information", prof, true);
+
+                    // If the user types 'no' we abort.
+                    if (io::input::boolean(std::cin, "Would you like to modify this Professor?"))
+                        throw std::invalid_argument("Operation Aborted.");
+
+                    CHECK_EXIT(professorModification(prof));
+                    std::cout << "Professor modified successfully!" << std::endl;
+
                 } catch (std::invalid_argument &e) {
                     std::cout << e.what() << std::endl;
-                    io::input::await("Return to Professor Management Menu?");
-                    break;
                 } catch (std::out_of_range &e) {
                     std::cout << e.what() << std::endl;
-                    io::input::await("Return to Professor Management Menu?");
-                    break;
-                }
-
-                // We show the Professor information and ask for the user's input whether they want to
-                // delete the student or not.
-                io::output::showAttr<professor>("Found the following Professor", prof, true);
-                while (true) {
-
-                    // We prepare for and catch any exception that might be thrown from io::input::boolean.
-                    try {
-
-                        // If the user types 'yes' we remove the student and delete the heap allocated memory
-                        // the object occupies.
-                        if (io::input::boolean(std::cin, "Would you like to modify this Student?")) {
-                            this->professorModification(prof);
-                            std::cout << "Professor modified successfully!" << std::endl;
-                        } else {
-                            std::cout << "Operation Aborted." << std::endl;
-                        }
-
-                        break;
-                    } catch (std::invalid_argument &e) {
-                        std::cout << e.what() << std::endl;
-                    }
                 }
 
                 // We wait for confirmation before returning to the menu screen.
-                io::input::await("Return to Professor Management Menu?");
+                io::input::await("Return to " + menu_title);
                 break;
             }
 
-            // Professor removal.
+                // Professor removal.
             case 3: {
 
-                // We store pointers to the relevant retrieval functions.
-                professor *(secretary::*id_search)(unsigned int) = &secretary::retrieve<professor>;
-                professor *(secretary::*name_search)(const std::string &) = &secretary::retrieve<professor>;
-                professor *prof;
-
                 // We search for the student and catch any exceptions that might be thrown from io::input::search.
                 try {
-                    prof = io::input::search<professor>(std::cin, "Enter the Full Name or the University UD of the Professor you would like to remove:", *sec,
-                                                        id_search, name_search);
+
+                    // We store pointers to the relevant retrieval functions.
+                    professor *(secretary::*id_search)(unsigned int) = &secretary::retrieve<professor>;
+                    professor *(secretary::*name_search)(const std::string &) = &secretary::retrieve<professor>;
+                    professor *prof = io::input::search<professor>(std::cin,
+                                                                   "Enter the Full Name or the University ID of the Professor you would like to remove:",
+                                                                   *sec, id_search, name_search);
+
+                    // We show the Professor information and ask for the user's input whether they want to
+                    // delete the Professor or not.
+                    io::output::showAttr<professor>("Professor Information", prof, true);
+
+                    // If the user types 'no' we abort.
+                    if (!io::input::boolean(std::cin, "Would you like to remove this Professor?"))
+                        throw std::invalid_argument("Operation Aborted.");
+
+                    sec->remove(prof);
+                    delete prof;
+                    std::cout << "Professor removed successfully!" << std::endl;
+
                 } catch (std::invalid_argument &e) {
                     std::cout << e.what() << std::endl;
-                    io::input::await("Return to Professor Management Menu?");
-                    break;
                 } catch (std::out_of_range &e) {
                     std::cout << e.what() << std::endl;
-                    io::input::await("Return to Professor Management Menu?");
-                    break;
-                }
-
-                // We show the Professor information and ask for the user's input whether they want to
-                // delete the student or not.
-                io::output::showAttr<professor>("Found the following Professor", prof, true);
-                while (true) {
-
-                    // We prepare for and catch any exception that might be thrown from io::input::boolean.
-                    try {
-
-                        // If the user types 'yes' we remove the student and delete the heap allocated memory
-                        // the object occupies.
-                        if (io::input::boolean(std::cin, "Would you like to remove this Professor?")) {
-                            sec->remove(prof);
-                            delete prof;
-                            std::cout << "Professor removed successfully!" << std::endl;
-                        } else {
-                            std::cout << "Operation Aborted." << std::endl;
-                        }
-
-                        break;
-                    } catch (std::invalid_argument &e) {
-                        std::cout << e.what() << std::endl;
-                    }
                 }
 
                 // We wait for the user's input and return to the menu.
-                io::input::await("Return to Professor Management Menu?");
+                io::input::await("Return to " + menu_title);
                 break;
             }
 
+                // Course Assignment
             case 4: {
+                courseAssignment();
+                io::input::await("Return to " + menu_title);
+                break;
+            }
 
-                // We store pointers to the relevant retrieval functions.
-                professor *(secretary::*id_search)(unsigned int) = &secretary::retrieve<professor>;
-                professor *(secretary::*name_search)(const std::string &) = &secretary::retrieve<professor>;
-                professor *prof;
+                // Student Grading
+            case 5: {
 
-                // We search for the student and catch any exceptions that might be thrown from io::input::search.
                 try {
+
+                    // We store pointers to the relevant retrieval functions.
+                    professor *(secretary::*id_search)(unsigned int) = &secretary::retrieve<professor>;
+                    professor *(secretary::*name_search)(const std::string &) = &secretary::retrieve<professor>;
+                    professor *prof;
+
+                    // We search for the professor and catch any exceptions that might be thrown from io::input::search.
                     prof = io::input::search<professor>(std::cin,
-                                                        "Enter the Full Name or the University UD of the Professor you would like to assign:",
-                                                        *sec,
-                                                        id_search, name_search);
+                                                        "Enter the Full Name or the University ID of the Professor you would like to modify:",
+                                                        *sec, id_search, name_search);
+
+                    // We show the Professor information and ask for the user's input whether they want to
+                    // submit the grade as this professor.
+                    io::output::showAttr<professor>("Professor Information", prof, true);
+
+                    // If the user types 'no' we abort.
+                    if (!io::input::boolean(std::cin, "Is this the Professor submitting the Grades?"))
+                        throw std::invalid_argument("Operation Aborted.");
+
+                    // We store pointers to the relevant retrieval functions.
+                    course *(secretary::*course_id_search)(unsigned int) = &secretary::retrieveCourse;
+                    course *(secretary::*course_name_search)(const std::string &) = &secretary::retrieveCourse;
+                    course *cour;
+
+                    // We search for the course and catch any exceptions that might be thrown from io::input::search.
+                    cour = io::input::search<course>(std::cin,
+                                                     "Enter the Full Name or the University ID of the Course you'd like to submit Grades for:",
+                                                     *sec, course_id_search, course_name_search);
+
+                    // We show the Course information and ask for the user's input whether they want to
+                    // submit the grade for this course.
+                    io::output::showAttr<course>("Course Information", cour, true);
+
+                    // If the user types 'no' we abort.
+                    if (!io::input::boolean(std::cin, "Is this the Course you'd like to submit Grades for?"))
+                        throw std::invalid_argument("Operation Aborted.");
+
+                    // If the professor we have chosen is not assigned to this Course we throw an invalid_argument.
+                    if (std::find(prof->getAssignedCourses().begin(), prof->getAssignedCourses().end(),
+                                  cour->getUniId()) == prof->getAssignedCourses().end()) {
+
+                        throw std::invalid_argument("! ERROR: This Professor is not assigned to this Course");
+                    }
+
+                    // We store pointers to the relevant retrieval functions.
+                    student *(secretary::*student_id_search)(unsigned int) = &secretary::retrieve<student>;
+                    student *(secretary::*student_name_search)(const std::string &) = &secretary::retrieve<student>;
+                    student *stud;
+
+                    // We search for the student and catch any exceptions that might be thrown from io::input::search.
+                    stud = io::input::search<student>(std::cin,
+                                                      "Enter the Full Name or the University ID of the Student you'd like to grade:",
+                                                      *sec, student_id_search, student_name_search);
+
+                    // We show the Student information and ask for the user's input whether they want to
+                    // submit the grade for this student.
+                    io::output::showAttr<student>("Student Information", stud, true);
+
+                    // If the user types 'no' we abort.
+                    if (!io::input::boolean(std::cin, "Is this the Student whose grades you'd like to submit?"))
+                        throw std::invalid_argument("Operation Aborted.");
+
+                    // If the student is not registered to the selected course we throw an exception.
+                    if (std::find(stud->getAttendingCourses().begin(), stud->getAttendingCourses().end(),
+                                  cour->getUniId()) == stud->getAttendingCourses().end()) {
+
+                        throw std::invalid_argument(
+                                "! ERROR: This Student is not currently registered to this Course.");
+                    }
+
+                    // We create the grade and add it to the student.
+                    unsigned short grade_num = io::input::number<unsigned short>(std::cin,
+                                                                                 "Enter the grade you'd like to give to this Student:",
+                                                                                 10);
+
+                    Grade grade = new struct grade(cour->getName(), cour->getUniId(), prof->getName(), grade_num,
+                                                   stud->getSemester(), cour->getEcts(), cour->isMandatory());
+
+                    stud->addGrade(grade);
+                    std::cout << "Student has been graded successfully." << std::endl;
+
                 } catch (std::invalid_argument &e) {
                     std::cout << e.what() << std::endl;
-                    io::input::await("Return to Professor Management Menu?");
-                    break;
                 } catch (std::out_of_range &e) {
                     std::cout << e.what() << std::endl;
-                    io::input::await("Return to Professor Management Menu?");
-                    break;
-                }
-
-                // We show the Professor information and ask for the user's input.
-                io::output::showAttr<professor>("Found the following Professor", prof, true);
-                while (true) {
-
-                    // We prepare for and catch any exception that might be thrown from io::input::boolean.
-                    try {
-
-                        // If the user types 'yes' we search for a course to assign the professor to.
-                        if (io::input::boolean(std::cin, "Would you like to assign this Professor?")) {
-
-                            // We store pointers to the relevant retrieval functions.
-                            course *(secretary::*course_id_search)(unsigned int) = &secretary::retrieveCourse;
-                            course *(secretary::*course_name_search)(const std::string &) = &secretary::retrieveCourse;
-                            course *cour;
-
-                            while (true) {
-                                // We search for the course and catch any exceptions that might be thrown from io::input::search.
-                                try {
-                                    cour = io::input::search<course>(std::cin,
-                                                                     "Enter the Full Name or the University UD of the Course you would like assigned:",
-                                                                     *sec,
-                                                                     course_id_search, course_name_search);
-
-                                    if (std::find(cour->getAssignedProfessors().begin(),
-                                                  cour->getAssignedProfessors().end(), prof) != cour->getAssignedProfessors().end()) {
-
-                                        throw std::invalid_argument("! ERROR: This Professor is already assigned to this Course.");
-                                    }
-
-                                    while (true) {
-
-                                        // If the user types 'yes' we search for a course to assign the professor to.
-                                        if (io::input::boolean(std::cin, "Would you like to assign this Professor?")) {
-                                            cour->assign(prof);
-                                            std::cout << "Professor assigned successfully!" << std::endl;
-                                        }
-
-                                        break;
-                                    }
-
-                                } catch (std::invalid_argument &e) {
-                                    std::cout << e.what() << std::endl;
-                                    io::input::await("Return to Professor Management Menu?");
-                                    break;
-                                } catch (std::out_of_range &e) {
-                                    std::cout << e.what() << std::endl;
-                                    io::input::await("Return to Professor Management Menu?");
-                                    break;
-                                }
-
-                                break;
-                            }
-
-                        } else {
-                            std::cout << "Operation Aborted." << std::endl;
-                        }
-
-                        break;
-                    } catch (std::invalid_argument &e) {
-                        std::cout << e.what() << std::endl;
-                    }
                 }
 
                 // We wait for the user's input and return to the menu.
-                io::input::await("Return to Professor Management Menu?");
+                io::input::await("Return to " + menu_title);
                 break;
             }
 
@@ -272,9 +247,7 @@ io::SHOULD_EXIT interface::professorManagement() {
 io::SHOULD_EXIT interface::professorModification(professor *prof) {
 
     const std::string menu_title = "Professor Modification Menu";
-    const std::string options[]{"Change Full Name",
-                                "Change Date of Birth",
-                                "Return to Professor Management Menu"};
+    const std::string options[]{"Change Full Name", "Change Date of Birth", "Return to Professor Management Menu"};
 
     // The inner menu loop.
     while (true) {
@@ -282,7 +255,7 @@ io::SHOULD_EXIT interface::professorModification(professor *prof) {
         std::stringstream ss;
         ss << "  Modifying Professor" << std::endl << io::output::divider << std::endl << *prof << io::output::divider
            << std::endl;
-        io::output::menu(ss.str(), menu_title, options);
+        io::output::menu(ss.str(), menu_title, sizeof(options) / sizeof(options[0]), options);
 
         unsigned char option;
         while (true) {
@@ -320,7 +293,7 @@ io::SHOULD_EXIT interface::professorModification(professor *prof) {
                 break;
             }
 
-            // Change date of birth
+                // Change date of birth
             case 2: {
 
                 std::string new_date_of_birth;

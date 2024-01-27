@@ -12,6 +12,7 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <algorithm>
 
 #include "secretary.h"
 
@@ -250,8 +251,9 @@ namespace io {
          * @throw out_of_range If the class being searched for was not found.
          */
         template<class T>
-        T *search(std::istream &input, const std::string &prompt, secretary &secretary, T *(secretary::*id_search)(unsigned int),
-                               T *(secretary::*name_search)(const std::string &name)) {
+        T *search(std::istream &input, const std::string &prompt, secretary &secretary,
+                  T *(secretary::*id_search)(unsigned int),
+                  T *(secretary::*name_search)(const std::string &name)) {
 
             // We keep a buffer where we store the user input.
             std::string buffer;
@@ -265,7 +267,7 @@ namespace io {
             if (buffer[0] != T::id_prefix || buffer[1] != '-' || buffer[6] != '-' || buffer.length() != 14) {
                 auto value = (secretary.*name_search)(buffer);
                 if (value->getFormattedUniId()[0] == T::id_prefix)
-                    return (T *)value;
+                    return (T *) value;
                 else
                     throw std::out_of_range("! ERROR: No match.");
             }
@@ -288,7 +290,7 @@ namespace io {
             // We perform a university id search.
             auto value = (secretary.*id_search)(uni_id);
             if (value->getFormattedUniId()[0] == T::id_prefix)
-                return (T *)value;
+                return (T *) value;
             else
                 throw std::out_of_range("! ERROR: No match.");
         }
@@ -302,12 +304,12 @@ namespace io {
 
         /// Title that will be displayed at the top of every menu.
         const std::string title = divider + "\n"
-                                  "|                                                          |\n"
-                                  "|               University Management System               |\n"
-                                  "|                                                          |\n"
+                                            "|                                                          |\n"
+                                            "|               University Management System               |\n"
+                                            "|                                                          |\n"
                                   + divider + "\n";
 
-        template <class T>
+        template<class T>
         void items(const std::string &list_title, const std::vector<T> array) {
 
             // Clear the screen for a minimal look.
@@ -332,7 +334,7 @@ namespace io {
          * @param attr_title The title of the attributes pane.
          * @param object The object whose properties we want printed.
          */
-        template <class T>
+        template<class T>
         void showAttr(const std::string &attr_title, const T *object, bool show_title) {
 
             // Clear the screen for a minimal look.
@@ -357,7 +359,8 @@ namespace io {
          * @param menu_title Title of the menu being printed.
          * @param options The options within the menu.
          */
-        inline void menu(const std::string &prelude, const std::string &menu_title, const std::string options[]) {
+        inline void menu(const std::string &prelude, const std::string &menu_title, unsigned int amount_of_options,
+                         const std::string options[]) {
 
             // Clear the screen for a minimal look.
             system("clear");
@@ -372,7 +375,7 @@ namespace io {
                       << divider << std::endl;
 
             // Print the actual options.
-            for (int i = 0; !options[i].empty(); i++)
+            for (int i = 0; i < amount_of_options; i++)
                 std::cout << "| " << i + 1 << ". " << options[i] << std::endl;
 
             // Print a divider below the menu.
@@ -385,7 +388,7 @@ namespace io {
          * @param build_title The title of the build pane.
          * @return The object that was built.
          */
-        template <class C, typename T>
+        template<class C, typename T>
         C *buildObj(const std::string &build_title, T constructor_arg) {
 
             // Clear the screen for a minimal look.
@@ -405,7 +408,7 @@ namespace io {
         }
 
         /// Same as above function, just without a constructor argument requirement.
-        template <class C>
+        template<class C>
         C *buildObj(const std::string &build_title) {
 
             // Clear the screen for a minimal look.

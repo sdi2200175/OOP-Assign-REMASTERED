@@ -15,6 +15,7 @@ private:
 
 public:
     interface();
+
     ~interface();
 
     /// Displays the application's main menu.
@@ -40,6 +41,17 @@ public:
 
     /// Manages the course interfacing part of the interface.
     io::SHOULD_EXIT courseManagement();
+
+    /// Manages the course modification part of the interface.
+    io::SHOULD_EXIT courseModification();
+
+    // Helper Functions.
+
+    /// Handles registering a particular student to a particular course.
+    void courseRegistration();
+
+    /// Handles assigning a particular professor to a particular course.
+    void courseAssignment();
 };
 
 

@@ -10,8 +10,32 @@ secretary::secretary() {
 }
 
 secretary::secretary(std::string dept_name, unsigned int dept_code, unsigned short min_attendance,
-                     unsigned short required_ects, unsigned short mandatory_courses) : dept_name(std::move(dept_name)),
-                     dept_code(dept_code), min_attendance(min_attendance), required_ects(required_ects), mandatory_courses(mandatory_courses) {}
+                     unsigned short required_ects, unsigned short mandatory_courses, Semester semester) : dept_name(
+        std::move(dept_name)),
+                                                                                                          dept_code(
+                                                                                                                  dept_code),
+                                                                                                          min_attendance(
+                                                                                                                  min_attendance),
+                                                                                                          required_ects(
+                                                                                                                  required_ects),
+                                                                                                          mandatory_courses(
+                                                                                                                  mandatory_courses),
+                                                                                                          semester(
+                                                                                                                  semester) {}
+
+
+secretary::~secretary() {
+    for (auto itr = id_database.begin(); itr != id_database.end(); itr++) {
+        if (itr->second->getFormattedUniId()[0] == 'S')
+            delete (student *) (itr->second);
+        else
+            delete (professor *) (itr->second);
+    }
+
+    for (auto itr = course_id_database.begin(); itr != course_id_database.end(); itr++) {
+        delete itr->second;
+    }
+}
 
 std::ostream &operator<<(std::ostream &stream, const secretary &secretary) {
     return stream << "| Department Name: " << secretary.dept_name << std::endl
@@ -46,7 +70,8 @@ std::istream &operator>>(std::istream &stream, secretary &secretary) {
 
     while (true) {
         try {
-            secretary.min_attendance = io::input::number<unsigned short>(stream, "Enter Department Minimum Attendance:", 9);
+            secretary.min_attendance = io::input::number<unsigned short>(stream, "Enter Department Minimum Attendance:",
+                                                                         9);
             break;
         } catch (std::invalid_argument &e) {
             std::cout << e.what() << std::endl;
@@ -57,7 +82,8 @@ std::istream &operator>>(std::istream &stream, secretary &secretary) {
 
     while (true) {
         try {
-            secretary.required_ects = io::input::number<unsigned short>(stream, "Enter Department ECT Requirement:", 299);
+            secretary.required_ects = io::input::number<unsigned short>(stream, "Enter Department ECT Requirement:",
+                                                                        299);
             break;
         } catch (std::invalid_argument &e) {
             std::cout << e.what() << std::endl;
@@ -68,7 +94,8 @@ std::istream &operator>>(std::istream &stream, secretary &secretary) {
 
     while (true) {
         try {
-            secretary.mandatory_courses = io::input::number<unsigned short>(stream, "Enter Department Mandatory Courses:", 99);
+            secretary.mandatory_courses = io::input::number<unsigned short>(stream,
+                                                                            "Enter Department Mandatory Courses:", 99);
             break;
         } catch (std::invalid_argument &e) {
             std::cout << e.what() << std::endl;
@@ -81,13 +108,13 @@ std::istream &operator>>(std::istream &stream, secretary &secretary) {
 }
 
 void secretary::add(person *per) {
-    id_database.insert({ per->getUniId(), per });
-    name_database.insert({ per->getName(), per });
+    id_database.insert({per->getUniId(), per});
+    name_database.insert({per->getName(), per});
 }
 
 void secretary::add(course *cour) {
-    course_id_database.insert({ cour->getUniId(), cour });
-    course_name_database.insert({ cour->getName(), cour });
+    course_id_database.insert({cour->getUniId(), cour});
+    course_name_database.insert({cour->getName(), cour});
 }
 
 course *secretary::retrieveCourse(unsigned int id) {
@@ -109,4 +136,44 @@ course *secretary::retrieveCourse(const std::string &name) {
 void secretary::remove(person *per) {
     id_database.erase(per->getUniId());
     name_database.erase(per->getName());
+}
+
+void secretary::remove(course *cour) {
+    course_id_database.erase(cour->getUniId());
+    course_name_database.erase(cour->getName());
+}
+
+void secretary::incrementSemester() {
+
+    // First we check to see if we CAN increment the semester.
+    // All student must have been graded in every course they are currently attending
+    // for this semester before the semester can increment.
+    for (auto itr = id_database.begin(); itr != id_database.end(); itr++) {
+
+        // If we encountered a professor we skip.
+        if (itr->second->getFormattedUniId()[0] == 'P') continue;
+
+        try {
+            ((student *) (itr->second))->checkIncrementationEligibility();
+        } catch (std::invalid_argument &e) {
+            std::cout << e.what() << std::endl;
+            std::cout << "Cannot move to the next semester." << std::endl;
+        }
+    }
+
+    // If every student can be incremented we do so, first for all person objects.
+    for (auto itr = id_database.begin(); itr != id_database.end(); itr++) {
+        itr->second->incrementSemester();
+    }
+
+    // And then for every course object.
+    for (auto itr = course_id_database.begin(); itr != course_id_database.end(); itr++) {
+        itr->second->incrementSemester();
+    }
+
+    // We clear databases within course and professors and then change the semester variable in the secretary.
+    if (semester == FALL)
+        semester = SPRING;
+    else
+        semester = FALL;
 }
