@@ -115,7 +115,10 @@ public:
     void remove(course *cour);
 
     // Number of Students calculation function
-    unsigned int calculateSize() const;
+    unsigned int calculateStudentSize() const;
+
+    // Number of Professors calculation function
+    unsigned int calculateProfessorSize() const;
 
     // Semester incrementation function
     void incrementSemester();

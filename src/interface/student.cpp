@@ -2,8 +2,8 @@
  * @file student.cpp
  * @brief This file contains the definition of the interface class functions for
  * the student interfacing parts.
- * @authors Evaggelia Ragkousi, Spyros Strakosia
- * @date 26/01/2024
+ * @authors Spyros Strakosia, Evaggelia Ragkousi
+ * @date 27/01/2024
  */
 
 #include "io.h"
@@ -12,10 +12,14 @@
 io::SHOULD_EXIT interface::studentManagement() {
 
     const std::string menu_title = "Student Management Menu";
-    const std::string options[] = {"Add a new Student", "Modify an existing Student", "Remove a Student",
-                                   "Print a Student's Grades", "Register a Student to a Course",
-                                   "Check a Student's Graduation Eligibility", "Save Passed Courses to File",
-                                   "Return to Main Menu"};
+    const std::string options[] = { "Add a new Student", 
+                                    "Modify an existing Student", 
+                                    "Remove a Student",
+                                    "Print a Student's Grades", 
+                                    "Register a Student to a Course",
+                                    "Check a Student's Graduation Eligibility", 
+                                    "Save Passed Courses to File",
+                                    "Return to Main Menu" };
 
     // The inner menu loop.
     while (true) {
@@ -37,10 +41,10 @@ io::SHOULD_EXIT interface::studentManagement() {
 
         switch (option) {
 
-            // Student Addition
+            // Add a student to the department.
             case 1: {
 
-                // If the user's input is unexpected we throw catch an exception from io::input::boolean
+                // If the user's input is unexpected we throw catch an exception from io::input::boolean.
                 try {
 
                     // We first build the student and then show the object's attributes.
@@ -48,7 +52,7 @@ io::SHOULD_EXIT interface::studentManagement() {
                                                                                   sec->getDeptCode());
                     io::output::showAttr<student>("Student Information", stud, true);
 
-                    // If the user types 'yes' we add the student, else we delete the object and print a relevant message
+                    // If the user types 'yes' we add the Student, else we delete the object and print a relevant message.
                     if (!io::input::boolean(std::cin, "Would to like to add this Student to the Department?")) {
                         delete stud;
                         throw std::invalid_argument("Operation Aborted.");
@@ -66,10 +70,10 @@ io::SHOULD_EXIT interface::studentManagement() {
                 break;
             }
 
-            // Student Modification
+            //  Modify an already existing Student.
             case 2: {
 
-                // We search for the student and catch any exceptions that might be thrown from io::input::search.
+                // We search for the Student and catch any exceptions that might be thrown from io::input::search.
                 try {
 
                     // We store pointers to the relevant retrieval functions.
@@ -79,8 +83,8 @@ io::SHOULD_EXIT interface::studentManagement() {
                                                                "Enter the Full Name or the University ID of the Student you would like to modify:",
                                                                *sec, id_search, name_search);
 
-                    // We show the student information and ask for the user's input whether they want to
-                    // modify the student or not.
+                    // We show the Student information and ask for the user's input whether they want to
+                    // modify the Student or not.
                     io::output::showAttr<student>("Student Information", stud, true);
 
                     // If the user types 'no' we abort.
@@ -101,10 +105,10 @@ io::SHOULD_EXIT interface::studentManagement() {
                 break;
             }
 
-                // Student Removal.
+            // Remove a Student from the department.
             case 3: {
 
-                // We search for the student and catch any exceptions that might be thrown from io::input::search.
+                // We search for the Student and catch any exceptions that might be thrown from io::input::search.
                 try {
 
                     // We store pointers to the relevant retrieval functions.
@@ -114,9 +118,9 @@ io::SHOULD_EXIT interface::studentManagement() {
                                                                "Enter the Full Name or the University ID of the Student you would like to remove:",
                                                                *sec, id_search, name_search);
 
-                    // We show the student information and ask for the user's input whether they want to
-                    // delete the student or not.
-                    io::output::showAttr<student>("Found the following Student", stud, true);
+                    // We show the Student information and ask for the user's input whether they want to
+                    // delete the Student or not.
+                    io::output::showAttr<student>("Student Information", stud, true);
 
                     // If the user types 'no' we abort.
                     if (!io::input::boolean(std::cin, "Would you like to remove this Student?"))
@@ -137,7 +141,7 @@ io::SHOULD_EXIT interface::studentManagement() {
                 break;
             }
 
-            // Grade Printing
+            // Print the Grades of a Student.
             case 4: {
 
                 // We search for the student and catch any exceptions that might be thrown from io::input::search.
@@ -177,7 +181,7 @@ io::SHOULD_EXIT interface::studentManagement() {
                 break;
             }
 
-            // Course Registration
+            // Register a Student to a Course.
             case 5: {
                 courseRegistration();
                 io::input::await("Return to " + menu_title);
@@ -192,12 +196,15 @@ io::SHOULD_EXIT interface::studentManagement() {
                     // We store pointers to the relevant retrieval functions.
                     student *(secretary::*id_search)(unsigned int) = &secretary::retrieve<student>;
                     student *(secretary::*name_search)(const std::string &) = &secretary::retrieve<student>;
-                    student *stud = io::input::search<student>(std::cin,
+                    student *stud;
+
+                    // We search for the Student and catch any exceptions that might be thrown from io::input::search.
+                    stud = io::input::search<student>(std::cin,
                                                                "Enter the Full Name or the University ID of the Student whose graduation eligibility you'd like to check:",
                                                                *sec, id_search, name_search);
 
-                    // We show the student information.
-                    io::output::showAttr<student>("Found the following Student", stud, true);
+                    // We show the Student information.
+                    io::output::showAttr<student>("Student Information", stud, true);
 
                     if (stud->getEcts() < sec->getRequiredEcts() ||
                         stud->getMandatoryCoursesPassed() < sec->getMandatoryCourses() ||
@@ -228,15 +235,16 @@ io::SHOULD_EXIT interface::studentManagement() {
 io::SHOULD_EXIT interface::studentModification(student *stud) {
 
     const std::string menu_title = "Student Modification Menu";
-    const std::string options[]{"Change Full Name", "Change Date of Birth", "Change Date of Registration",
-                                "Return to Student Management Menu"};
+    const std::string options[] = { "Change Full Name", 
+                                    "Change Date of Birth", 
+                                    "Change Date of Registration",
+                                    "Return to Student Management Menu" };
 
     // The inner menu loop.
     while (true) {
 
         std::stringstream ss;
-        ss << "  Modifying Student" << std::endl << io::output::divider << std::endl << *stud << io::output::divider
-           << std::endl;
+        ss << "  Student Information" << std::endl << io::output::divider << std::endl << *stud << io::output::divider << std::endl;
         io::output::menu(ss.str(), menu_title, sizeof(options) / sizeof(options[0]), options);
 
         unsigned char option;
@@ -254,68 +262,61 @@ io::SHOULD_EXIT interface::studentModification(student *stud) {
 
         switch (option) {
 
-            // Change name
+            // Change name.
             case 1: {
 
-                std::string new_name;
-                while (true) {
-                    try {
-                        new_name = io::input::name(std::cin, "Enter New Full Name:");
-                        break;
-                    } catch (std::invalid_argument &e) {
+                try {
+                    std::string new_name;
+                    new_name = io::input::name(std::cin, "Enter New Full Name:");
+                    sec->remove(stud);
+                    stud->setName(new_name);
+                    sec->add(stud);
+                    std::cout << "Name Changed Successfully!" << std::endl;
+                } catch (std::invalid_argument &e) {
                         std::cout << e.what() << std::endl;
-                    }
                 }
 
-                sec->remove(stud);
-                stud->setName(new_name);
-                sec->add(stud);
-                std::cout << "Name Changed Successfully!" << std::endl;
-                io::input::await("Return to Student Modification Menu?");
+                io::input::await("Return to " + menu_title + "?");
                 break;
             }
 
-            // Change date of birth
+            // Change date of birth.
             case 2: {
 
-                std::string new_date_of_birth;
-                while (true) {
-                    try {
-                        new_date_of_birth = io::input::date(std::cin, "Enter New Date of Birth:");
-                        break;
-                    } catch (std::invalid_argument &e) {
-                        std::cout << e.what() << std::endl;
-                    }
+                try {
+                    std::string new_date_of_birth;
+                    new_date_of_birth = io::input::date(std::cin, "Enter New Date of Birth:");
+                    stud->setDateOfBirth(new_date_of_birth);
+                    std::cout << "Date of Birth Changed Successfully!" << std::endl;
+                } catch (std::invalid_argument &e) {
+                    std::cout << e.what() << std::endl;
                 }
 
-                stud->setDateOfBirth(new_date_of_birth);
-                std::cout << "Date of Birth Changed Successfully!" << std::endl;
-                io::input::await("Return to Student Modification Menu?");
+                io::input::await("Return to " + menu_title + "?");
                 break;
             }
 
-            // Change date of registration
+            // Change date of registration.
             case 3: {
 
-                std::string new_date_of_registration;
-                while (true) {
-                    try {
-                        new_date_of_registration = io::input::date(std::cin, "Enter New Date of Registration:");
-                        break;
-                    } catch (std::invalid_argument &e) {
-                        std::cout << e.what() << std::endl;
-                    }
+                try {
+                    std::string new_date_of_registration;
+                    new_date_of_registration = io::input::date(std::cin, "Enter New Date of Registration:");
+                    stud->setDateOfRegistration(new_date_of_registration);
+                    std::cout << "Date of Registration Changed Successfully!" << std::endl;
+                } catch (std::invalid_argument &e) {
+                    std::cout << e.what() << std::endl;
                 }
-
-                stud->setDateOfRegistration(new_date_of_registration);
-                std::cout << "Date of Registration Changed Successfully!" << std::endl;
-                io::input::await("Return to Student Modification Menu?");
+        
+                io::input::await("Return to " + menu_title + "?");
                 break;
             }
 
             default:
                 return io::NO_EXIT;
-        }
-    }
-}
 
+        }
+    
+    }
+
+}

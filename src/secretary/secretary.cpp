@@ -37,7 +37,8 @@ std::ostream &operator<<(std::ostream &stream, const secretary &sec) {
                   << "| Department's Minimum Years of Attendance: " << sec.min_attendance << " Year(s)" << std::endl
                   << "| Department's ECT Requirement: " << sec.required_ects << " ECT(s)" << std::endl
                   << "| Department's Mandatory Courses: " << sec.mandatory_courses << " Course(s)" << std::endl
-                  << "| Department's Students: " << sec.calculateSize() << " Student(s)" << std::endl;
+                  << "| Department's Students: " << sec.calculateStudentSize() << " Student(s)" << std::endl
+                  << "| Department's Professors: " << sec.calculateProfessorSize() << " Professor(s)" << std::endl;
 }
 
 std::istream &operator>>(std::istream &stream, secretary &secretary) {
@@ -137,10 +138,19 @@ void secretary::remove(course *cour) {
     course_name_database.erase(cour->getName());
 }
 
-unsigned int secretary::calculateSize() const {
+unsigned int secretary::calculateStudentSize() const {
     unsigned int size = 0;
     for (auto itr = id_database.begin(); itr != id_database.end(); itr++) {
         if (itr->second->getFormattedUniId()[0] == 'S')
+            size++;
+    }
+    return size;
+}
+
+unsigned int secretary::calculateProfessorSize() const {
+    unsigned int size = 0;
+    for (auto itr = id_database.begin(); itr != id_database.end(); itr++) {
+        if (itr->second->getFormattedUniId()[0] == 'P')
             size++;
     }
     return size;

@@ -1,6 +1,10 @@
-//
-// Created by Spyros Strakosia on 26/1/24.
-//
+/**
+ * @file course.cpp
+ * @brief This file contains the definition of the interface class functions for
+ * the course interfacing parts.
+ * @authors Spyros Strakosia, Evaggelia Ragkousi
+ * @date 27/01/2024
+ */
 
 #include "io.h"
 #include "course.h"
@@ -22,10 +26,11 @@ course::course(std::string name, unsigned short ects, unsigned short semester, b
                formatted_uni_id(std::string(1, id_prefix) + "-" + std::string(4 - std::to_string(dept_code).length(), '0') +
                std::to_string(dept_code) + "-" + std::string(7 - std::to_string(uni_id).length(),'0') + std::to_string(uni_id)) {
 
-    if (uni_id > amount_created)
-        amount_created = uni_id;
+    if (this->uni_id > course::amount_created)
+        amount_created = this->uni_id;
 }
 
+// Overload of the output stream operator.
 std::ostream &operator<<(std::ostream &stream, const course &course) {
     stream << "| Course Name: " << course.name << std::endl
            << "| Course ECT(s): " << course.ects << " ECT(s)" << std::endl
@@ -47,7 +52,9 @@ std::ostream &operator<<(std::ostream &stream, const course &course) {
     return stream << std::endl << "| University ID: " << course.formatted_uni_id << std::endl;
 }
 
+// Overload of the input stream operator.
 std::istream &operator>>(std::istream &stream, course &course) {
+
     while (true) {
         try {
             course.name = io::input::name(stream, "Enter Course Name:");

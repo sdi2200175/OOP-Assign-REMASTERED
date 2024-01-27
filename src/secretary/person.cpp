@@ -1,6 +1,10 @@
-//
-// Created by Spyros Strakosia on 25/1/24.
-//
+/**
+ * @file person.cpp
+ * @brief This file contains the definition of the interface class functions for
+ * the person interfacing parts.
+ * @authors Spyros Strakosia, Evaggelia Ragkousi
+ * @date 27/01/2024
+ */
 
 #include <utility>
 
@@ -16,9 +20,8 @@ person::person() : uni_id(++person::amount_created) {
 person::person(std::string name, std::string date_of_birth, unsigned int uni_id) :
         name(std::move(name)), date_of_birth(std::move(date_of_birth)), uni_id(uni_id) {
 
-    if (this->uni_id > person::amount_created) {
+    if (this->uni_id > person::amount_created)
         amount_created = this->uni_id;
-    }
 }
 
 // Overload of the output stream operator.

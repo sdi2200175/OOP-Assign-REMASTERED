@@ -2,8 +2,8 @@
  * @file professor.cpp
  * @brief This file contains the definition of the interface class functions for
  * the professor interfacing parts.
- * @authors Evaggelia Ragkousi, Spyros Strakosia
- * @date 26/01/2024
+ * @authors Spyros Strakosia, Evaggelia Ragkousi
+ * @date 27/01/2024
  */
 
 #include "io.h"
@@ -12,9 +12,13 @@
 io::SHOULD_EXIT interface::professorManagement() {
 
     const std::string menu_title = "Professor Management Menu";
-    const std::string options[] = {"Add a new Professor", "Modify an existing Professor", "Remove a Professor",
-                                   "Assign Professor to Course", "Grade a Student",
-                                   "View Statistics of Attending Course(s)", "Return to Main Menu"};
+    const std::string options[] = { "Add a new Professor", 
+                                    "Modify an existing Professor", 
+                                    "Remove a Professor",
+                                    "Assign a Professor to a Course", 
+                                    "Grade a Student",
+                                    "View Statistics of Attending Course(s)", 
+                                    "Return to Main Menu" };
 
     // The inner menu loop.
     while (true) {
@@ -36,10 +40,10 @@ io::SHOULD_EXIT interface::professorManagement() {
 
         switch (option) {
 
-            // Professor Addition
+            // Add a Professor to the department.
             case 1: {
 
-                // If the user's input is unexpected we throw catch an exception from io::input::boolean
+                // If the user's input is unexpected we throw catch an exception from io::input::boolean.
                 try {
 
                     // We first build the professor and then show the object's attributes.
@@ -47,7 +51,7 @@ io::SHOULD_EXIT interface::professorManagement() {
                                                                                       sec->getDeptCode());
                     io::output::showAttr<professor>("Professor Information", prof, true);
 
-                    // If the user types 'no' we abort.
+                    // If the user types 'yes' we add the Professor, else we delete the object and print a relevant message.
                     if (!io::input::boolean(std::cin, "Would to like to add this Professor to the Department?")) {
                         delete prof;
                         throw std::invalid_argument("Operation Aborted.");
@@ -65,10 +69,10 @@ io::SHOULD_EXIT interface::professorManagement() {
                 break;
             }
 
-            // Professor Modification
+            // Modify an already existing Professor. 
             case 2: {
 
-                // We search for the student and catch any exceptions that might be thrown from io::input::search.
+                // We search for the Professor and catch any exceptions that might be thrown from io::input::search.
                 try {
 
                     // We store pointers to the relevant retrieval functions.
@@ -78,15 +82,15 @@ io::SHOULD_EXIT interface::professorManagement() {
                                                                    "Enter the Full Name or the University ID of the Professor you would like to modify:",
                                                                    *sec, id_search, name_search);
 
-                    // We show the professor information and ask for the user's input whether they want to
-                    // modify the professor or not.
+                    // We show the Professor information and ask for the user's input whether they want to
+                    // modify the Professor or not.
                     io::output::showAttr<professor>("Professor Information", prof, true);
 
                     // If the user types 'no' we abort.
                     if (!io::input::boolean(std::cin, "Would you like to modify this Professor?"))
                         throw std::invalid_argument("Operation Aborted.");
 
-                    CHECK_EXIT(professorModification(prof));
+                    CHECK_EXIT(this->professorModification(prof));
                     std::cout << "Professor modified successfully!" << std::endl;
 
                 } catch (std::invalid_argument &e) {
@@ -100,10 +104,10 @@ io::SHOULD_EXIT interface::professorManagement() {
                 break;
             }
 
-                // Professor Removal.
+            // Remove a Professor from the department.
             case 3: {
 
-                // We search for the student and catch any exceptions that might be thrown from io::input::search.
+                // We search for the Professor and catch any exceptions that might be thrown from io::input::search.
                 try {
 
                     // We store pointers to the relevant retrieval functions.
@@ -136,14 +140,15 @@ io::SHOULD_EXIT interface::professorManagement() {
                 break;
             }
 
-            // Course Asssignment
+            // Assign a Professor to a Course.
             case 4: {
                 courseAssignment();
+                // We wait for the user's input and return to the menu.
                 io::input::await("Return to " + menu_title);
                 break;
             }
 
-            // Student Grading
+            // Grade a Student.
             case 5: {
 
                 try {
@@ -153,7 +158,7 @@ io::SHOULD_EXIT interface::professorManagement() {
                     professor *(secretary::*name_search)(const std::string &) = &secretary::retrieve<professor>;
                     professor *prof;
 
-                    // We search for the professor and catch any exceptions that might be thrown from io::input::search.
+                    // We search for the Professor and catch any exceptions that might be thrown from io::input::search.
                     prof = io::input::search<professor>(std::cin,
                                                         "Enter the Full Name or the University ID of the Professor you would like to modify:",
                                                         *sec, id_search, name_search);
@@ -248,14 +253,15 @@ io::SHOULD_EXIT interface::professorManagement() {
 io::SHOULD_EXIT interface::professorModification(professor *prof) {
 
     const std::string menu_title = "Professor Modification Menu";
-    const std::string options[]{"Change Full Name", "Change Date of Birth", "Return to Professor Management Menu"};
+    const std::string options[] = { "Change Full Name", 
+                                    "Change Date of Birth", 
+                                    "Return to Professor Management Menu" };
 
     // The inner menu loop.
     while (true) {
 
         std::stringstream ss;
-        ss << "  Modifying Professor" << std::endl << io::output::divider << std::endl << *prof << io::output::divider
-           << std::endl;
+        ss << "  Professor Information" << std::endl << io::output::divider << std::endl << *prof << io::output::divider << std::endl;
         io::output::menu(ss.str(), menu_title, sizeof(options) / sizeof(options[0]), options);
 
         unsigned char option;
@@ -273,43 +279,37 @@ io::SHOULD_EXIT interface::professorModification(professor *prof) {
 
         switch (option) {
 
-            // Change name
+            // Change name.
             case 1: {
 
-                std::string new_name;
-                while (true) {
-                    try {
-                        new_name = io::input::name(std::cin, "Enter New Full Name:");
-                        break;
-                    } catch (std::invalid_argument &e) {
+                try {
+                    std::string new_name;
+                    new_name = io::input::name(std::cin, "Enter New Full Name:");
+                    sec->remove(prof);
+                    prof->setName(new_name);
+                    sec->add(prof);
+                    std::cout << "Name Changed Successfully!" << std::endl;
+                } catch (std::invalid_argument &e) {
                         std::cout << e.what() << std::endl;
-                    }
                 }
-
-                sec->remove(prof);
-                prof->setName(new_name);
-                sec->add(prof);
-                std::cout << "Name Changed Successfully!" << std::endl;
-                io::input::await("Return to Student Modification Menu?");
+                
+                io::input::await("Return to " + menu_title + "?");
                 break;
             }
 
-                // Change date of birth
+            // Change date of birth.
             case 2: {
 
-                std::string new_date_of_birth;
-                while (true) {
-                    try {
-                        new_date_of_birth = io::input::date(std::cin, "Enter New Date of Birth:");
-                        break;
-                    } catch (std::invalid_argument &e) {
-                        std::cout << e.what() << std::endl;
-                    }
+                try {
+                    std::string new_date_of_birth;
+                    new_date_of_birth = io::input::date(std::cin, "Enter New Date of Birth:");
+                    prof->setDateOfBirth(new_date_of_birth);
+                    std::cout << "Date of Birth Changed Successfully!" << std::endl;
+                } catch (std::invalid_argument &e) {
+                    std::cout << e.what() << std::endl;
                 }
 
-                prof->setDateOfBirth(new_date_of_birth);
-                std::cout << "Date of Birth Changed Successfully!" << std::endl;
-                io::input::await("Return to Student Modification Menu?");
+                io::input::await("Return to " + menu_title + "?");
                 break;
             }
 
@@ -317,5 +317,7 @@ io::SHOULD_EXIT interface::professorModification(professor *prof) {
                 return io::NO_EXIT;
 
         }
+
     }
+
 }
