@@ -302,7 +302,7 @@ void interface::courseRegistration() {
                                                    *sec, id_search, name_search);
 
         // We show the student information.
-        io::output::showAttr<student>("Found the following Student", stud, true);
+        io::output::showAttr<student>("Student Information", stud, true);
 
         // If the user types 'no' we abort.
         if (!io::input::boolean(std::cin, "Would you like to register this Student?"))
@@ -316,11 +316,14 @@ void interface::courseRegistration() {
         // We search for the course and catch any exceptions that might be thrown from io::input::search.
         cour = io::input::search<course>(std::cin,
                                          "Enter the Full Name or the University ID of the Course you would like to register the Student to:",
-                                         *sec,
-                                         course_id_search, course_name_search);
+                                         *sec, course_id_search, course_name_search);
+        
+        // We show the Course information and ask for the user's input on whether they want to
+        // register the Student to this course or not.
+        io::output::showAttr<course>("Course Information", cour, false);
 
         // If the user types 'no' we abort.
-        if (!io::input::boolean(std::cin, "Would you like to register this Student to this Course?"))
+        if (!io::input::boolean(std::cin, "Would you like to register the Student to this Course?"))
             throw std::invalid_argument("Operation Aborted.");
 
         cour->registr(stud);
@@ -346,8 +349,7 @@ void interface::courseAssignment() {
         // Search for the professor.
         prof = io::input::search<professor>(std::cin,
                                             "Enter the Full Name or the University ID of the Professor you would like to assign:",
-                                            *sec,
-                                            id_search, name_search);
+                                            *sec, id_search, name_search);
 
         // We show the Professor information and ask for the user's input.
         io::output::showAttr<professor>("Professor Information", prof, true);
@@ -361,18 +363,17 @@ void interface::courseAssignment() {
         course *(secretary::*course_name_search)(const std::string &) = &secretary::retrieveCourse;
         course *cour;
 
-        // Search for the course.
+        // We search for the course and catch any exceptions that might be thrown from io::input::search.
         cour = io::input::search<course>(std::cin,
-                                         "Enter the Full Name or the University ID of the Course you would like assigned:",
-                                         *sec,
-                                         course_id_search, course_name_search);
+                                         "Enter the Full Name or the University ID of the Course you would like to assign to the Professor:",
+                                         *sec, course_id_search, course_name_search);
 
-        // We show the Course information and ask for the user's input whether they want to
-        // submit the grade for this course.
-        io::output::showAttr<course>("Course Information", cour, true);
+        // We show the Course information and ask for the user's input on whether they want to
+        // submit the grade for this Course or not.
+        io::output::showAttr<course>("Course Information", cour, false);
 
         // If the user types 'no' we abort.
-        if (!io::input::boolean(std::cin, "Would you like to assign this Professor to this Course?"))
+        if (!io::input::boolean(std::cin, "Would you like to assign the Professor to this Course?"))
             throw std::invalid_argument("Operation Aborted.");
 
         cour->assign(prof);
