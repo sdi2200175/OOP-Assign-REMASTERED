@@ -71,7 +71,12 @@ io::SHOULD_EXIT interface::main_menu() {
                 break;
 
             case 5:
-                sec->incrementSemester();
+                try {
+                    sec->incrementSemester();
+                } catch (std::invalid_argument &e) {
+                    std::cout << e.what() << std::endl;
+                }
+
                 io::input::await("Return to Main Menu?");
                 break;
 

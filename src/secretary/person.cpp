@@ -141,6 +141,7 @@ void student::addGrade(Grade grade) {
     if (grade->grade_num > 5) {
         ects += grade->ects;
         mandatory_courses_passed += grade->mandatory;
+        total_courses_passed += 1;
     }
 }
 

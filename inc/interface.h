@@ -43,7 +43,7 @@ public:
     io::SHOULD_EXIT courseManagement();
 
     /// Manages the course modification part of the interface.
-    io::SHOULD_EXIT courseModification();
+    io::SHOULD_EXIT courseModification(course *cour);
 
     // Helper Functions.
 

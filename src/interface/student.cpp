@@ -65,7 +65,7 @@ io::SHOULD_EXIT interface::studentManagement() {
                 break;
             }
 
-                // Student modification.
+            // Student modification.
             case 2: {
 
                 // We search for the student and catch any exceptions that might be thrown from io::input::search.
@@ -274,7 +274,7 @@ io::SHOULD_EXIT interface::studentModification(student *stud) {
                 break;
             }
 
-                // Change date of birth
+            // Change date of birth
             case 2: {
 
                 std::string new_date_of_birth;
@@ -293,7 +293,7 @@ io::SHOULD_EXIT interface::studentModification(student *stud) {
                 break;
             }
 
-                // Change date of registration
+            // Change date of registration
             case 3: {
 
                 std::string new_date_of_registration;

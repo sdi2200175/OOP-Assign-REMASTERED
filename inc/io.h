@@ -1,5 +1,5 @@
 /**
- * @file input.h
+ * @file io.h
  * @brief This file contains many helper functions that are used across the project
  * to validate user input.
  * @authors Evaggelia Ragkousi, Spyros Strakosia
@@ -337,12 +337,12 @@ namespace io {
         template<class T>
         void showAttr(const std::string &attr_title, const T *object, bool show_title) {
 
-            // Clear the screen for a minimal look.
-            system("clear");
-
             // Print the title and the title of the attributes being printed.
-            if (show_title)
+            if (show_title) {
+                // Clear the screen for a minimal look.
+                system("clear");
                 std::cout << title << std::endl;
+            }
 
             std::cout << "  " << attr_title << std::endl
                       << divider << std::endl;

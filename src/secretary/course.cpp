@@ -18,16 +18,9 @@ course::course(unsigned short dept_code) :
 
 course::course(std::string name, unsigned short ects, unsigned short semester, bool mandatory,
                const unsigned int uni_id, unsigned short dept_code) : name(std::move(name)), ects(ects),
-                                                                      semester(semester),
-                                                                      mandatory(mandatory), uni_id(uni_id),
-                                                                      formatted_uni_id(std::string(1, id_prefix) + "-" +
-                                                                                       std::string(4 - std::to_string(
-                                                                                                           dept_code).length(),
-                                                                                                   '0') +
-                                                                                       std::to_string(dept_code) +
-                                                                                       "-" + std::string(
-                                                                              7 - std::to_string(uni_id).length(),
-                                                                              '0') + std::to_string(uni_id)) {
+               semester(semester), mandatory(mandatory), uni_id(uni_id),
+               formatted_uni_id(std::string(1, id_prefix) + "-" + std::string(4 - std::to_string(dept_code).length(), '0') +
+               std::to_string(dept_code) + "-" + std::string(7 - std::to_string(uni_id).length(),'0') + std::to_string(uni_id)) {
 
     if (uni_id > amount_created)
         amount_created = uni_id;

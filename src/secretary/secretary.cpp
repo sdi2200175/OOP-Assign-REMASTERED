@@ -153,12 +153,7 @@ void secretary::incrementSemester() {
         // If we encountered a professor we skip.
         if (itr->second->getFormattedUniId()[0] == 'P') continue;
 
-        try {
-            ((student *) (itr->second))->checkIncrementationEligibility();
-        } catch (std::invalid_argument &e) {
-            std::cout << e.what() << std::endl;
-            std::cout << "Cannot move to the next semester." << std::endl;
-        }
+        ((student *) (itr->second))->checkIncrementationEligibility();
     }
 
     // If every student can be incremented we do so, first for all person objects.
