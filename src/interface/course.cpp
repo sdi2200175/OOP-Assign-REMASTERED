@@ -322,6 +322,15 @@ void interface::courseRegistration() {
         // register the Student to this course or not.
         io::output::showAttr<course>("Course Information", cour, false);
 
+        // We check to make sure the student is eligible to register to this course.
+        if (stud->getSemester() < cour->getSemester())
+            throw std::invalid_argument("! ERROR: The Student cannot register to this Course due to Semester ineligibility.");
+
+        // We check to make sure this course has not yet been completed by the student.
+        for (auto itr = stud->getGrades().begin(); itr != stud->getGrades().end(); itr++)
+            if ((*itr)->course_id == cour->getUniId())
+                throw std::invalid_argument("! ERROR: The Student has already completed this Course.");
+
         // If the user types 'no' we abort.
         if (!io::input::boolean(std::cin, "Would you like to register the Student to this Course?"))
             throw std::invalid_argument("Operation Aborted.");

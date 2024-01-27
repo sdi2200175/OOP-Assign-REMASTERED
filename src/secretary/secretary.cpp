@@ -38,7 +38,8 @@ std::ostream &operator<<(std::ostream &stream, const secretary &sec) {
                   << "| Department's ECT Requirement: " << sec.required_ects << " ECT(s)" << std::endl
                   << "| Department's Mandatory Courses: " << sec.mandatory_courses << " Course(s)" << std::endl
                   << "| Department's Students: " << sec.calculateStudentSize() << " Student(s)" << std::endl
-                  << "| Department's Professors: " << sec.calculateProfessorSize() << " Professor(s)" << std::endl;
+                  << "| Department's Professors: " << sec.calculateProfessorSize() << " Professor(s)" << std::endl
+                  << "| Current Semester: " << (sec.semester == FALL ? "Fall Semester" : "Spring Semester") << std::endl;
 }
 
 std::istream &operator>>(std::istream &stream, secretary &secretary) {
