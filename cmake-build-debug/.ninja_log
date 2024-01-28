@@ -1,5 +1,0 @@
-# ninja log v5
-377	413	1706195809671144728	UniManagement	98b61f3cda918906
-0	58	1706202670546734873	build.ninja	4518e75d8b298565
-0	334	1706195520979753841	CMakeFiles/UniManagement.dir/main.cpp.o	4ddf03e23b9eb20b
-0	377	1706195809639661446	CMakeFiles/UniManagement.dir/src/main.cpp.o	e82130aa2fb6bea8

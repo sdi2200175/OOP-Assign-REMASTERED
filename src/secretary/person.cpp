@@ -121,23 +121,21 @@ std::istream &operator>>(std::istream &stream, student &student) {
 
 std::ofstream &operator<<(std::ofstream &stream, const student &student) {
 
-    stream << "info: {" << student.name << ", " << student.date_of_birth << ", " << student.date_of_registration << ", " 
+    stream << "info: {" << student.name << ", " << student.uni_id << ", " << student.date_of_birth << ", " << student.date_of_registration << ", " 
            << student.ects << ", " << student.semester << ", " << student.mandatory_courses_passed << ", " 
            << student.total_courses_passed << "}" << std::endl;
 
     stream << "attending_courses: {";
-    for (auto itr = student.getAttendingCourses().begin(); itr != student.getAttendingCourses().end(); itr++) {
+    for (auto itr = student.getAttendingCourses().begin(); itr != student.getAttendingCourses().end(); itr++)
         stream << std::to_string(*itr) << (itr + 1 == student.getAttendingCourses().end() ? "}" : ", ");
-    }
 
     stream << std::endl;
 
     stream << "grades: {";
-    for (auto itr = student.getGrades().begin(); itr != student.getGrades().end(); itr++) {
+    for (auto itr = student.getGrades().begin(); itr != student.getGrades().end(); itr++)
         stream << *(*itr);
-    }
 
-    stream << "}" << std::endl;
+    stream << "}" << std::endl << std::endl;
     return stream;
 }
 
@@ -246,6 +244,19 @@ std::ostream &operator<<(std::ostream &stream, const professor &professor) {
 }
 
 std::istream &operator>>(std::istream &stream, professor &professor) {
+    return stream;
+}
+
+std::ofstream &operator<<(std::ofstream &stream, const professor &professor) {
+
+    stream << "info: {" << professor.name << ", " << professor.uni_id << ", " << professor.date_of_birth << "}" << std::endl;
+
+    stream << "assigned_courses: {";
+
+    for (auto itr = professor.assigned_courses.begin(); itr != professor.assigned_courses.end(); itr++)
+        stream << std::to_string(*itr) << (itr + 1 == professor.assigned_courses.end() ? "}" : ", ");
+
+    stream << std::endl << std::endl;
     return stream;
 }
 

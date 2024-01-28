@@ -128,30 +128,23 @@ public:
     // Getters and Setters.
 
     const std::string &getDateOfRegistration() const { return date_of_registration; }
-
     void setDateOfRegistration(const std::string &dateOfRegistration) { date_of_registration = dateOfRegistration; }
 
     unsigned short getEcts() const { return ects; }
-
     void setEcts(unsigned short new_ects) { ects = new_ects; }
 
     unsigned short getSemester() const { return semester; }
-
     void setSemester(unsigned short new_semester) { semester = new_semester; }
 
     unsigned short getMandatoryCoursesPassed() const { return mandatory_courses_passed; }
-
-    void setMandatoryCoursesPassed(
-            unsigned short mandatoryCoursesPassed) { mandatory_courses_passed = mandatoryCoursesPassed; }
+    void setMandatoryCoursesPassed(unsigned short mandatoryCoursesPassed) { mandatory_courses_passed = mandatoryCoursesPassed; }
 
     unsigned short getTotalCoursesPassed() const { return total_courses_passed; }
-
     void setTotalCoursesPassed(unsigned short totalCoursesPassed) { total_courses_passed = totalCoursesPassed; }
 
     const std::string &getFormattedUniId() const override { return formatted_uni_id; }
 
     const std::vector<Grade> &getGrades() const { return grades; }
-
     const std::vector<unsigned int> &getAttendingCourses() const { return attending_courses; }
 
     // Register to a course.
@@ -184,15 +177,14 @@ private:
 
 public:
     professor(unsigned short dept_code);
-
     professor(const std::string &name, const std::string &date_of_birth, unsigned int uni_id, unsigned short dept_code);
-
     ~professor() override;
 
     // Operator overloads.
     friend std::ostream &operator<<(std::ostream &stream, const professor &professor);
-
     friend std::istream &operator>>(std::istream &stream, professor &professor);
+
+    friend std::ofstream &operator<<(std::ofstream &stream, const professor &professor);
 
     // Getters and Setters
 

@@ -38,9 +38,12 @@ interface::~interface() {
 io::SHOULD_EXIT interface::main_menu() {
 
     const std::string menu_title = "Main Menu";
-    const std::string options[] = {"Manage Student(s)", "Manage Professor(s)", "Manage Course(s)",
-                                   "Show Potential Graduates", "Move to the next Semester",
-                                   "Save to Local Files and Exit"};
+    const std::string options[] = { "Manage Student(s)", 
+                                    "Manage Professor(s)", 
+                                    "Manage Course(s)",
+                                    "Show Potential Graduates", 
+                                    "Move to the next Semester",
+                                    "Save to Local Files and Exit" };
 
     while (true) {
 

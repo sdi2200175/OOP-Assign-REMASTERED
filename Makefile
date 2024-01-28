@@ -1,6 +1,6 @@
 # 
 # +-------------------------------------+
-# |			Project Makefile			|
+# |			Project Makefile								|
 # +-------------------------------------+
 #
 
@@ -43,6 +43,9 @@ BINARY = $(BUILD_DIR)/$(EXEC_NAME)-$(EXEC_VER).$(EXEC_FILE_EXTENSION)
 all: $(OBJECTS)
 	@$(CC) $(LFLAGS) -I$(INCLUDE) $(OBJECTS) -o $(BINARY)
 	@echo "[MAKE]:     Compilation completed Successfully. Final Executable is placed in $(BINARY)"
+	@echo "[CLEAN]:    Cleaning Residual Files..."
+	@rm -f $(OBJECTS)
+	@echo "[CLEAN]:    Done"
 
 %.o: %.cpp
 	@echo "[MAKE]:     Compiling $^..."
@@ -55,7 +58,7 @@ run: all
 
 clean: 
 	@echo "[CLEAN]:    Cleaning Residual Files..."
-	@rm -f $(OBJECTS)
+	@rm -f $(OBJECTS) $(BINARY)
 	@echo "[CLEAN]:    Done"
 
 valgrind: all
