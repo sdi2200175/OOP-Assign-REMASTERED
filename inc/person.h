@@ -9,6 +9,7 @@
 #ifndef UNIMANAGEMENT_PERSON_H
 #define UNIMANAGEMENT_PERSON_H
 
+#include <fstream>
 #include <iostream>
 #include <utility>
 #include <vector>
@@ -23,18 +24,26 @@ typedef struct grade {
     unsigned short ects;
     bool mandatory;
 
-    grade(const std::string &course_name, unsigned int course_id, const std::string &prof_name,
+    grade(std::string course_name, unsigned int course_id, std::string prof_name,
           unsigned short grade_num,
-          unsigned short semester, unsigned short ects, bool mandatory) : course_name(course_name),
+          unsigned short semester, unsigned short ects, bool mandatory) : course_name(std::move(course_name)),
                                                                           course_id(course_id),
-                                                                          prof_name(prof_name), grade_num(grade_num),
+                                                                          prof_name(std::move(prof_name)), grade_num(grade_num),
                                                                           semester(semester), ects(ects),
                                                                           mandatory(mandatory) {}
 
-    friend std::ostream &operator<<(std::ostream &stream, struct grade &grade) {
+    friend std::ostream &operator<<(std::ostream &stream, const struct grade &grade) {
         return stream << "| During Semester " << grade.semester << " they were examined in the Course named '"
                       << grade.course_name << " and were graded a " << grade.grade_num << " by " << grade.prof_name
                       << std::endl;
+    }
+
+    friend std::ofstream &operator<<(std::ofstream &stream, const struct grade &grade) {
+        stream << "{" << grade.course_name << ", " << grade.course_id << ", " << grade.prof_name << ", "
+               << grade.grade_num << ", " << grade.semester << ", " << grade.ects << ", " << grade.mandatory << "}"
+               << std::endl;
+
+        return stream;
     }
 
 } *Grade;

@@ -169,4 +169,8 @@ CMakeFiles/UniManagement.dir/src/main.cpp.o: \
  /usr/include/c++/11/bits/unordered_map.h \
  /usr/include/c++/11/bits/erase_if.h \
  /home/spyrosstrakosia/OOP-Assign-Remastered/inc/person.h \
+ /usr/include/c++/11/fstream /usr/include/c++/11/bits/codecvt.h \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
+ /usr/include/c++/11/bits/fstream.tcc \
  /home/spyrosstrakosia/OOP-Assign-Remastered/inc/course.h

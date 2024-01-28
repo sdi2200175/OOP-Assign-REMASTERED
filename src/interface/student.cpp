@@ -17,8 +17,7 @@ io::SHOULD_EXIT interface::studentManagement() {
                                     "Remove a Student",
                                     "Print a Student's Grades", 
                                     "Register a Student to a Course",
-                                    "Check a Student's Graduation Eligibility", 
-                                    "Save Passed Courses to File",
+                                    "Check a Student's Graduation Eligibility",
                                     "Return to Main Menu" };
 
     // The inner menu loop.

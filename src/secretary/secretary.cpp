@@ -5,7 +5,9 @@
 #include "io.h"
 #include "secretary.h"
 
-secretary::secretary() {
+secretary::secretary() :
+    semester(FALL) {
+
     std::cin >> *this;
 }
 

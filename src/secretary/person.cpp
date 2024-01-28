@@ -121,14 +121,14 @@ std::istream &operator>>(std::istream &stream, student &student) {
 
 void student::printGrades(unsigned int semester) {
     if (!semester) {
-        io::output::items<Grade>("Showing all grades:", grades);
+        io::output::items<Grade>(std::cout, "Showing all grades:", grades);
     } else {
         std::vector<Grade> new_grades;
         for (auto itr = grades.begin(); itr != grades.end(); itr++)
             if (semester == (*itr)->semester)
                 new_grades.insert(new_grades.end(), (*itr));
 
-        io::output::items("Showing grades from Semester " + std::to_string(semester), new_grades);
+        io::output::items(std::cout, "Showing grades from Semester " + std::to_string(semester), new_grades);
     }
 }
 
@@ -137,8 +137,8 @@ void student::registr(unsigned int id) {
 }
 
 void student::addGrade(Grade grade) {
-    grades.insert(grades.end(), grade);
-    unsigned int prev_grade;
+
+    int prev_grade = -1;
 
     // We check to see if this grade is already in the grades vector.
     for (auto itr = grades.begin(); itr != grades.end(); itr++)
@@ -148,6 +148,9 @@ void student::addGrade(Grade grade) {
             delete grade;
             break;
         }
+
+    if (prev_grade == -1)
+        grades.insert(grades.end(), grade);
 
     // If the student has passed the course e give them the ects
     // and mandatory pass if it was mandatory.

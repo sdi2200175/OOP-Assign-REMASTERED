@@ -310,22 +310,22 @@ namespace io {
                                   + divider + "\n";
 
         template<class T>
-        void items(const std::string &list_title, const std::vector<T> array) {
+        void items(std::ostream &stream, const std::string &list_title, const std::vector<T> array) {
 
             // Clear the screen for a minimal look.
             system("clear");
 
             // Print the title and the title of the menu being printed.
-            std::cout << title << std::endl
-                      << "  " << list_title << std::endl
-                      << divider << std::endl;
+            stream << title << std::endl
+                   << "  " << list_title << std::endl
+                   << divider << std::endl;
 
             // Print all the items.
             for (auto itr = array.begin(); itr != array.end(); itr++)
-                std::cout << *(*itr);
+                stream << *(*itr);
 
             // Add divider.
-            std::cout << divider << std::endl;
+            stream << divider << std::endl;
         }
 
         /**

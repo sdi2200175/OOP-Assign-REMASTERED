@@ -178,7 +178,7 @@ io::SHOULD_EXIT interface::professorManagement() {
 
                     // We search for the course and catch any exceptions that might be thrown from io::input::search.
                     cour = io::input::search<course>(std::cin,
-                                                     "Enter the Full Name or the University ID of the Course you'd like to submit Grades for:",
+                                                     "Enter the Name or the University ID of the Course you'd like to submit Grades for:",
                                                      *sec, course_id_search, course_name_search);
 
                     // We show the Course information and ask for the user's input whether they want to
@@ -255,8 +255,12 @@ io::SHOULD_EXIT interface::professorManagement() {
                 break;
             }
 
+            // Statistics
             case 6: {
 
+
+
+                break;
             }
 
             default:
