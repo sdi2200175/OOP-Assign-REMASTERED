@@ -1,6 +1,9 @@
-//
-// Created by Spyros Strakosia on 25/1/24.
-//
+/**
+ * @file secretary.cpp
+ * @brief This file contains the definition of the secretary class functions.
+ * @authors Evaggelia Ragkousi, Spyros Strakosia
+ * @date 26/01/2024
+ */
 
 #include "io.h"
 #include "secretary.h"
@@ -9,6 +12,29 @@ secretary::secretary() :
     semester(FALL) {
 
     std::cin >> *this;
+}
+
+secretary::secretary(secretary &sec) : 
+    dept_name(sec.dept_name), dept_code(sec.dept_code), min_attendance(sec.min_attendance), required_ects(sec.required_ects),
+    mandatory_courses(sec.mandatory_courses), semester(sec.semester) {
+
+    for (auto itr = sec.id_database.begin(); itr != sec.id_database.end(); itr++) {
+        if ((itr->second)->getFormattedUniId()[0] == 'S') {
+            student *stud = new student(*(student *)(itr->second));
+            id_database.insert({stud->getUniId(), stud});
+            name_database.insert({stud->getName(), stud});
+        } else {
+            professor *prof = new professor(*(professor *)(itr->second));
+            id_database.insert({prof->getUniId(), prof});
+            name_database.insert({prof->getName(), prof});
+        }
+    }
+
+    for (auto itr = sec.course_id_database.begin(); itr != sec.course_id_database.end(); itr++) {
+        course *cour = new course(*(course *)(itr->second));
+        course_id_database.insert({cour->getUniId(), cour});
+        course_name_database.insert({cour->getName(), cour});
+    }
 }
 
 secretary::secretary(std::string dept_name, unsigned int dept_code, unsigned short min_attendance,

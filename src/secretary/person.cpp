@@ -17,6 +17,9 @@ person::person() : uni_id(++person::amount_created) {
     std::cin >> *this;
 }
 
+person::person(person &per) : 
+    name(per.name), date_of_birth(per.date_of_birth), uni_id(++person::amount_created) {}
+
 person::person(std::string name, std::string date_of_birth, unsigned int uni_id) :
         name(std::move(name)), date_of_birth(std::move(date_of_birth)), uni_id(uni_id) {
 
@@ -75,6 +78,11 @@ student::student(unsigned short dept_code) :
 
     std::cin >> *this;
 }
+
+student::student(student &stud) : 
+    person(stud), date_of_registration(stud.date_of_registration), ects(stud.ects), mandatory_courses_passed(stud.mandatory_courses_passed),
+    total_courses_passed(stud.total_courses_passed), formatted_uni_id(std::string(1, id_prefix) + "-" + stud.formatted_uni_id.substr(2, 4) + 
+    "-" + std::string(7 - std::to_string(uni_id).length(), '0') + std::to_string(uni_id)) {}
 
 student::student(const std::string &name, const std::string &date_of_birth, unsigned int uni_id,
                  std::string date_of_registration, unsigned short ects, unsigned short semester,
@@ -227,6 +235,10 @@ professor::professor(unsigned short dept_code) :
 
     std::cin >> *this;
 }
+
+professor::professor(professor &prof) : 
+    person(prof), formatted_uni_id(std::string(1, id_prefix) + "-" + prof.formatted_uni_id.substr(2, 4) + 
+    "-" + std::string(7 - std::to_string(uni_id).length(), '0') + std::to_string(uni_id)) {}
 
 professor::professor(const std::string &name, const std::string &date_of_birth, unsigned int uni_id,
                      unsigned short dept_code) :

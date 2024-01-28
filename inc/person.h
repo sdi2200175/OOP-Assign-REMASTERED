@@ -24,6 +24,10 @@ typedef struct grade {
     unsigned short ects;
     bool mandatory;
 
+    grade(struct grade &grade) : 
+        course_name(grade.course_name), course_id(grade.course_id), prof_name(grade.prof_name),
+        grade_num(grade.grade_num), semester(grade.semester), ects(grade.ects), mandatory(grade.mandatory) {}
+
     grade(std::string course_name, unsigned int course_id, std::string prof_name,
           unsigned short grade_num,
           unsigned short semester, unsigned short ects, bool mandatory) : course_name(std::move(course_name)),
@@ -57,31 +61,26 @@ protected:
 
 public:
     person();
-
+    person(person &per);
     person(std::string name, std::string date_of_birth, unsigned int uni_id);
-
     virtual ~person() = default;
 
     // Operator overloads.
     friend std::ostream &operator<<(std::ostream &stream, person &person);
-
     friend std::istream &operator>>(std::istream &stream, person &person);
 
     // Getters and Setters
 
     const std::string &getName() const { return name; }
-
     void setName(const std::string &new_name) { name = new_name; }
 
     const std::string &getDateOfBirth() const { return date_of_birth; }
-
     void setDateOfBirth(const std::string &dateOfBirth) { date_of_birth = dateOfBirth; }
 
     unsigned int getUniId() const { return uni_id; }
 
     // Pure virtual functions.
     virtual const std::string &getFormattedUniId() const = 0;
-
     virtual void incrementSemester() = 0;
 
     // This variable tracks how many person objects have been created.
@@ -110,6 +109,7 @@ private:
 public:
 
     student(unsigned short dept_code);
+    student(student &stud);
     student(const std::string &name, const std::string &date_of_birth, unsigned int uni_id,
             std::string date_of_registration, unsigned short ects, unsigned short semester,
             unsigned short mandatory_courses_passed, unsigned short total_courses_passed, unsigned short dept_code);
@@ -118,7 +118,6 @@ public:
 
     // Operator Overloads
     friend std::ostream &operator<<(std::ostream &stream, const student &student);
-
     friend std::istream &operator>>(std::istream &stream, student &student);
 
     friend std::ofstream &operator<<(std::ofstream &stream, const student &student);
@@ -176,6 +175,7 @@ private:
 
 public:
     professor(unsigned short dept_code);
+    professor(professor &prof);
     professor(const std::string &name, const std::string &date_of_birth, unsigned int uni_id, unsigned short dept_code);
     ~professor() override;
 
@@ -188,7 +188,6 @@ public:
     // Getters and Setters
 
     const std::string &getFormattedUniId() const override { return formatted_uni_id; }
-
     const std::vector<unsigned int> &getAssignedCourses() const { return assigned_courses; }
 
     // Courses

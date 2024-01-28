@@ -1,6 +1,6 @@
-info: {'Anastasia Lygizou', 4, '11/11/1990'}
-assigned_courses: {}
-
 info: {'Spyridon Xergias', 5, '07/05/1987'}
-assigned_courses: {}
+assigned_courses: {1, 2}
+
+info: {'Anastasia Lygizou', 4, '11/11/1990'}
+assigned_courses: {1}
 

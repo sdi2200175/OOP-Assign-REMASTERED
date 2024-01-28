@@ -20,6 +20,19 @@ course::course(unsigned short dept_code) :
     std::cin >> *this;
 }
 
+course::course(course &cour) : 
+    name(cour.name), ects(cour.ects), semester(cour.semester), mandatory(cour.mandatory), uni_id(++course::amount_created),
+    formatted_uni_id(std::string(1, id_prefix) + "-" + cour.formatted_uni_id.substr(2, 4) 
+    + "-" + std::string(7 - std::to_string(uni_id).length(),'0') + std::to_string(uni_id)) {
+
+    for (auto itr = cour.attendees.begin(); itr != cour.attendees.end(); itr++)
+        attendees.insert(attendees.end(), new student(*(student *)(*itr)));
+
+    for (auto itr = cour.assigned_professors.begin(); itr != cour.assigned_professors.end(); itr++)
+        assigned_professors.insert(assigned_professors.end(), new professor(*(professor *)(*itr)));
+
+}
+
 course::course(std::string name, unsigned short ects, unsigned short semester, bool mandatory,
                const unsigned int uni_id, unsigned short dept_code) : name(std::move(name)), ects(ects),
                semester(semester), mandatory(mandatory), uni_id(uni_id),

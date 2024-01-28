@@ -1,7 +1,9 @@
-//
-// Created by Spyros Strakosia on 25/1/24.
-//
-
+/**
+ * @file secretary.h
+ * @brief This file contains the definition of the secretary class.
+ * @authors Evaggelia Ragkousi, Spyros Strakosia
+ * @date 25/01/2024
+ */
 #ifndef UNIMANAGEMENT_SECRETARY_H
 #define UNIMANAGEMENT_SECRETARY_H
 
@@ -32,7 +34,7 @@ private:
 
 public:
     secretary();
-
+    secretary(secretary &sec);
     secretary(std::string dept_name, unsigned int dept_code, unsigned short min_attendance,
               unsigned short required_ects, unsigned short mandatory_courses, Semester semester);
 
@@ -40,34 +42,24 @@ public:
 
     // Operator overloads
     friend std::ostream &operator<<(std::ostream &stream, const secretary &secretary);
-
     friend std::istream &operator>>(std::istream &stream, secretary &secretary);
 
     // Getters and Setters
 
     const std::string &getDeptName() const { return dept_name; }
-
     unsigned int getDeptCode() const { return dept_code; }
-
     unsigned short getMinAttendance() const { return min_attendance; }
-
     unsigned short getRequiredEcts() const { return required_ects; }
-
     unsigned short getMandatoryCourses() const { return mandatory_courses; }
-
     Semester getSemester() const { return semester; }
 
     const std::unordered_map<unsigned int, person *> &getIdDatabase() const { return id_database; }
-
     const std::unordered_multimap<std::string, person *> &getNameDatabase() const { return name_database; }
-
     const std::unordered_map<unsigned int, course *> &getCourseIdDatabase() const { return course_id_database; }
-
     const std::unordered_multimap<std::string, course *> &getCourseNameDatabase() const { return course_name_database; }
 
     // Addition functions
     void add(person *per);
-
     void add(course *cour);
 
     //Person retrieval functions
@@ -111,7 +103,6 @@ public:
 
     // Removal functions
     void remove(person *per);
-
     void remove(course *cour);
 
     // Number of Students calculation function

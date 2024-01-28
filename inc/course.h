@@ -30,6 +30,7 @@ private:
 public:
 
     course(unsigned short dept_code);
+    course(course &cour);
     course(std::string name, unsigned short ects, unsigned short semester, bool mandatory,
            unsigned int uni_id, unsigned short dept_code);
 

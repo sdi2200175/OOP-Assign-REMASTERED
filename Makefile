@@ -1,6 +1,6 @@
 # 
 # +-------------------------------------+
-# |			Project Makefile								|
+# |			Project Makefile			|
 # +-------------------------------------+
 #
 
@@ -23,8 +23,8 @@ CFLAGS += -g
 
 # - Executable File Options - #
 
-EXEC_NAME = Build
-EXEC_VER = 0.0.1
+EXEC_NAME = UniManagement
+EXEC_VER = 1.0
 EXEC_FILE_EXTENSION = exe
 
 # - File Paths - #

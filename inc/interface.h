@@ -1,6 +1,9 @@
-//
-// Created by Spyros Strakosia on 25/1/24.
-//
+/**
+ * @file person.h
+ * @brief This file contains the definition of the interface class.
+ * @authors Evaggelia Ragkousi, Spyros Strakosia
+ * @date 25/01/2024
+ */
 
 #ifndef UNIMANAGEMENT_INTERFACE_H
 #define UNIMANAGEMENT_INTERFACE_H
@@ -15,13 +18,7 @@ private:
 
 public:
     interface();
-
     ~interface();
-
-    // Parser Functions.
-    // void studentParser();
-    // void professorParser();
-    // void courseParser();
 
     // Displays the application's main menu.
     io::SHOULD_EXIT main_menu();
