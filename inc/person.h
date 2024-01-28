@@ -123,6 +123,8 @@ public:
 
     friend std::istream &operator>>(std::istream &stream, student &student);
 
+    friend std::ofstream &operator<<(std::ofstream &stream, const student &student);
+
     // Getters and Setters.
 
     const std::string &getDateOfRegistration() const { return date_of_registration; }

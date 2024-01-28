@@ -193,7 +193,7 @@ io::SHOULD_EXIT interface::courseManagement() {
                             continue;
 
                         for (auto itr_grade = ((student *) (itr->second))->getGrades().begin();
-                             itr_grade != ((student *) (itr->second))->getGrades().end(); itr++) {
+                             itr_grade != ((student *) (itr->second))->getGrades().end(); itr_grade++) {
 
                             if ((*itr_grade)->course_id == cour->getUniId() && (*itr_grade)->semester == semester &&
                                 (*itr_grade)->grade_num > 5)
@@ -205,13 +205,13 @@ io::SHOULD_EXIT interface::courseManagement() {
                     io::output::items<student *>(std::cout,
                                                  "The Students who passed this Course on Semester " +
                                                  std::to_string(semester) + " are:",
-                                                 students_who_passed);
+                                                 students_who_passed, true);
 
                     std::ofstream file("data/students_who_passed_" + cour->getFormattedUniId() + "on_semester_" + std::to_string(semester));
                     io::output::items<student *>(file,
                                                  "The Students who passed this Course on Semester " +
                                                  std::to_string(semester) + " are:",
-                                                 students_who_passed);
+                                                 students_who_passed, false);
 
                     file.close();
 
@@ -239,7 +239,7 @@ io::SHOULD_EXIT interface::courseModification(course *cour) {
                                    "Change ECT(s)",
                                    "Change Mandatory Status",
                                    "Change Semester"
-                                   "Return to Course Management Menu "};
+                                   "Return to Course Management Menu"};
 
     // The inner menu loop.
     while (true) {

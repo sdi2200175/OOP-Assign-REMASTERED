@@ -235,8 +235,7 @@ io::SHOULD_EXIT interface::professorManagement() {
 
                     // We create the grade and add it to the student.
                     unsigned short grade_num = io::input::number<unsigned short>(std::cin,
-                                                                                 "Enter the grade you'd like to give to this Student:",
-                                                                                 10);
+                                                                                 "Enter the grade you'd like to give to this Student:", 10);
 
                     Grade grade = new struct grade(cour->getName(), cour->getUniId(), prof->getName(), grade_num,
                                                    stud->getSemester(), cour->getEcts(), cour->isMandatory());

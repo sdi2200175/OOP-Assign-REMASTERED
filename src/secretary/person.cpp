@@ -119,17 +119,39 @@ std::istream &operator>>(std::istream &stream, student &student) {
     return stream;
 }
 
+std::ofstream &operator<<(std::ofstream &stream, const student &student) {
+
+    stream << "info: {" << student.name << ", " << student.date_of_birth << ", " << student.date_of_registration << ", " 
+           << student.ects << ", " << student.semester << ", " << student.mandatory_courses_passed << ", " 
+           << student.total_courses_passed << "}" << std::endl;
+
+    stream << "attending_courses: {";
+    for (auto itr = student.getAttendingCourses().begin(); itr != student.getAttendingCourses().end(); itr++) {
+        stream << std::to_string(*itr) << (itr + 1 == student.getAttendingCourses().end() ? "}" : ", ");
+    }
+
+    stream << std::endl;
+
+    stream << "grades: {";
+    for (auto itr = student.getGrades().begin(); itr != student.getGrades().end(); itr++) {
+        stream << *(*itr);
+    }
+
+    stream << "}" << std::endl;
+    return stream;
+}
+
 void student::printGrades(unsigned int semester) {
     if (!semester) {
-        io::output::items<Grade>(std::cout, "Showing all grades:", grades);
-    } else {
-        std::vector<Grade> new_grades;
-        for (auto itr = grades.begin(); itr != grades.end(); itr++)
-            if (semester == (*itr)->semester)
-                new_grades.insert(new_grades.end(), (*itr));
-
-        io::output::items(std::cout, "Showing grades from Semester " + std::to_string(semester), new_grades);
+        io::output::items<Grade>(std::cout, "Showing all grades:", grades, true);
     }
+
+    std::vector<Grade> new_grades;
+    for (auto itr = grades.begin(); itr != grades.end(); itr++)
+        if (semester == (*itr)->semester)
+            new_grades.insert(new_grades.end(), (*itr));
+
+    io::output::items(std::cout, "Showing grades from Semester " + std::to_string(semester), new_grades, true);
 }
 
 void student::registr(unsigned int id) {
@@ -144,13 +166,12 @@ void student::addGrade(Grade grade) {
     for (auto itr = grades.begin(); itr != grades.end(); itr++)
         if ((*itr)->course_id == grade->course_id) {
             prev_grade = (*itr)->grade_num;
-            (*itr)->grade_num = grade->grade_num;
-            delete grade;
+            delete *itr;
+            grades.erase(itr);
             break;
         }
 
-    if (prev_grade == -1)
-        grades.insert(grades.end(), grade);
+    grades.insert(grades.end(), grade);
 
     // If the student has passed the course e give them the ects
     // and mandatory pass if it was mandatory.
@@ -158,6 +179,10 @@ void student::addGrade(Grade grade) {
         ects += grade->ects;
         mandatory_courses_passed += grade->mandatory;
         total_courses_passed += 1;
+    } else if (grade->grade_num <= 5 && prev_grade > 5) {
+        ects -= grade->ects;
+        mandatory_courses_passed -= grade->mandatory;
+        total_courses_passed -= 1;
     }
 }
 
@@ -183,6 +208,9 @@ void student::incrementSemester() {
     semester++;
     attending_courses.clear();
 }
+
+
+
 
 
 

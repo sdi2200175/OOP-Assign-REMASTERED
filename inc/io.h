@@ -310,10 +310,11 @@ namespace io {
                                   + divider + "\n";
 
         template<class T>
-        void items(std::ostream &stream, const std::string &list_title, const std::vector<T> array) {
+        void items(std::ostream &stream, const std::string &list_title, const std::vector<T> array, bool clear) {
 
             // Clear the screen for a minimal look.
-            system("clear");
+            if (clear)
+                system("clear");
 
             // Print the title and the title of the menu being printed.
             stream << title << std::endl
@@ -322,7 +323,7 @@ namespace io {
 
             // Print all the items.
             for (auto itr = array.begin(); itr != array.end(); itr++)
-                stream << *(*itr);
+                stream << *(*itr) << divider << std::endl;
 
             // Add divider.
             stream << divider << std::endl;

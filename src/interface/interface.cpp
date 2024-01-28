@@ -26,6 +26,12 @@ interface::interface() {
 }
 
 interface::~interface() {
+
+    std::ofstream stud_db("data/student_db");
+    for (auto itr = sec->getIdDatabase().begin(); itr != sec->getIdDatabase().end(); itr++)
+        if (itr->second->getFormattedUniId()[0] == 'S')
+            stud_db << *((student *)(itr->second));
+
     delete sec;
 }
 

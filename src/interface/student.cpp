@@ -315,7 +315,5 @@ io::SHOULD_EXIT interface::studentModification(student *stud) {
                 return io::NO_EXIT;
 
         }
-    
     }
-
 }
