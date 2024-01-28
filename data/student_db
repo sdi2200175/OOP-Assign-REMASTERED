@@ -1,4 +1,8 @@
-info: {'Evaggelia Nikos Ragkousi', 3, '12/02/2004', '22/09/2022', 4, 1, 1, 1}
-attending_courses: {1}
-grades: {{'OOP', 1, 'Lygizou', 8, 1, 4, 1}}
+info: {'Spyros Adrian Strakosia', 4, '08/12/2004', '22/09/2022', 7, 1, 2, 2}
+attending_courses: {1, 2}
+grades: {{'Assembly', 2, 'Spyros Xergias', 10, 1, 3, 1}, {'OOP', 1, 'Anastasia Lygizou', 10, 1, 4, 1}}
+
+info: {'Evaggelia Nikos Ragkousi', 5, '12/02/2004', '22/09/2022', 1, 1, 1, 1}
+attending_courses: {1, 1}
+grades: {{'e', 1, 'e e e', 10, 1, 1, 1}}
 

@@ -16,6 +16,8 @@ interface::interface() {
     this->sec = io::output::buildObj<secretary>("Building Department Secretary...");
     io::output::showAttr<secretary>("Department Information", this->sec, true);
 
+
+    // Parsing the Student Database.
     std::cout << "? Attempting to import Student Information from '" << io::stud_db_name << "'..." << std::endl;
 
     std::ifstream stud_db(io::stud_db_name);
@@ -84,7 +86,7 @@ interface::interface() {
             if (!stud_db.good())
                 break;
 
-            std::cout << *stud;
+            // std::cout << *stud;
 
             sec->add(stud);
         }
@@ -92,6 +94,145 @@ interface::interface() {
     } else {
         std::cout << "! ERROR: Failed to open '" << io::stud_db_name << "'. Ignore this message if the file doesn't exist." << std::endl;
     }
+
+
+    // Parsing the Professor Database.
+    std::cout << "? Attempting to import Professor Information from '" << io::prof_db_name << "'..." << std::endl;
+
+    std::ifstream prof_db(io::prof_db_name);
+    if (prof_db.is_open()) {
+        while (prof_db.good()) {
+            std::string buffer;
+            getline(prof_db, buffer);
+            if (!prof_db.good())
+                break;
+
+            char name[100], date_of_birth[11];
+            unsigned int uni_id;
+            if (std::sscanf(buffer.c_str(), "info: {'%[^']', %u, '%[^']'\n", name, &uni_id, date_of_birth) != 3) {
+
+                std::cout << "Completed parsing of file '" << io::prof_db_name << "'." << std::endl;
+                break;
+            }
+
+            professor *prof = new professor(name, date_of_birth, uni_id, sec->getDeptCode());
+
+            getline(prof_db, buffer);
+            if (!prof_db.good())
+                break;
+
+            std::string temp;
+            auto itr_begin = std::find(buffer.begin(), buffer.end(), '{');
+            auto itr_end = std::find(buffer.begin(), buffer.end(), '}');
+            for (auto itr = itr_begin + 1; itr != itr_end; itr++) {
+                if (*itr == ',') {
+                    prof->assign(stoi(temp));
+                    temp.clear();
+                    itr++;
+                    continue;
+                } 
+
+                temp.insert(temp.end(), *itr);
+            }
+
+            prof->assign(stoi(temp));
+
+            getline(prof_db, buffer);
+            if (!prof_db.good())
+                break;
+
+            // std::cout << *prof;
+
+            sec->add(prof);
+        }
+
+    } else {
+        std::cout << "! ERROR: Failed to open '" << io::prof_db_name << "'. Ignore this message if the file doesn't exist." << std::endl;
+    }
+
+
+    // Parsing the Course Database.
+    std::cout << "? Attempting to import Course Information from '" << io::cour_db_name << "'..." << std::endl;
+
+    std::ifstream cour_db(io::cour_db_name);
+    if (cour_db.is_open()) {
+        while (cour_db.good()) {
+            std::string buffer;
+            getline(cour_db, buffer);
+            if (!cour_db.good())
+                break;
+
+            char name[100];
+            unsigned int uni_id, ects, semester, mandatory_temp;
+            bool mandatory;
+            if (std::sscanf(buffer.c_str(), "info: {'%[^']', %u, %u, %u, %u}\n", 
+                   name, &uni_id, &ects, &semester, &mandatory_temp) != 5) {
+
+                std::cout << "Completed parsing of file '" << io::cour_db_name << "'." << std::endl;
+                break;
+            }
+
+            mandatory = (mandatory_temp == 1 ? true : false );
+            course *cour = new course(name, uni_id, ects, semester, mandatory, sec->getDeptCode());
+
+            getline(cour_db, buffer);
+            if (!cour_db.good())
+                break;
+
+            std::string temp;
+            auto itr_begin1 = std::find(buffer.begin(), buffer.end(), '{');
+            auto itr_end1 = std::find(buffer.begin(), buffer.end(), '}');
+            for (auto itr = itr_begin1 + 1; itr != itr_end1; itr++) {
+                if (*itr == ',') {
+                    professor *prof = sec->retrieve<professor>((stoi(temp)));
+                    cour->assign(prof);
+                    temp.clear();
+                    itr++;
+                    continue;
+                } 
+
+                temp.insert(temp.end(), *itr);
+            }
+
+            professor *prof = sec->retrieve<professor>((stoi(temp)));
+            cour->assign(prof);
+
+            getline(cour_db, buffer);
+            if (!cour_db.good())
+                break;
+
+            temp.clear();
+            auto itr_begin2 = std::find(buffer.begin(), buffer.end(), '{');
+            auto itr_end2 = std::find(buffer.begin(), buffer.end(), '}');
+            for (auto itr = itr_begin2 + 1; itr != itr_end2; itr++) {
+                if (*itr == ',') {
+                    student *stud = sec->retrieve<student>((stoi(temp)));
+                    cour->registr(stud);
+                    temp.clear();
+                    itr++;
+                    continue;
+                } 
+
+                temp.insert(temp.end(), *itr);
+            }
+
+            student *stud = sec->retrieve<student>((stoi(temp)));
+            cour->registr(stud);
+
+            getline(cour_db, buffer);
+            if (!cour_db.good())
+                break;
+
+            // std::cout << *cour;
+
+            sec->add(cour);
+
+        }
+
+    } else {
+        std::cout << "! ERROR: Failed to open '" << io::stud_db_name << "'. Ignore this message if the file doesn't exist." << std::endl;
+    }
+
 
     // Wait for user confirmation.
     io::input::await("Proceed to the Main Menu?");
@@ -110,9 +251,11 @@ interface::~interface() {
     stud_db.close();
     prof_db.close();
 
-    std::ofstream course_db("data/course_db");
+    std::ofstream cour_db("data/course_db");
     for (auto itr = sec->getCourseIdDatabase().begin(); itr != sec->getCourseIdDatabase().end(); itr++)
-        course_db << *((course *)(itr->second));
+        cour_db << *((course *)(itr->second));
+
+    cour_db.close();
 
     delete sec;
 }
