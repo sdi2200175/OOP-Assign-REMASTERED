@@ -318,20 +318,18 @@ namespace io {
         void items(std::ostream &stream, const std::string &list_title, const std::vector<T> array, bool clear) {
 
             // Clear the screen for a minimal look.
-            if (clear)
+            if (clear) {
                 system("clear");
+                stream << title << std::endl;
+            }
 
             // Print the title and the title of the menu being printed.
-            stream << title << std::endl
-                   << std::endl << "  " << list_title << std::endl
+            stream << std::endl << std::endl << "  " << list_title << std::endl
                    << divider << std::endl;
 
             // Print all the items.
             for (auto itr = array.begin(); itr != array.end(); itr++)
                 stream << *(*itr) << divider << std::endl;
-
-            // Add divider.
-            stream << divider << std::endl;
         }
 
         /**
@@ -350,7 +348,7 @@ namespace io {
                 std::cout << title << std::endl;
             }
 
-            std::cout << std::endl << "  " << attr_title << std::endl
+            std::cout << std::endl << std::endl << "  " << attr_title << std::endl
                       << divider << std::endl;
 
             // Print object attributes.
@@ -375,9 +373,9 @@ namespace io {
             std::cout << title << std::endl;
 
             if (!prelude.empty())
-                std::cout << std::endl << prelude << std::endl;
+                std::cout << std::endl << std::endl << prelude;
 
-            std::cout << "  " << menu_title << std::endl
+            std::cout << std::endl << std::endl << "  " << menu_title << std::endl
                       << divider << std::endl;
 
             // Print the actual options.
@@ -402,7 +400,7 @@ namespace io {
 
             // Print the title and the title of the menu being printed.
             std::cout << title << std::endl
-                      << std::endl << "  " << build_title << std::endl
+                      << std::endl << std::endl << "  " << build_title << std::endl
                       << divider << std::endl;
 
             // Create the class.
@@ -422,7 +420,7 @@ namespace io {
 
             // Print the title and the title of the menu being printed.
             std::cout << title << std::endl
-                      << std::endl << "  " << build_title << std::endl
+                      << std::endl << std::endl << "  " << build_title << std::endl
                       << divider << std::endl;
 
             // Create the class.

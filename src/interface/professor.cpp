@@ -260,8 +260,78 @@ io::SHOULD_EXIT interface::professorManagement() {
             // Print a Professor's statistics
             case 6: {
 
+                try {
 
+                    // We store pointers to the relevant retrieval functions.
+                    professor *(secretary::*professor_id_search)(unsigned int) = &secretary::retrieve<professor>;
+                    professor *(secretary::*professor_name_search)(const std::string &) = &secretary::retrieve<professor>;
+                    professor *prof;
 
+                    // We search for the Professor and catch any exceptions that might be thrown from io::input::search.
+                    prof = io::input::search<professor>(std::cin,
+                                                       "Enter the Full Name or the University ID of the Professor whose statistics you'd like to view:",
+                                                       *sec, professor_id_search, professor_name_search);
+
+                    // We show the Professor information and ask for the user's input whether they want to
+                    // submit the grade as this professor.
+                    io::output::showAttr<professor>("Professor Information", prof, true);
+
+                    if (!prof->getAssignedCourses().size())
+                        throw std::invalid_argument("! ERROR: This Professor is not currently assigned to any Courses.");
+
+                    // If the user types 'no' we abort.
+                    if (!io::input::boolean(std::cin, "Is this the Professor whose statistics you'd like to view?"))
+                        throw std::invalid_argument("Operation Aborted.");
+
+                    // Else we move through the assigned courses and calculate
+                    // statistics.
+                    std::vector<std::string *> statistics;
+                    for (auto itr = prof->getAssignedCourses().begin();
+                         itr != prof->getAssignedCourses().end(); itr++) {
+
+                        course *cour = sec->retrieveCourse(*itr);
+                        unsigned int attendees = cour->getAttendees().size();
+                        unsigned int graded_attendees = 0;
+                        unsigned int attendees_passed = 0;
+
+                        for (auto stud_itr = cour->getAttendees().begin();
+                             stud_itr != cour->getAttendees().end(); stud_itr++) {
+
+                            for (auto grade_itr = ((student *)(*stud_itr))->getGrades().begin();
+                                 grade_itr !=((student *)(*stud_itr))->getGrades().end(); grade_itr++) {
+
+                                if ((*grade_itr)->course_id == cour->getUniId()) {
+                                    graded_attendees++;
+                                    if ((*grade_itr)->grade_num > 5) 
+                                        attendees_passed++;
+                                }
+                            }
+                        }
+
+                        std::string *stats = new std::string("| Stats for Course '" + cour->getName() + "' with University ID " + cour->getFormattedUniId() + ":\n" + 
+                                                             "| Out of " + std::to_string(attendees) + " attendee(s), " + std::to_string(graded_attendees) + " of them (" + 
+                                                             std::to_string(((float)graded_attendees / attendees) * 100) + "%) have been graded and " + std::to_string(attendees_passed) + 
+                                                             " of them (" + std::to_string(((float)attendees_passed / attendees) * 100) + "%) have passed the course.\n");
+                        
+                        statistics.insert(statistics.end(), stats);
+                    }
+
+                    io::output::showAttr<professor>("Professor Information", prof, true);
+                    io::output::items<std::string *>(std::cout, "Professor Statistics", statistics, false);
+
+                    std::cout << prof->getAssignedCourses().size() << std::endl;
+
+                    for (auto itr = statistics.begin(); itr != statistics.end(); itr++)
+                        delete *itr;
+
+                } catch (std::invalid_argument &e) {
+                    std::cout << e.what() << std::endl;
+                } catch (std::out_of_range &e) {
+                    std::cout << e.what() << std::endl;
+                }
+
+                // We wait for the user's input and return to the menu.
+                io::input::await("Return to " + menu_title);
                 break;
             }
 

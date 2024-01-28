@@ -16,56 +16,38 @@ interface::interface() {
     this->sec = io::output::buildObj<secretary>("Building Department Secretary...");
     io::output::showAttr<secretary>("Department Information", this->sec, true);
 
-
     // Parsing the Student Database.
-    std::cout << "? Attempting to import Student Information from '" << io::stud_db_name << "'..." << std::endl;
+    std::cout << std::endl << "? Attempting to import Student Information from '" << io::stud_db_name << "'..." << std::endl;
 
     std::ifstream stud_db(io::stud_db_name);
     if (stud_db.is_open()) {
         while (stud_db.good()) {
             std::string buffer;
             getline(stud_db, buffer);
-            if (!stud_db.good())
-                break;
 
             char name[100], date_of_birth[11], date_of_registration[11];
             unsigned int uni_id, ects, semester, mandatory_courses_passed, total_courses_passed;
             if (std::sscanf(buffer.c_str(), "info: {'%[^']', %u, '%[^']', '%[^']', %u, %u, %u, %u}\n", 
                    name, &uni_id, date_of_birth, date_of_registration, &ects, &semester, &mandatory_courses_passed, &total_courses_passed) != 8) {
 
-                std::cout << "Completed parsing of file '" << io::stud_db_name << "'." << std::endl;
+                std::cout << "| Completed parsing of file '" << io::stud_db_name << "'." << std::endl;
                 break;
             }
 
             student *stud = new student(name, date_of_birth, uni_id, date_of_registration, 
                                         ects, semester, mandatory_courses_passed, total_courses_passed, sec->getDeptCode());
 
+
             getline(stud_db, buffer);
             if (!stud_db.good())
                 break;
 
-            std::string temp;
+            getline(stud_db, buffer);
+            if (!stud_db.good())
+                break;
+
             auto itr_begin = std::find(buffer.begin(), buffer.end(), '{');
-            auto itr_end = std::find(buffer.begin(), buffer.end(), '}');
-            for (auto itr = itr_begin + 1; itr != itr_end; itr++) {
-                if (*itr == ',') {
-                    stud->registr(stoi(temp));
-                    temp.clear();
-                    itr++;
-                    continue;
-                } 
-
-                temp.insert(temp.end(), *itr);
-            }
-
-            stud->registr(stoi(temp));
-
-            getline(stud_db, buffer);
-            if (!stud_db.good())
-                break;
-
-            itr_begin = std::find(buffer.begin(), buffer.end(), '{');
-            itr_end = buffer.begin() + buffer.rfind('}');
+            auto itr_end = buffer.begin() + buffer.rfind('}');
             for (auto itr = itr_begin + 1; itr != itr_end; itr++) {
 
                 auto inner_itr_begin = std::find(itr, itr_end, '{');
@@ -86,8 +68,6 @@ interface::interface() {
             if (!stud_db.good())
                 break;
 
-            // std::cout << *stud;
-
             sec->add(stud);
         }
 
@@ -97,21 +77,19 @@ interface::interface() {
 
 
     // Parsing the Professor Database.
-    std::cout << "? Attempting to import Professor Information from '" << io::prof_db_name << "'..." << std::endl;
+    std::cout << std::endl << "? Attempting to import Professor Information from '" << io::prof_db_name << "'..." << std::endl;
 
     std::ifstream prof_db(io::prof_db_name);
     if (prof_db.is_open()) {
         while (prof_db.good()) {
             std::string buffer;
             getline(prof_db, buffer);
-            if (!prof_db.good())
-                break;
 
             char name[100], date_of_birth[11];
             unsigned int uni_id;
             if (std::sscanf(buffer.c_str(), "info: {'%[^']', %u, '%[^']'\n", name, &uni_id, date_of_birth) != 3) {
 
-                std::cout << "Completed parsing of file '" << io::prof_db_name << "'." << std::endl;
+                std::cout << "| Completed parsing of file '" << io::prof_db_name << "'." << std::endl;
                 break;
             }
 
@@ -121,27 +99,9 @@ interface::interface() {
             if (!prof_db.good())
                 break;
 
-            std::string temp;
-            auto itr_begin = std::find(buffer.begin(), buffer.end(), '{');
-            auto itr_end = std::find(buffer.begin(), buffer.end(), '}');
-            for (auto itr = itr_begin + 1; itr != itr_end; itr++) {
-                if (*itr == ',') {
-                    prof->assign(stoi(temp));
-                    temp.clear();
-                    itr++;
-                    continue;
-                } 
-
-                temp.insert(temp.end(), *itr);
-            }
-
-            prof->assign(stoi(temp));
-
             getline(prof_db, buffer);
             if (!prof_db.good())
                 break;
-
-            // std::cout << *prof;
 
             sec->add(prof);
         }
@@ -152,27 +112,23 @@ interface::interface() {
 
 
     // Parsing the Course Database.
-    std::cout << "? Attempting to import Course Information from '" << io::cour_db_name << "'..." << std::endl;
+    std::cout << std::endl << "? Attempting to import Course Information from '" << io::cour_db_name << "'..." << std::endl;
 
     std::ifstream cour_db(io::cour_db_name);
     if (cour_db.is_open()) {
         while (cour_db.good()) {
             std::string buffer;
             getline(cour_db, buffer);
-            if (!cour_db.good())
-                break;
 
             char name[100];
-            unsigned int uni_id, ects, semester, mandatory_temp;
-            bool mandatory;
+            unsigned int uni_id, ects, semester, mandatory;
             if (std::sscanf(buffer.c_str(), "info: {'%[^']', %u, %u, %u, %u}\n", 
-                   name, &uni_id, &ects, &semester, &mandatory_temp) != 5) {
+                   name, &uni_id, &ects, &semester, &mandatory) != 5) {
 
-                std::cout << "Completed parsing of file '" << io::cour_db_name << "'." << std::endl;
+                std::cout << "| Completed parsing of file '" << io::cour_db_name << "'." << std::endl;
                 break;
             }
 
-            mandatory = (mandatory_temp == 1 ? true : false );
             course *cour = new course(name, uni_id, ects, semester, mandatory, sec->getDeptCode());
 
             getline(cour_db, buffer);
@@ -194,8 +150,10 @@ interface::interface() {
                 temp.insert(temp.end(), *itr);
             }
 
-            professor *prof = sec->retrieve<professor>((stoi(temp)));
-            cour->assign(prof);
+            if (!temp.empty()) {
+                professor *prof = sec->retrieve<professor>((stoi(temp)));
+                cour->assign(prof);
+            }
 
             getline(cour_db, buffer);
             if (!cour_db.good())
@@ -216,14 +174,14 @@ interface::interface() {
                 temp.insert(temp.end(), *itr);
             }
 
-            student *stud = sec->retrieve<student>((stoi(temp)));
-            cour->registr(stud);
+            if (!temp.empty()) {
+                student *stud = sec->retrieve<student>((stoi(temp)));
+                cour->registr(stud);
+            }
 
             getline(cour_db, buffer);
             if (!cour_db.good())
                 break;
-
-            // std::cout << *cour;
 
             sec->add(cour);
 
@@ -243,9 +201,9 @@ interface::~interface() {
     std::ofstream stud_db("data/student_db");
     std::ofstream prof_db("data/professor_db");
     for (auto itr = sec->getIdDatabase().begin(); itr != sec->getIdDatabase().end(); itr++)
-        if (itr->second->getFormattedUniId()[0] == 'S')
+        if (itr->second->getFormattedUniId()[0] == 'S'){
             stud_db << *((student *)(itr->second));
-        else
+        } else
             prof_db << *((professor *)(itr->second));
 
     stud_db.close();
@@ -303,6 +261,23 @@ io::SHOULD_EXIT interface::main_menu() {
             case 3:
                 CHECK_EXIT(courseManagement());
                 break;
+
+            case 4: {
+
+                std::vector<student *> graduates;
+                for (auto itr = sec->getIdDatabase().begin(); itr != sec->getIdDatabase().end(); itr++) {
+                    if (((student *)(itr->second))->getMandatoryCoursesPassed() >= sec->getMandatoryCourses() 
+                        && ((student *)(itr->second))->getEcts() >= sec->getRequiredEcts()
+                        && ((student *)(itr->second))->getSemester() >= sec->getMinAttendance() * 2) {
+
+                        graduates.insert(graduates.end(), (student *)itr->second);
+                    }
+                }
+
+                io::output::items<student *>(std::cout, "Students Eligible for Graduation", graduates, true);
+                io::input::await("Return to Main Menu?");
+                break;
+            }
 
             case 5:
                 try {

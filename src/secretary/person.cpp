@@ -126,13 +126,15 @@ std::ofstream &operator<<(std::ofstream &stream, const student &student) {
 
     stream << "attending_courses: {";
     for (auto itr = student.getAttendingCourses().begin(); itr != student.getAttendingCourses().end(); itr++)
-        stream << std::to_string(*itr) << (itr + 1 == student.getAttendingCourses().end() ? "}\n" : ", ");
+        stream << std::to_string(*itr) << (itr + 1 == student.getAttendingCourses().end() ? "" : ", ");
+
+    stream << "}\n";
 
     stream << "grades: {";
     for (auto itr = student.getGrades().begin(); itr != student.getGrades().end(); itr++)
-        stream << *(*itr) << (itr + 1 == student.grades.end() ? "}\n" : ", ");
+        stream << *(*itr) << (itr + 1 == student.grades.end() ? "" : ", ");
 
-    stream << std::endl;
+    stream << "}\n" << std::endl;
     return stream;
 }
 
@@ -250,9 +252,9 @@ std::ofstream &operator<<(std::ofstream &stream, const professor &professor) {
 
     stream << "assigned_courses: {";
     for (auto itr = professor.assigned_courses.begin(); itr != professor.assigned_courses.end(); itr++)
-        stream << std::to_string(*itr) << (itr + 1 == professor.assigned_courses.end() ? "}\n" : ", ");
+        stream << std::to_string(*itr) << (itr + 1 == professor.assigned_courses.end() ? "" : ", ");
 
-    stream << std::endl;
+    stream << "}\n" << std::endl;
     return stream;
 }
 

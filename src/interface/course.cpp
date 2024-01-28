@@ -162,6 +162,7 @@ io::SHOULD_EXIT interface::courseManagement() {
                 break;
             }
 
+            // Students who passed a specifif course.
             case 6: {
 
                 // We search for the Course and catch any exceptions that might be thrown from io::input::search.
@@ -233,7 +234,7 @@ io::SHOULD_EXIT interface::courseModification(course *cour) {
     const std::string options[] = { "Change Course Name",
                                     "Change ECT(s)",
                                     "Change Mandatory Status",
-                                    "Change Semester"
+                                    "Change Semester",
                                     "Return to Course Management Menu" };
 
     // The inner menu loop.
