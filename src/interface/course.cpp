@@ -12,13 +12,13 @@
 io::SHOULD_EXIT interface::courseManagement() {
 
     const std::string menu_title = "Course Management Menu";
-    const std::string options[] = {"Add a new Course",
-                                   "Modify an existing Course",
-                                   "Remove a Course",
-                                   "Assign a Professor to a Course",
-                                   "Register a Student to a Course",
-                                   "Save Students who Passed a Specific Course to File",
-                                   "Return to Main Menu"};
+    const std::string options[] = { "Add a new Course",
+                                    "Modify an existing Course",
+                                    "Remove a Course",
+                                    "Assign a Professor to a Course",
+                                    "Register a Student to a Course",
+                                    "Save Students who Passed a Specific Course to File",
+                                    "Return to Main Menu" };
 
     // The inner menu loop.
     while (true) {
@@ -29,7 +29,7 @@ io::SHOULD_EXIT interface::courseManagement() {
         while (true) {
             try {
                 option = io::input::number<unsigned char>(std::cin, "Choose one of the options above:",
-                                                          sizeof(options) / sizeof(options[0]));
+                                                         sizeof(options) / sizeof(options[0]));
                 break;
             } catch (std::invalid_argument &e) {
                 std::cout << e.what() << std::endl;
@@ -47,8 +47,7 @@ io::SHOULD_EXIT interface::courseManagement() {
                 try {
 
                     // We first build the course and then show the object's attributes.
-                    course *cour = io::output::buildObj<course, unsigned short>("Creating New Course...",
-                                                                                sec->getDeptCode());
+                    course *cour = io::output::buildObj<course, unsigned short>("Creating New Course...", sec->getDeptCode());
                     io::output::showAttr<course>("Course Information", cour, true);
 
                     // If the user types 'yes' we add the course, else we delete the object and print a relevant message.
@@ -69,18 +68,18 @@ io::SHOULD_EXIT interface::courseManagement() {
                 break;
             }
 
-                // Modify an already existing Course.
+            // Modify an already existing Course.
             case 2: {
 
                 // We search for the Course and catch any exceptions that might be thrown from io::input::search.
                 try {
 
                     // We store pointers to the relevant retrieval functions.
-                    course *(secretary::*id_search)(unsigned int) = &secretary::retrieveCourse;
-                    course *(secretary::*name_search)(const std::string &) = &secretary::retrieveCourse;
+                    course *(secretary::*course_id_search)(unsigned int) = &secretary::retrieveCourse;
+                    course *(secretary::*course_name_search)(const std::string &) = &secretary::retrieveCourse;
                     course *cour = io::input::search<course>(std::cin,
-                                                             "Enter the Name or the University ID of the Course you would like to modify:",
-                                                             *sec, id_search, name_search);
+                                                            "Enter the Name or the University ID of the Course you would like to modify:",
+                                                            *sec, course_id_search, course_name_search);
 
                     // We show the Course information and ask for the user's input whether they want to
                     // modify the course or not.
@@ -95,7 +94,7 @@ io::SHOULD_EXIT interface::courseManagement() {
                         std::cout << "Course modified successfully!" << std::endl;
                     } else
                         throw std::invalid_argument(
-                                "! ERROR: This Course cannot be modified because there are Students attending it.");
+                              "! ERROR: This Course cannot be modified because there are Students attending it.");
 
                 } catch (std::invalid_argument &e) {
                     std::cout << e.what() << std::endl;
@@ -108,18 +107,18 @@ io::SHOULD_EXIT interface::courseManagement() {
                 break;
             }
 
-                // Remove a Course from the department.
+            // Remove a Course from the department.
             case 3: {
 
                 // We search for the Course and catch any exceptions that might be thrown from io::input::search.
                 try {
 
                     // We store pointers to the relevant retrieval functions.
-                    course *(secretary::*id_search)(unsigned int) = &secretary::retrieveCourse;
-                    course *(secretary::*name_search)(const std::string &) = &secretary::retrieveCourse;
+                    course *(secretary::*course_id_search)(unsigned int) = &secretary::retrieveCourse;
+                    course *(secretary::*course_name_search)(const std::string &) = &secretary::retrieveCourse;
                     course *cour = io::input::search<course>(std::cin,
                                                              "Enter the Name or the University ID of the Course you would like to remove:",
-                                                             *sec, id_search, name_search);
+                                                             *sec, course_id_search, course_name_search);
 
                     // We show the Course information and ask for the user's input whether they want to
                     // delete the Course or not.
@@ -135,7 +134,7 @@ io::SHOULD_EXIT interface::courseManagement() {
                         std::cout << "Course removed successfully!" << std::endl;
                     } else
                         throw std::invalid_argument(
-                                "! ERROR: Cannot remove Course while Student are attending it and/or Professors are assigned to it.");
+                              "! ERROR: Cannot remove Course while Student are attending it and/or Professors are assigned to it.");
 
                 } catch (std::invalid_argument &e) {
                     std::cout << e.what() << std::endl;
@@ -148,14 +147,14 @@ io::SHOULD_EXIT interface::courseManagement() {
                 break;
             }
 
-                // Assign a Professor to a Course.
+            // Assign a Professor to a Course.
             case 4: {
                 courseAssignment();
                 io::input::await("Return to " + menu_title);
                 break;
             }
 
-                // Register a Student to a Course.
+            // Register a Student to a Course.
             case 5: {
                 courseRegistration();
                 // We wait for the user's input and return to the menu.
@@ -169,13 +168,13 @@ io::SHOULD_EXIT interface::courseManagement() {
                 try {
 
                     // We store pointers to the relevant retrieval functions.
-                    course *(secretary::*id_search)(unsigned int) = &secretary::retrieveCourse;
-                    course *(secretary::*name_search)(const std::string &) = &secretary::retrieveCourse;
+                    course *(secretary::*course_id_search)(unsigned int) = &secretary::retrieveCourse;
+                    course *(secretary::*course_name_search)(const std::string &) = &secretary::retrieveCourse;
                     course *cour = io::input::search<course>(std::cin,
                                                              "Enter the Name or the University ID of the Course whose passed Students you'd like to save:",
-                                                             *sec, id_search, name_search);
+                                                             *sec, course_id_search, course_name_search);
 
-                    // We show the Course information and ask for the user's input whether they want to
+                    // We show the Course information and ask for the user's input on whether they want to
                     // delete the Course or not.
                     io::output::showAttr<course>("Course Information", cour, true);
 
@@ -184,7 +183,7 @@ io::SHOULD_EXIT interface::courseManagement() {
                         throw std::invalid_argument("Operation Aborted.");
 
                     unsigned int semester = io::input::number<unsigned int>(std::cin, "Enter the Semester:",
-                                                                            sec->getMinAttendance() * 2 + 4);
+                                                                           sec->getMinAttendance() * 2 + 4);
                     std::vector<student *> students_who_passed;
 
                     // We search through every student and find who has already passed the course. Those who have are added to a vector.
@@ -202,16 +201,12 @@ io::SHOULD_EXIT interface::courseManagement() {
                     }
 
                     // Print those Students to the Console and then to the file.
-                    io::output::items<student *>(std::cout,
-                                                 "The Students who passed this Course on Semester " +
-                                                 std::to_string(semester) + " are:",
-                                                 students_who_passed, true);
+                    io::output::items<student *>(std::cout, "The Students who passed this Course on Semester " +
+                                                std::to_string(semester) + " are:", students_who_passed, true);
 
                     std::ofstream file("data/students_who_passed_" + cour->getFormattedUniId() + "on_semester_" + std::to_string(semester));
-                    io::output::items<student *>(file,
-                                                 "The Students who passed this Course on Semester " +
-                                                 std::to_string(semester) + " are:",
-                                                 students_who_passed, false);
+                    io::output::items<student *>(file, "The Students who passed this Course on Semester " +
+                                                std::to_string(semester) + " are:", students_who_passed, false);
 
                     file.close();
 
@@ -235,11 +230,11 @@ io::SHOULD_EXIT interface::courseManagement() {
 io::SHOULD_EXIT interface::courseModification(course *cour) {
 
     const std::string menu_title = "Course Modification Menu";
-    const std::string options[] = {"Change Course Name",
-                                   "Change ECT(s)",
-                                   "Change Mandatory Status",
-                                   "Change Semester"
-                                   "Return to Course Management Menu"};
+    const std::string options[] = { "Change Course Name",
+                                    "Change ECT(s)",
+                                    "Change Mandatory Status",
+                                    "Change Semester"
+                                    "Return to Course Management Menu" };
 
     // The inner menu loop.
     while (true) {
@@ -253,7 +248,7 @@ io::SHOULD_EXIT interface::courseModification(course *cour) {
         while (true) {
             try {
                 option = io::input::number<unsigned char>(std::cin, "Choose one of the options above:",
-                                                          sizeof(options) / sizeof(options[0]));
+                                                         sizeof(options) / sizeof(options[0]));
                 break;
             } catch (std::invalid_argument &e) {
                 std::cout << e.what() << std::endl;
@@ -282,7 +277,7 @@ io::SHOULD_EXIT interface::courseModification(course *cour) {
                 break;
             }
 
-                // Change ECT(s).
+            // Change ECT(s).
             case 2: {
 
                 try {
@@ -300,7 +295,7 @@ io::SHOULD_EXIT interface::courseModification(course *cour) {
                 break;
             }
 
-                // Change mandatory status.
+            // Change mandatory status.
             case 3: {
 
                 try {
@@ -317,13 +312,13 @@ io::SHOULD_EXIT interface::courseModification(course *cour) {
                 break;
             }
 
-                // Change semester.
+            // Change semester.
             case 4: {
 
                 try {
                     unsigned short semester;
                     semester = io::input::number<unsigned short>(std::cin, "Enter new Semester:",
-                                                                 sec->getMinAttendance() * 2);
+                                                                sec->getMinAttendance() * 2);
                     cour->setSemester(semester);
                     std::cout << "Semester Changed Successfully!" << std::endl;
                 } catch (std::invalid_argument &e) {
@@ -349,7 +344,6 @@ io::SHOULD_EXIT interface::courseModification(course *cour) {
 
 
 
-
 /////////////////////////////////////////////// Helper Functions ///////////////////////////////////////////////
 
 
@@ -364,11 +358,11 @@ void interface::courseRegistration() {
     try {
 
         // We store pointers to the relevant retrieval functions and search for the student.
-        student *(secretary::*id_search)(unsigned int) = &secretary::retrieve<student>;
-        student *(secretary::*name_search)(const std::string &) = &secretary::retrieve<student>;
+        student *(secretary::*student_id_search)(unsigned int) = &secretary::retrieve<student>;
+        student *(secretary::*student_name_search)(const std::string &) = &secretary::retrieve<student>;
         student *stud = io::input::search<student>(std::cin,
                                                    "Enter the Full Name or the University ID of the Student who you'd like to register to a Course:",
-                                                   *sec, id_search, name_search);
+                                                   *sec, student_id_search, student_name_search);
 
         // We show the student information.
         io::output::showAttr<student>("Student Information", stud, true);
@@ -389,6 +383,7 @@ void interface::courseRegistration() {
 
         // We show the Course information and ask for the user's input on whether they want to
         // register the Student to this course or not.
+        io::output::showAttr<student>("Student Information", stud, true);
         io::output::showAttr<course>("Course Information", cour, false);
 
         // We check to make sure the student is eligible to register to this course.
@@ -421,14 +416,11 @@ void interface::courseAssignment() {
     try {
 
         // We store pointers to the relevant retrieval functions.
-        professor *(secretary::*id_search)(unsigned int) = &secretary::retrieve<professor>;
-        professor *(secretary::*name_search)(const std::string &) = &secretary::retrieve<professor>;
-        professor *prof;
-
-        // Search for the professor.
-        prof = io::input::search<professor>(std::cin,
-                                            "Enter the Full Name or the University ID of the Professor you would like to assign:",
-                                            *sec, id_search, name_search);
+        professor *(secretary::*professor_id_search)(unsigned int) = &secretary::retrieve<professor>;
+        professor *(secretary::*professor_name_search)(const std::string &) = &secretary::retrieve<professor>;
+        professor *prof = io::input::search<professor>(std::cin,
+                                                       "Enter the Full Name or the University ID of the Professor you would like to assign:",
+                                                       *sec, professor_id_search, professor_name_search);
 
         // We show the Professor information and ask for the user's input.
         io::output::showAttr<professor>("Professor Information", prof, true);
@@ -449,6 +441,7 @@ void interface::courseAssignment() {
 
         // We show the Course information and ask for the user's input on whether they want to
         // submit the grade for this Course or not.
+        io::output::showAttr<professor>("Professor Information", prof, true);
         io::output::showAttr<course>("Course Information", cour, false);
 
         // If the user types 'no' we abort.

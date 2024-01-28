@@ -98,8 +98,7 @@ std::ostream &operator<<(std::ostream &stream, const student &student) {
                   << "| Date of Registration: " << student.date_of_registration << std::endl
                   << "| Amount of ECT(s): " << student.ects << std::endl
                   << "| Semester: " << student.semester << std::endl
-                  << "| Amount of Mandatory Course(s) Passed: " << student.mandatory_courses_passed << " Course(s)"
-                  << std::endl
+                  << "| Amount of Mandatory Course(s) Passed: " << student.mandatory_courses_passed << " Course(s)" << std::endl
                   << "| Amount of Total Course(s) Passed: " << student.total_courses_passed << " Course(s)" << std::endl
                   << "| University ID: " << student.formatted_uni_id << std::endl;
 }
@@ -121,21 +120,19 @@ std::istream &operator>>(std::istream &stream, student &student) {
 
 std::ofstream &operator<<(std::ofstream &stream, const student &student) {
 
-    stream << "info: {" << student.name << ", " << student.uni_id << ", " << student.date_of_birth << ", " << student.date_of_registration << ", " 
-           << student.ects << ", " << student.semester << ", " << student.mandatory_courses_passed << ", " 
-           << student.total_courses_passed << "}" << std::endl;
+    stream << "info: {'" << student.name << "', " << student.uni_id << ", '" << student.date_of_birth << "', '" 
+           << student.date_of_registration << "', " << student.ects << ", " << student.semester << ", " 
+           << student.mandatory_courses_passed << ", " << student.total_courses_passed << "}\n";
 
     stream << "attending_courses: {";
     for (auto itr = student.getAttendingCourses().begin(); itr != student.getAttendingCourses().end(); itr++)
-        stream << std::to_string(*itr) << (itr + 1 == student.getAttendingCourses().end() ? "}" : ", ");
-
-    stream << std::endl;
+        stream << std::to_string(*itr) << (itr + 1 == student.getAttendingCourses().end() ? "}\n" : ", ");
 
     stream << "grades: {";
     for (auto itr = student.getGrades().begin(); itr != student.getGrades().end(); itr++)
-        stream << *(*itr);
+        stream << *(*itr) << (itr + 1 == student.grades.end() ? "}\n" : ", ");
 
-    stream << "}" << std::endl << std::endl;
+    stream << std::endl;
     return stream;
 }
 
@@ -249,14 +246,13 @@ std::istream &operator>>(std::istream &stream, professor &professor) {
 
 std::ofstream &operator<<(std::ofstream &stream, const professor &professor) {
 
-    stream << "info: {" << professor.name << ", " << professor.uni_id << ", " << professor.date_of_birth << "}" << std::endl;
+    stream << "info: {'" << professor.name << "', " << professor.uni_id << ", '" << professor.date_of_birth << "'}\n";
 
     stream << "assigned_courses: {";
-
     for (auto itr = professor.assigned_courses.begin(); itr != professor.assigned_courses.end(); itr++)
-        stream << std::to_string(*itr) << (itr + 1 == professor.assigned_courses.end() ? "}" : ", ");
+        stream << std::to_string(*itr) << (itr + 1 == professor.assigned_courses.end() ? "}\n" : ", ");
 
-    stream << std::endl << std::endl;
+    stream << std::endl;
     return stream;
 }
 

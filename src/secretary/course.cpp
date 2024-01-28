@@ -98,6 +98,23 @@ std::istream &operator>>(std::istream &stream, course &course) {
     return stream;
 }
 
+std::ofstream &operator<<(std::ofstream &stream, const course &course) {
+
+    stream << "info: {'" << course.name << "', " << course.ects << ", " << course.semester << ", " 
+           << course.mandatory << ", " << course.uni_id << "}" << std::endl;
+
+    stream << "assigned_professors: {";
+    for (auto itr = course.assigned_professors.begin(); itr != course.assigned_professors.end(); itr++)
+        stream << std::to_string((*itr)->getUniId()) << (itr + 1 == course.assigned_professors.end() ? "}" : ", ");
+
+    stream << std::endl << "registered_students: {";
+    for (auto itr = course.attendees.begin(); itr != course.attendees.end(); itr++)
+        stream << std::to_string((*itr)->getUniId()) << (itr + 1 == course.attendees.end() ? "}" : ", ");
+
+    stream << std::endl << std::endl;
+    return stream;
+}
+
 void course::assign(professor *professor) {
     if (std::find(assigned_professors.begin(), assigned_professors.end(), professor) != assigned_professors.end())
         throw std::invalid_argument("! ERROR: Professor is already assigned to this Course.");

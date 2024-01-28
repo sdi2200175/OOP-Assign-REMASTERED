@@ -29,7 +29,7 @@ io::SHOULD_EXIT interface::studentManagement() {
         while (true) {
             try {
                 option = io::input::number<unsigned char>(std::cin, "Choose one of the options above:",
-                                                          sizeof(options) / sizeof(options[0]));
+                                                         sizeof(options) / sizeof(options[0]));
                 break;
             } catch (std::invalid_argument &e) {
                 std::cout << e.what() << std::endl;
@@ -69,18 +69,18 @@ io::SHOULD_EXIT interface::studentManagement() {
                 break;
             }
 
-            //  Modify an already existing Student.
+            // Modify an already existing Student.
             case 2: {
 
                 // We search for the Student and catch any exceptions that might be thrown from io::input::search.
                 try {
 
                     // We store pointers to the relevant retrieval functions.
-                    student *(secretary::*id_search)(unsigned int) = &secretary::retrieve<student>;
-                    student *(secretary::*name_search)(const std::string &) = &secretary::retrieve<student>;
+                    student *(secretary::*student_id_search)(unsigned int) = &secretary::retrieve<student>;
+                    student *(secretary::*student_name_search)(const std::string &) = &secretary::retrieve<student>;
                     student *stud = io::input::search<student>(std::cin,
-                                                               "Enter the Full Name or the University ID of the Student you would like to modify:",
-                                                               *sec, id_search, name_search);
+                                                              "Enter the Full Name or the University ID of the Student you would like to modify:",
+                                                              *sec, student_id_search, student_name_search);
 
                     // We show the Student information and ask for the user's input whether they want to
                     // modify the Student or not.
@@ -111,11 +111,11 @@ io::SHOULD_EXIT interface::studentManagement() {
                 try {
 
                     // We store pointers to the relevant retrieval functions.
-                    student *(secretary::*id_search)(unsigned int) = &secretary::retrieve<student>;
-                    student *(secretary::*name_search)(const std::string &) = &secretary::retrieve<student>;
+                    student *(secretary::*student_id_search)(unsigned int) = &secretary::retrieve<student>;
+                    student *(secretary::*student_name_search)(const std::string &) = &secretary::retrieve<student>;
                     student *stud = io::input::search<student>(std::cin,
-                                                               "Enter the Full Name or the University ID of the Student you would like to remove:",
-                                                               *sec, id_search, name_search);
+                                                              "Enter the Full Name or the University ID of the Student you would like to remove:",
+                                                              *sec, student_id_search, student_name_search);
 
                     // We show the Student information and ask for the user's input whether they want to
                     // delete the Student or not.
@@ -147,11 +147,11 @@ io::SHOULD_EXIT interface::studentManagement() {
                 try {
 
                     // We store pointers to the relevant retrieval functions.
-                    student *(secretary::*id_search)(unsigned int) = &secretary::retrieve<student>;
-                    student *(secretary::*name_search)(const std::string &) = &secretary::retrieve<student>;
+                    student *(secretary::*student_id_search)(unsigned int) = &secretary::retrieve<student>;
+                    student *(secretary::*student_name_search)(const std::string &) = &secretary::retrieve<student>;
                     student *stud = io::input::search<student>(std::cin,
-                                                               "Enter the Full Name or the University ID of the Student whose grades you'd like to print:",
-                                                               *sec, id_search, name_search);
+                                                              "Enter the Full Name or the University ID of the Student whose grades you'd like to print:",
+                                                              *sec, student_id_search, student_name_search);
 
                     // We show the student information and ask for the user's input whether they want to
                     // show the student's grades or not.
@@ -162,8 +162,8 @@ io::SHOULD_EXIT interface::studentManagement() {
                         throw std::invalid_argument("Operation Aborted.");
 
                     stud->printGrades(io::input::number<unsigned short>(std::cin,
-                                                                        "For which Semester would to like to print this Student's grades? (Type '0' for all semesters)",
-                                                                        stud->getSemester()));
+                                                                       "For which Semester would to like to print this Student's grades? (Type '0' for all semesters)",
+                                                                       stud->getSemester()));
 
                 } catch (std::invalid_argument &e) {
                     std::cout << e.what() << std::endl;
@@ -187,22 +187,22 @@ io::SHOULD_EXIT interface::studentManagement() {
                 break;
             }
 
-            // Graduation Eligibility
+            // Check a Student's graduation eligibility.
             case 6: {
 
                 try {
 
                     // We store pointers to the relevant retrieval functions.
-                    student *(secretary::*id_search)(unsigned int) = &secretary::retrieve<student>;
-                    student *(secretary::*name_search)(const std::string &) = &secretary::retrieve<student>;
+                    student *(secretary::*student_id_search)(unsigned int) = &secretary::retrieve<student>;
+                    student *(secretary::*student_name_search)(const std::string &) = &secretary::retrieve<student>;
                     student *stud;
 
                     // We search for the Student and catch any exceptions that might be thrown from io::input::search.
                     stud = io::input::search<student>(std::cin,
-                                                               "Enter the Full Name or the University ID of the Student whose graduation eligibility you'd like to check:",
-                                                               *sec, id_search, name_search);
+                                                     "Enter the Full Name or the University ID of the Student whose graduation eligibility you'd like to check:",
+                                                     *sec, student_id_search, student_name_search);
 
-                    // We show the Student information.
+                    // We show the Student information and print whether they can graduate or not.
                     io::output::showAttr<student>("Student Information", stud, true);
 
                     if (stud->getEcts() < sec->getRequiredEcts() ||
@@ -315,5 +315,7 @@ io::SHOULD_EXIT interface::studentModification(student *stud) {
                 return io::NO_EXIT;
 
         }
+
     }
+
 }

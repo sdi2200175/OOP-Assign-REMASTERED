@@ -39,9 +39,8 @@ typedef struct grade {
     }
 
     friend std::ofstream &operator<<(std::ofstream &stream, const struct grade &grade) {
-        stream << "{" << grade.course_name << ", " << grade.course_id << ", " << grade.prof_name << ", "
-               << grade.grade_num << ", " << grade.semester << ", " << grade.ects << ", " << grade.mandatory << "}"
-               << std::endl;
+        stream << "{'" << grade.course_name << "', " << grade.course_id << ", '" << grade.prof_name << "', "
+               << grade.grade_num << ", " << grade.semester << ", " << grade.ects << ", " << grade.mandatory << "}";
 
         return stream;
     }
@@ -111,7 +110,6 @@ private:
 public:
 
     student(unsigned short dept_code);
-
     student(const std::string &name, const std::string &date_of_birth, unsigned int uni_id,
             std::string date_of_registration, unsigned short ects, unsigned short semester,
             unsigned short mandatory_courses_passed, unsigned short total_courses_passed, unsigned short dept_code);
@@ -152,6 +150,7 @@ public:
 
     // Add a grade.
     void addGrade(Grade grade);
+    void addGradeWithoutCheck(Grade grade) { grades.insert(grades.end(), grade); }
 
     // Print student's grades.
     void printGrades(unsigned int semester);

@@ -24,6 +24,11 @@
 
 namespace io {
 
+    /// Constants for managing files.
+    const std::string stud_db_name = "data/student_db";
+    const std::string prof_db_name = "data/professor_db";
+    const std::string cour_db_name = "data/course_db";
+
     /// This enum is used as a return value to check whether the program should exit
     /// at any given point or not.
     typedef enum {
@@ -307,7 +312,7 @@ namespace io {
                                             "|                                                          |\n"
                                             "|               University Management System               |\n"
                                             "|                                                          |\n"
-                                  + divider + "\n";
+                                  + divider;
 
         template<class T>
         void items(std::ostream &stream, const std::string &list_title, const std::vector<T> array, bool clear) {
@@ -318,7 +323,7 @@ namespace io {
 
             // Print the title and the title of the menu being printed.
             stream << title << std::endl
-                   << "  " << list_title << std::endl
+                   << std::endl << "  " << list_title << std::endl
                    << divider << std::endl;
 
             // Print all the items.
@@ -345,7 +350,7 @@ namespace io {
                 std::cout << title << std::endl;
             }
 
-            std::cout << "  " << attr_title << std::endl
+            std::cout << std::endl << "  " << attr_title << std::endl
                       << divider << std::endl;
 
             // Print object attributes.
@@ -370,7 +375,7 @@ namespace io {
             std::cout << title << std::endl;
 
             if (!prelude.empty())
-                std::cout << prelude << std::endl;
+                std::cout << std::endl << prelude << std::endl;
 
             std::cout << "  " << menu_title << std::endl
                       << divider << std::endl;
@@ -397,7 +402,7 @@ namespace io {
 
             // Print the title and the title of the menu being printed.
             std::cout << title << std::endl
-                      << "  " << build_title << std::endl
+                      << std::endl << "  " << build_title << std::endl
                       << divider << std::endl;
 
             // Create the class.
@@ -417,7 +422,7 @@ namespace io {
 
             // Print the title and the title of the menu being printed.
             std::cout << title << std::endl
-                      << "  " << build_title << std::endl
+                      << std::endl << "  " << build_title << std::endl
                       << divider << std::endl;
 
             // Create the class.

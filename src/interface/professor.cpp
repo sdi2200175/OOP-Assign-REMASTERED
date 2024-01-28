@@ -29,7 +29,7 @@ io::SHOULD_EXIT interface::professorManagement() {
         while (true) {
             try {
                 option = io::input::number<unsigned char>(std::cin, "Choose one of the options above:",
-                                                          sizeof(options) / sizeof(options[0]));
+                                                         sizeof(options) / sizeof(options[0]));
                 break;
             } catch (std::invalid_argument &e) {
                 std::cout << e.what() << std::endl;
@@ -76,11 +76,11 @@ io::SHOULD_EXIT interface::professorManagement() {
                 try {
 
                     // We store pointers to the relevant retrieval functions.
-                    professor *(secretary::*id_search)(unsigned int) = &secretary::retrieve<professor>;
-                    professor *(secretary::*name_search)(const std::string &) = &secretary::retrieve<professor>;
+                    professor *(secretary::*professor_id_search)(unsigned int) = &secretary::retrieve<professor>;
+                    professor *(secretary::*professor_name_search)(const std::string &) = &secretary::retrieve<professor>;
                     professor *prof = io::input::search<professor>(std::cin,
-                                                                   "Enter the Full Name or the University ID of the Professor you would like to modify:",
-                                                                   *sec, id_search, name_search);
+                                                                  "Enter the Full Name or the University ID of the Professor you would like to modify:",
+                                                                  *sec, professor_id_search, professor_name_search);
 
                     // We show the Professor information and ask for the user's input whether they want to
                     // modify the Professor or not.
@@ -111,11 +111,11 @@ io::SHOULD_EXIT interface::professorManagement() {
                 try {
 
                     // We store pointers to the relevant retrieval functions.
-                    professor *(secretary::*id_search)(unsigned int) = &secretary::retrieve<professor>;
-                    professor *(secretary::*name_search)(const std::string &) = &secretary::retrieve<professor>;
+                    professor *(secretary::*professor_id_search)(unsigned int) = &secretary::retrieve<professor>;
+                    professor *(secretary::*professor_name_search)(const std::string &) = &secretary::retrieve<professor>;
                     professor *prof = io::input::search<professor>(std::cin,
-                                                                   "Enter the Full Name or the University ID of the Professor you would like to remove:",
-                                                                   *sec, id_search, name_search);
+                                                                  "Enter the Full Name or the University ID of the Professor you would like to remove:",
+                                                                  *sec, professor_id_search, professor_name_search);
 
                     // We show the Professor information and ask for the user's input whether they want to
                     // delete the Professor or not.
@@ -154,14 +154,14 @@ io::SHOULD_EXIT interface::professorManagement() {
                 try {
 
                     // We store pointers to the relevant retrieval functions.
-                    professor *(secretary::*id_search)(unsigned int) = &secretary::retrieve<professor>;
-                    professor *(secretary::*name_search)(const std::string &) = &secretary::retrieve<professor>;
+                    professor *(secretary::*professor_id_search)(unsigned int) = &secretary::retrieve<professor>;
+                    professor *(secretary::*professor_name_search)(const std::string &) = &secretary::retrieve<professor>;
                     professor *prof;
 
                     // We search for the Professor and catch any exceptions that might be thrown from io::input::search.
                     prof = io::input::search<professor>(std::cin,
-                                                        "Enter the Full Name or the University ID of the Professor you would like to modify:",
-                                                        *sec, id_search, name_search);
+                                                       "Enter the Full Name or the University ID of the Professor who is submiting the Grades:",
+                                                       *sec, professor_id_search, professor_name_search);
 
                     // We show the Professor information and ask for the user's input whether they want to
                     // submit the grade as this professor.
@@ -178,11 +178,12 @@ io::SHOULD_EXIT interface::professorManagement() {
 
                     // We search for the course and catch any exceptions that might be thrown from io::input::search.
                     cour = io::input::search<course>(std::cin,
-                                                     "Enter the Name or the University ID of the Course you'd like to submit Grades for:",
-                                                     *sec, course_id_search, course_name_search);
+                                                    "Enter the Name or the University ID of the Course you'd like to submit grades for:",
+                                                    *sec, course_id_search, course_name_search);
 
                     // We show the Course information and ask for the user's input whether they want to
                     // submit the grade for this course.
+                    io::output::showAttr<professor>("Professor Information", prof, true);
                     io::output::showAttr<course>("Course Information", cour, false);
 
                     // If the user types 'no' we abort.
@@ -201,17 +202,19 @@ io::SHOULD_EXIT interface::professorManagement() {
                     student *(secretary::*student_name_search)(const std::string &) = &secretary::retrieve<student>;
                     student *stud;
 
-                    // We search for the student and catch any exceptions that might be thrown from io::input::search.
+                    // We search for the Student and catch any exceptions that might be thrown from io::input::search.
                     stud = io::input::search<student>(std::cin,
-                                                      "Enter the Full Name or the University ID of the Student you'd like to grade:",
-                                                      *sec, student_id_search, student_name_search);
+                                                     "Enter the Full Name or the University ID of the Student you'd like graded:",
+                                                     *sec, student_id_search, student_name_search);
 
                     // We show the Student information and ask for the user's input whether they want to
                     // submit the grade for this student.
+                    io::output::showAttr<professor>("Professor Information", prof, true);
+                    io::output::showAttr<course>("Course Information", cour, false);
                     io::output::showAttr<student>("Student Information", stud, false);
 
                     // If the user types 'no' we abort.
-                    if (!io::input::boolean(std::cin, "Is this the Student whose grades you'd like to submit?"))
+                    if (!io::input::boolean(std::cin, "Is this the Student who you'd like graded?"))
                         throw std::invalid_argument("Operation Aborted.");
 
                     // If the student is not registered to the selected course we throw an exception.
@@ -254,7 +257,7 @@ io::SHOULD_EXIT interface::professorManagement() {
                 break;
             }
 
-            // Statistics
+            // Print a Professor's statistics
             case 6: {
 
 
